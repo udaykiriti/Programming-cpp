@@ -23,31 +23,15 @@ Output:
 
 #include <bits/stdc++.h>
 using namespace std;
-
-#define FastIO                  \
-  ios_base::sync_with_stdio(0); \
-  cin.tie(0);                   \
-  cout.tie(0);
-#define PRINT_YES cout << "YES" << endl
-#define PRINT_NO cout << "NO" << endl
 #define BYE return 0;
-#define endl '\n'
 #define FOR(i, a, b) for (int i = a; i < b; i++)
 
 void solve()
 {
   int n; cin >> n;
-
   int current = 3;
-  FOR(i, 0, n)
-  {
+  FOR(i, 0, n){
     while (current % 3 == 0)
-      current++;
-    cout << current << ' ';
-    current++;
-  }
-  {
-    while ((current + 1) % 3 == 0)
       current++;
     cout << current << ' ';
     current++;
@@ -57,7 +41,8 @@ void solve()
 
 int main()
 {
-  FastIO;
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL); cout.tie(NULL);
   int t; cin >> t;
   while (t--) solve();
   BYE;
