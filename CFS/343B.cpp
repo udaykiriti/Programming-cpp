@@ -9,12 +9,8 @@ int main(){
   cin.tie(NULL); cout.tie(NULL);
   stack<char> st; string s; cin>>s;
   FOR(i,0,s.size())
-    if(!st.empty() && st.top() == s[i])
-      st.pop();
-    else
-      st.push(s[i]);
-  if(st.empty())
-    cout<<"Yes"<<endl;
-  else
-    cout<<"No"<<endl;
+    if(!st.empty() && st.top() == s[i]) st.pop();
+    else st.push(s[i]);
+  if(st.empty()) cout<<"Yes"<<endl;
+  else cout<<"No"<<endl;
 }
