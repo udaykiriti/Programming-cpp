@@ -39,7 +39,6 @@ GGGB
 Output:
 GGGB
 */
-// ...existing code...
 #include <bits/stdc++.h>
 using namespace std;
 #define endl '\n'
