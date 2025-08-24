@@ -10,25 +10,20 @@ int main()
   int n; cin >> n;
   vector<int> a(n);
   int totalOnes = 0;
-  for (int i = 0; i < n; ++i)
-  {
+  for (int i = 0; i < n; ++i){
     cin >> a[i];
     if (a[i] == 1)
       totalOnes++;
   }
 
   int maxGain = -1; int current = 0;
-  for (int i = 0; i < n; ++i)
-  {
+  for (int i = 0; i < n; ++i){
     int val = (a[i] == 0 ? 1 : -1);
     current = max(val, current + val);
     maxGain = max(maxGain, current);
   }
 
-  if (totalOnes == n)
-    cout << n - 1 << endl;
-  else
-    cout << totalOnes + maxGain << endl;
-
+  if (totalOnes == n) cout << n - 1 << endl;
+  else cout << totalOnes + maxGain << endl;
   return 0;
 }

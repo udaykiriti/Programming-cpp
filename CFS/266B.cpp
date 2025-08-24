@@ -50,14 +50,10 @@ int main()
   cin.tie(NULL); cout.tie(NULL);
   int n,t; cin>>n>> t;
   string s; cin>>s;
-  while (t--)
-  {
-    FOR (i,0,n - 1)
-    {
-      if (s[i] == 'B' && s[i + 1] == 'G')
-      {
-        swap(s[i], s[i + 1]);
-        i++;
+  while (t--){
+    FOR (i,0,n - 1){
+      if (s[i] == 'B' && s[i + 1] == 'G'){
+        swap(s[i], s[i + 1]); i++;
       }
     }
   }
