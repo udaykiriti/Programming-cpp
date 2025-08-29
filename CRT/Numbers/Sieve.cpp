@@ -1,10 +1,7 @@
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
-int countPrimes(int n)
-{
-  if (n <= 2)
-    return 0;
+int countPrimes(int n) {
+  if (n <= 2) return 0;
   vector<bool> isPrime(n, true);
   isPrime[0] = isPrime[1] = false;
   for (int i = 2; i * i < n; ++i)
@@ -20,3 +17,4 @@ int main()
   cout << "Primes less than " << n << ": " << countPrimes(n) << endl;
   return 0;
 }
+
