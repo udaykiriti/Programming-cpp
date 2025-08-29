@@ -131,7 +131,11 @@ void _timer_(){
 #endif
 
 void solve(void) {
+<<<<<<< HEAD
     // Solution Function    
+=======
+    // Solution Function
+>>>>>>> b1e7b68 (OOPSgit add .!)
 }
 
 int main(int argc , char *argv[]) {
