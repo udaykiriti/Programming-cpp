@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
+int main(int argc , char *argv[]){
   int rowsA, colsA, rowsB, colsB;
   cin >> rowsA >> colsA;
   int A[rowsA][colsA];
@@ -16,8 +15,7 @@ int main()
     for (int j = 0; j < colsB; j++)
       cin >> B[i][j];
 
-  if (colsA != rowsB)
-  {
+  if (colsA != rowsB){
     cout << "Invalid dimensions for multiplication." << endl;
     return 1;
   }
@@ -28,8 +26,7 @@ int main()
       for (int k = 0; k < colsA; k++)
         C[i][j] += A[i][k] * B[k][j];
 
-  for (int i = 0; i < rowsA; i++)
-  {
+  for (int i = 0; i < rowsA; i++) {
     for (int j = 0; j < colsB; j++)
       cout << C[i][j] << " ";
     cout << endl;
@@ -37,3 +34,4 @@ int main()
 
   return 0;
 }
+
