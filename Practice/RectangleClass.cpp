@@ -24,7 +24,7 @@ void Rectangle::setLenght(double l){
     }
 }
 
-int main(void){
+int main(int argc , char *argv[]){
     cout<<"Enter len and wid: ";
     double len,wid; cin>>len>>wid;
     // box.setLenght(len); box.setWidth(wid);
