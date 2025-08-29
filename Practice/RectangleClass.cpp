@@ -1,36 +1,26 @@
-#include<bits/stdc++.h>
-using namespace std;
 #include "Rectangle.h"
+#include <bits/stdc++.h>
+using namespace std;
+#define endl '\n'
 
-Rectangle::Rectangle(double wid,double len){
-    width=wid;
-    length=len;
+Rectangle::Rectangle(){
+    width = 10;
+    length = 10;
 }
 
+void Rectangle::setLength(double l){
+    if(l>0) length = l;
+    else exit(EXIT_FAILURE);
+}
 void Rectangle::setWidth(double w){
-    if(w>=0){
-        width=w;
-    }else{
-        cout<<"Invalid width"<<endl;
-        exit(EXIT_FAILURE);
-    }
-}
-void Rectangle::setLenght(double l){
-    if(l>=0){
-    length=l;
-    }else{
-        cout<<"Invalid length"<<endl;
-        exit(EXIT_FAILURE);
-    }
+    if(w>0) width = w;
+    else exit(EXIT_FAILURE);
 }
 
-int main(int argc , char *argv[]){
-    cout<<"Enter len and wid: ";
-    double len,wid; cin>>len>>wid;
-    // box.setLenght(len); box.setWidth(wid);
-    Rectangle box(len,wid);
-
-    cout<<"Width :"<<box.getWidth()<<endl;
-    cout<<"Length"<<box.getLength()<<endl;
-    cout<<"Area"<<box.getArea()<<endl;
+int main(int argc , char *argv[]) {
+    Rectangle r;
+    r.setLength(0);
+    cout<<r.getLenth()<<endl;
+    cout<<r.getWidth()<<endl;
+    cout<<r.getArea()<<endl;
 }
