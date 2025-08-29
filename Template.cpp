@@ -132,7 +132,6 @@ void _timer_(){
 
 void solve(void) {
     // Solution Function
-    
 }
 
 int main(int argc , char *argv[]) {
@@ -142,7 +141,7 @@ int main(int argc , char *argv[]) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout<<"===========================Compilation Done==============================="<<endl;
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t(1),tcase(0); //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout<<"[testcase: "<<tcase<<"]---------------------------------";
