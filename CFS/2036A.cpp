@@ -6,7 +6,9 @@ using namespace std;
 void solve(){
   int n; cin >> n;
   vector<int> notes(n);
-  for(auto &x : notes) cin>>x;
+  FOR (i , 0, n) 
+    cin >> notes[i];
+
   FOR (i,1, n){
     int diff = abs(notes[i] - notes[i - 1]);
     if (diff != 5 && diff != 7) {
