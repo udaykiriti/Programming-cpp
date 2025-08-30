@@ -25,4 +25,5 @@ int main(int argc , char *argv[]){
     today.Initialize(8,29,2025);
     anotherDay.Initialize(8,30,2025);
     cout << "Date: " << today.GetMonth() << "/" << today.GetDay() << "/" << today.GetYear() << endl;
+    cout << "Date: " << anotherDay.GetMonth() << "/" << anotherDay.GetDay() << "/" << anotherDay.GetYear() << endl;
 }
