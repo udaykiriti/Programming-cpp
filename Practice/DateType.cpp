@@ -1,29 +1,22 @@
-#include<bits/stdc++.h>
-using namespace std;
 #include "DateType.h"
+#include <bits/stdc++.h>
+using namespace std;
 
-void DateType::Initialize(int newMonth, int newDay , int newYear){
-    year = newYear;
+DateType::DateType() : month(1), day(1), year(2000) {} // default values
+
+DateType::DateType(int newMonth, int newDay, int newYear)
+    : month(newMonth), day(newDay), year(newYear) {}
+
+void DateType::Initialize(int newMonth, int newDay, int newYear) {
     month = newMonth;
     day = newDay;
-}
-int DateType::GetMonth() const{
-    return month;
+    year = newYear;
 }
 
-int DateType::GetYear() const{
-    return year;
-}
+int DateType::GetMonth() const { return month; }
+int DateType::GetYear() const { return year; }
+int DateType::GetDay() const { return day; }
 
-int DateType::GetDay() const{
-    return day;
-}
-
-int main(int argc , char *argv[]){
-    DateType today;
-    DateType anotherDay;
-    today.Initialize(8,29,2025);
-    anotherDay.Initialize(8,30,2025);
-    cout << "Date: " << today.GetMonth() << "/" << today.GetDay() << "/" << today.GetYear() << endl;
-    cout << "Date: " << anotherDay.GetMonth() << "/" << anotherDay.GetDay() << "/" << anotherDay.GetYear() << endl;
+void DateType::DisplayDate() const {
+    cout << month << "/" << day << "/" << year << endl;
 }

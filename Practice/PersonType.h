@@ -1,11 +1,20 @@
-#include <bits/stdc++.h>
-using namespace std;
+#ifndef PERSONTYPE_H
+#define PERSONTYPE_H
 
-class PersonType
-{
+#include <bits/stdc++.h>
+#include "DateType.h"
+
+class PersonType {
 private:
-    /* data */
+    std::string name;
+    DateType dob;
+
 public:
-    PersonType(/* args */);
-    ~PersonType();
+    PersonType();
+    PersonType(std::string n, DateType d);
+
+    void setPerson(std::string n, DateType d);
+    void DisplayPerson() const;
 };
+
+#endif
