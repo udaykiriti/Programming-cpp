@@ -1,13 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 #define endl '\n'
 #define FOR(i, a, b) for (int i = (a); i < (b); i++)
-#define op()                    \
-  ios_base::sync_with_stdio(0); \
-  cin.tie(0);                   \
-  cout.tie(0);
-
 static const int MAXN = 200000 + 5;
 
 int n;
@@ -27,13 +21,10 @@ void solve()
 {
   cin >> n;
   for (int i = 1; i <= n; i++)
-  {
     adj[i].clear();
-  }
   for (int i = 1; i < n; i++)
   {
-    int u, v;
-    cin >> u >> v;
+    int u, v; cin >> u >> v;
     edges[i] = {u, v};
     adj[u].push_back(v);
     adj[v].push_back(u);
@@ -41,9 +32,7 @@ void solve()
 
   timer1 = 0;
   for (int i = 1; i <= n + 1; i++)
-  {
     diffArr[i] = 0;
-  }
   struct Item
   {
     int v, p, idx;
@@ -95,14 +84,9 @@ void solve()
   }
 
   for (int i = 1; i <= n; i++)
-  {
     diffArr[i] += diffArr[i - 1];
-  }
-
   for (int v = 1; v <= n; v++)
-  {
     smallCount[v] = diffArr[tin[v]];
-  }
 
   long long bestL = LLONG_MAX;
   int A = 1, B = 2;
@@ -113,13 +97,9 @@ void solve()
     int a = min(x, y), b = max(x, y);
     int compB;
     if (parent1[b] == a)
-    {
       compB = subtree1[b];
-    }
     else
-    {
       compB = n - subtree1[a];
-    }
     int oth = n - compB;
     int orig_min = min(compB, oth);
     bool b_in_small = (compB <= oth);
@@ -135,9 +115,7 @@ void solve()
   nodes_tprime = n - 1;
   root_tprime = A;
   for (int i = 1; i <= n; i++)
-  {
     adj2[i].clear();
-  }
 
   for (int v = 1; v <= n; v++)
   {
@@ -219,9 +197,7 @@ void solve()
   }
 
   for (int i = 1; i <= n; i++)
-  {
     used3[i] = false;
-  }
   used3[B] = true;
   used3[cent2] = true;
 
@@ -230,8 +206,7 @@ void solve()
   int gid = 1;
   for (int u : adj2[cent2])
   {
-    if (used3[u])
-      continue;
+    if (used3[u]) continue;
     groups.push_back(vector<int>());
     stack<int> q;
     q.push(u);
@@ -245,8 +220,7 @@ void solve()
       {
         if (!used3[w])
         {
-          used3[w] = true;
-          q.push(w);
+          used3[w] = true; q.push(w);
         }
       }
     }
@@ -261,18 +235,14 @@ void solve()
   }
 
   for (int i = 1; i <= n; i++)
-  {
     color_ans[i] = 0;
-  }
   color_ans[B] = 0;
 
   int cur_color = 1;
   while (pq.size() > 1)
   {
-    auto p1 = pq.top();
-    pq.pop();
-    auto p2 = pq.top();
-    pq.pop();
+    auto p1 = pq.top(); pq.pop();
+    auto p2 = pq.top(); pq.pop();
     int i1 = p1.second, i2 = p2.second;
     int v1 = groups[i1].back();
     groups[i1].pop_back();
@@ -292,19 +262,13 @@ void solve()
     swap(u_out, v_out);
   cout << u_out << " " << v_out << "\n";
   for (int i = 1; i <= n; i++)
-  {
     cout << color_ans[i] << (i == n ? '\n' : ' ');
-  }
 }
 
-int main()
-{
-  op();
-  int t;
-  cin >> t;
-  while (t--)
-  {
-    solve();
-  }
+int main() {
+  ios_base::sync_with_stdio(fasle);
+  cin.tie(nullptr); cout.tie(nullptr);
+  int t; cin >> t;
+  while (t--) solve();
   return 0;
 }
