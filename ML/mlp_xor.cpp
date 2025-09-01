@@ -112,4 +112,8 @@ int main() {
         auto output = net.forward(input);
         cout << input[0] << " XOR " << input[1] << " = " << round(output[0]) << " (" << output[0] << ")\n";
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 07c3463 (c++ ml)
