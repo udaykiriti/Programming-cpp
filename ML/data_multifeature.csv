@@ -1,3 +1,12 @@
+<<<<<<< HEAD
 version https://git-lfs.github.com/spec/v1
 oid sha256:fea1b7962a5abd166066ed39cfefcc9d0947fe413cd5e3f5da3d07344c5911af
 size 89
+=======
+area,bedrooms,age,price
+1000,2,10,200
+1500,3,5,300
+2000,4,2,400
+2500,4,1,500
+3000,5,0,600
+>>>>>>> 9cb357b (ML)

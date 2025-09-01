@@ -1,3 +1,12 @@
+<<<<<<< HEAD
 version https://git-lfs.github.com/spec/v1
 oid sha256:0c69c1a7ffe83b215aa9f00d5fc09ce73783c8337072752422177a6fc7b85574
 size 55
+=======
+area,price
+1000,200
+1500,300
+2000,400
+2500,500
+3000,600
+>>>>>>> 9cb357b (ML)
