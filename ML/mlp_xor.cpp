@@ -113,7 +113,11 @@ int main() {
         cout << input[0] << " XOR " << input[1] << " = " << round(output[0]) << " (" << output[0] << ")\n";
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> 07c3463 (c++ ml)
+=======
+}
+>>>>>>> 5ac2cfa (Fixes missing newline in source file)
