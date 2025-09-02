@@ -1,3 +1,0 @@
-Line 1 modified by feature C and feature D resolved manually
-Feature A change
-Feature B different change
