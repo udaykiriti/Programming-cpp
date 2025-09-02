@@ -31,6 +31,7 @@ git checkout <branch>                    # Switch to branch
 git checkout -b <new-branch>             # Create and switch to new branch
 git switch <branch>                      # Modern way to switch
 git switch -c <new-branch>               # Modern way to create + switch
+git branch -d branch-name                # Delete A branch
 
 # 🔀 Merging
 
