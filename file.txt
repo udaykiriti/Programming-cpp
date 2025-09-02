@@ -1,2 +1,3 @@
-Line 1
+Line 1 modified by feature C
 Feature A change
+Feature B different change
