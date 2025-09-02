@@ -3,8 +3,7 @@ using namespace std;
 #define ln "\n"
 #define FOR(i, a, b) for (long i = (a); i < (b); i++)
 
-void solve()
-{
+void solve(){
   const int N = 8;
   vector<string> v(N);
   FOR(p, 0, N)
