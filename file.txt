@@ -1,2 +1,6 @@
 Line 1
+<<<<<<< HEAD
 Feature A change
+=======
+Feature B different change
+>>>>>>> 23e8164 (Add feature B line)
