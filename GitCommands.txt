@@ -31,6 +31,7 @@ git push -u origin <branch-name>         # Push and set upstream
 
 # 🌿 Branch Management
 
+<<<<<<< HEAD
 git branch                          # List local branches
 git branch -r                       # List remote branches
 git branch -a                       # List all branches (local + remote)
@@ -42,6 +43,17 @@ git switch -c <new-branch>          # Create and switch (modern)
 git branch -d <branch>              # Delete a local branch (only if merged)
 git branch -D <branch>              # Force delete a local branch (even if unmerged)
 
+=======
+git branch                               # List local branches
+git branch -r                            # List remote branches
+git branch -a                            # List all branches
+git branch <new-branch>                  # Create new branch
+git checkout <branch>                    # Switch to branch
+git checkout -b <new-branch>             # Create and switch to new branch
+git switch <branch>                      # Modern way to switch
+git switch -c <new-branch>               # Modern way to create + switch
+git branch -d branch-name                # Delete A branch
+>>>>>>> 102646a (merged)
 
 # 🔀 Merging
 
