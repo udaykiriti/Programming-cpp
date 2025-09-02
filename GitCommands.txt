@@ -1,15 +1,23 @@
 
 # 📦 Git Basics & Setup
 
-git init                                 # Initialize a new git repository
-git clone <repo-url>                     # Clone a remote repo
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
+git init                               # Initialize a new git repository locally
+git clone <repo-url>                   # Clone an existing remote repository
+git config --global user.name "Name"  # Set your global git username
+git config --global user.email "email@example.com"  # Set your global email
+git config --global core.editor "code --wait"       # Set VS Code as default editor
 
 # 🔄 Remote Interaction
 
-git remote -v                            # Show remote URLs
-git remote add origin <repo-url>        # Add remote repo
+git remote -v                         # List all remotes and their URLs
+git remote add origin <repo-url>     # Add a remote repo called 'origin'
+git fetch                            # Fetch all remote branches without merging
+git fetch --prune                   # Fetch and clean deleted remote branches locally
+git pull origin <branch>            # Fetch and merge remote branch into current branch
+git push origin <branch>            # Push your local branch to remote
+git push -u origin <branch>         # Push and set upstream tracking branch
+git push origin --delete <branch>   # Delete a remote branch
+
 
 # 📥 Fetch & Pull
 
@@ -23,15 +31,17 @@ git push -u origin <branch-name>         # Push and set upstream
 
 # 🌿 Branch Management
 
-git branch                               # List local branches
-git branch -r                            # List remote branches
-git branch -a                            # List all branches
-git branch <new-branch>                  # Create new branch
-git checkout <branch>                    # Switch to branch
-git checkout -b <new-branch>             # Create and switch to new branch
-git switch <branch>                      # Modern way to switch
-git switch -c <new-branch>               # Modern way to create + switch
-git branch -d branch-name                # Delete A branch
+git branch                          # List local branches
+git branch -r                       # List remote branches
+git branch -a                       # List all branches (local + remote)
+git branch <new-branch>             # Create a new branch (locally)
+git checkout <branch>               # Switch to an existing branch
+git checkout -b <new-branch>        # Create and switch to a new branch (older style)
+git switch <branch>                 # Switch branch (modern)
+git switch -c <new-branch>          # Create and switch (modern)
+git branch -d <branch>              # Delete a local branch (only if merged)
+git branch -D <branch>              # Force delete a local branch (even if unmerged)
+
 
 # 🔀 Merging
 
@@ -63,6 +73,12 @@ git show <commit-hash>                   # Show a specific commit
 
 git reset --hard HEAD                    # Reset to last commit (dangerous)
 git checkout -- <file>                   # Discard changes to a file
+git checkout -- <file>           # Discard changes in working directory for a file
+git reset HEAD <file>            # Unstage a staged file (keep changes in working dir)
+git reset --soft HEAD~1          # Undo last commit but keep changes staged
+git reset --mixed HEAD~1         # Undo last commit and unstage changes
+git reset --hard HEAD~1          # Undo last commit and discard all changes (dangerous!)
+
 
 # ✅ Staging & Committing
 
@@ -183,4 +199,3 @@ Set Nano as Git editor:
     git config --global core.editor "nano"
 
 This will make Git open your preferred editor for commit messages.
-
