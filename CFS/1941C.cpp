@@ -1,72 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-#define stop_sync ios::sync_with_stdio(false)
-#define untie_ios cin.tie(nullptr)
-#define ln "\n"
-#define pb push_back
-#define sz(x) int((x).size())
-#define All(x) (x).begin(), (x).end()
-#define multicase \
-  int t;          \
-  cin >> t;       \
-  while (t--)
-#define GG return 0;
-#define PRINT(x) cout << x << ln
-#define LOOP(i, a, b) for (int i = (a); i < (b); i++)
-
 using i64 = long long;
+#define ln '\n'
 
-void solve()
-{
-  i64 n;
-  cin >> n;
-  string s;
-  cin >> s;
-
+void solve() {
+  i64 n; string s; cin >> n >> s;
   i64 cnt = 0, idx = 0;
-
-  while (idx != string::npos)
-  {
-    idx = s.find("mapie", idx);
-    if (idx == string::npos)
-      break;
-    ++cnt;
-    s[idx + 2] = '$';
-    ++idx;
+  while ((idx = s.find("mapie", idx)) != string::npos) {
+    ++cnt; s[idx + 2] = '$'; ++idx;
   }
 
   idx = 0;
-  while (idx != string::npos)
-  {
-    idx = s.find("map", idx);
-    if (idx == string::npos)
-      break;
-    ++cnt;
-    s[++idx] = '$';
+  while ((idx = s.find("map", idx)) != string::npos) {
+    ++cnt; s[idx + 1] = '$'; ++idx;
   }
 
   idx = 0;
-  while (idx != string::npos)
-  {
-    idx = s.find("pie", idx);
-    if (idx == string::npos)
-      break;
-    ++cnt;
-    s[++idx] = '$';
-    ++idx;
+  while ((idx = s.find("pie", idx)) != string::npos) {
+    ++cnt; s[idx + 1] = '$'; idx += 2;
   }
-
-  PRINT(cnt);
+  cout << cnt << ln;
 }
 
-int main()
-{
-  stop_sync;
-  untie_ios;
-  multicase
-  {
-    solve();
-  }
-  GG;
+int main() {
+  ios::sync_with_stdio(false); 
+  cin.tie(nullptr); cout.tie(nullptr);
+  int t; cin >> t;
+  while (t--) solve();
+  return 0;
 }
