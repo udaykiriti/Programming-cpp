@@ -1,35 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define endl '\n'
-
 #define int long long
-#define pb push_back
-#define all(x) (x).begin(), (x).end()
-#define FastIO                 \
-  ios::sync_with_stdio(false); \
-  cin.tie(nullptr);            \
-  cout.tie(NULL)
 
-void solve()
-{
+void solve() {
   int n; string b; cin >> n >> b;
-  set<char> chars_set(all(b));
-  vector<char> r(all(chars_set));
-  sort(all(r));
+  set<char> s(b.begin(), b.end());
+  vector<char> r(s.begin(), s.end());
+  sort(r.begin(), r.end());
 
-  map<char, char> decode_map;
-  int len = r.size();
-  for (int i = 0; i < len; ++i)
-    decode_map[r[i]] = r[len - 1 - i];
+  map<char, char> m;
+  for (int i = 0, len = r.size(); i < len; ++i)
+    m[r[i]] = r[len - 1 - i];
 
-  for (char c : b)
-    cout << decode_map[c];
-  cout << "\n";
+  for (char c : b) cout << m[c];
+  cout << '\n';
 }
 
-int32_t main()
-{
-  FastIO; int t; cin >> t;
+int32_t main() {
+  ios::sync_with_stdio(false); 
+  cin.tie(nullptr); cout.tie(nullptr);
+  int t; cin >> t;
   while (t--) solve();
-  return 0;
 }
