@@ -23,29 +23,21 @@ void solve()
       break;
     ++cnt;
     s[++idx] = '$';
-  }
-
-  idx = 0;
-  while (idx != string::npos)
-  {
+  } idx = 0;
+  while (idx != string::npos){
     idx = s.find("pie", idx);
     if (idx == string::npos)
       break;
     ++cnt;
     s[++idx] = '$';
     ++idx;
-  }
-
-  PRINT(cnt);
+  }cout<<cnt<<endl;
 }
 
-int main()
-{
-  stop_sync;
-  untie_ios;
-  multicase
-  {
-    solve();
-  }
+int main(int argc , char *argv[]){
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr); cout.tie(nullptr);
+  int t; cin>>t;
+  while(t--) solve();
   GG;
 }
