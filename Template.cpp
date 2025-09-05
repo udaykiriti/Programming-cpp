@@ -131,7 +131,7 @@ void _timer_(){
 #endif
 
 void solve(void) {
-    // Solution Function
+    // Solution Function    
 }
 
 int main(int argc , char *argv[]) {
