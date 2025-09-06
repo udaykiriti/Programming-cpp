@@ -1,6 +1,7 @@
 Line 1: Start of file
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Line 2: Login system added
 =======
 Line 2: Signup page added
@@ -8,4 +9,7 @@ Line 2: Signup page added
 =======
 Line 2: Dashboard created
 >>>>>>> feature/dashboard
+=======
+Line 2: Settings page built
+>>>>>>> feature/settings
 Line 3: End of file
