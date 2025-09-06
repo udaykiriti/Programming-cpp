@@ -1,3 +1,7 @@
 Line 1: Start of file
+<<<<<<< HEAD
 Line 2: Login system added
+=======
+Line 2: Signup page added
+>>>>>>> feature/signup
 Line 3: End of file
