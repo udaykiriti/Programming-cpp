@@ -1,4 +1,5 @@
-// app.js
 function greet(name) {
-    return `Hello, ${name}!`;
+    const message = `Hello, ${name}!`;
+    console.log(message);
+    return message;
 }
