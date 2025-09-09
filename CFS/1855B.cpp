@@ -52,22 +52,21 @@ In the third test case, a valid interval with maximum size is [9, 11].
 In the fourth test case, a valid interval with maximum size is [8, 13].
 In the seventh test case, a valid interval with maximum size is [327869, 327871].
 */
-#include <cstdio>
+#include <bits/stdc++.h>
+using namespace std;
 typedef long long ll;
 
-void solve()
-{
-  ll n; scanf("%lld", &n);
+void solve(){
+  ll n; cin>>n;
   ll cnt(1);
-  for (ll p = 2; n % p == 0 && p <= n; p++)
-    ++cnt;
-  printf("%lld\n", cnt);
+  for (ll p = 2; n % p == 0 && p <= n; p++) ++cnt;
+  cout<<cnt;
 }
 
-int main()
-{
-
-  long t; scanf("%ld", &t);
+int main(int argc , char *argv[]){
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr); cout.tie(nullptr);
+  ll t; cin>>t;
   while (t--) solve();
   return 0;
 }
