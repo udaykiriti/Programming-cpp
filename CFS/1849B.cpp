@@ -3,8 +3,7 @@
 #define nline '\n'
 using namespace std;
 
-void solve()
-{
+void solve(void){
   ll n, k;  cin >> n >> k;
   vector<ll> arr(n);
   for (int i = 0; i < n; i++)
@@ -23,14 +22,9 @@ void solve()
     cout << ele.second + 1 << " ";
 }
 
-void fastIO()
-{
+int main(int argc , char *argv[]) {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL); cout.tie(NULL);
-}
-int main()
-{
-  fastIO();
   ll T; cin >> T;
   while (T--) solve();
   return 0;
