@@ -1,7 +1,3 @@
-// Solution File: 2037A.cpp
-// Author: kiriti__ (Codeforces ID)
-// GitHub: https://github.com/udaykiriti/codeforces-solutions-master
-
 /*
 Problem: 2037A - Twice (Codeforces Round 988 Div. 3)
 
