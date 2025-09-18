@@ -22,14 +22,10 @@ NO
 
 #include <bits/stdc++.h>
 using namespace std;
-#define FastIO                  \
-  ios_base::sync_with_stdio(0); \
-  cin.tie(0);                   \
-  cout.tie(0);
-#define BYE return 0
 
 int main() {
-  FastIO;
+  ios_base::sync_with_stdio(0);
+  cin.tie(nullptr); cout.tie(nullptr);
   int t; cin >> t;
   while (t--) {
     int n; cin >> n;
@@ -42,10 +38,8 @@ int main() {
         n -= 111;
       }
     }
-    if (ok)
-      cout<<"YES"<<endl;
-    else
-      cout<<"NO"<<endl;
+    if (ok) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
   }
-  BYE;
+  return 0;
 }
