@@ -1,19 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 #define ll long long
 #define endl '\n'
 #define debug(n) cout << (n) << endl;
 const ll INF = 2e18 + 99;
-#define FastIO                      \
-  ios_base::sync_with_stdio(false); \
-  cin.tie(NULL);                    \
-  cout.tie(NULL);
+ 
 
-void solve()
-{
-  ll a, b;
-  cin >> a >> b;
+void solve(){
+  ll a, b; cin >> a >> b;
   ll diff = (a >= b) ? (a - b) : (b - a);
   if (a > b)
     cout << diff << " " << min(diff - (a % diff), b % diff) << endl;
@@ -23,11 +17,10 @@ void solve()
     cout << 0 << " " << 0 << endl;
 }
 
-int main()
-{
-  FastIO int t;
-  cin >> t;
-  while (t--)
-    solve();
+int main(int argc , char *argv[]){
+  ios_base::sync_with_stdio(false); 
+  cin.tie(NULL); cout.tie(NULL);
+  int t; cin >> t;
+  while (t--) solve();
   return 0;
 }
