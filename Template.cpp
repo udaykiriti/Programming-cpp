@@ -120,7 +120,7 @@ void _timer_(){
     FIXED(2);
     cout << "[time: "<< delta <<" ms]\n";
 }
-#define TIME
+//#define TIME
 //#define PRAGMA
 
 #ifdef PRAGMA
@@ -131,28 +131,7 @@ void _timer_(){
 #endif
 
 void solve(void) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    // Solution Function    
-=======
     // Solution Function
->>>>>>> b1e7b68 (OOPSgit add .!)
-=======
-    //Solution
-    string s; cin>>s;
-    bool vowels[128];
-    memset(vowels, false, sizeof(vowels));
-    for(auto c: "aeiouAEIOU") vowels[c] = true;
-    int i = 0, j = s.size() - 1;
-        while (i < j) {
-            while (i < j && !vowels[s[i]])
-                ++i;
-            while (i < j && !vowels[s[j]]) 
-                --j;
-            if (i < j)
-                swap(s[i++], s[j--]);
-        } cout << s << endl;
->>>>>>> 0dd21ad (Implements vowel swapping in a string)
 }
 
 int main(int argc , char *argv[]) {
