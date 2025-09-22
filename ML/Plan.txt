@@ -1,0 +1,85 @@
+Investment Banking Roadmap for CS Graduates
+
+---
+
+Month 1-2: Finance & Accounting Basics
+
+* Books:
+
+  * "The Essentials of Finance and Accounting for Non-Financial Managers" – Edward Fields
+  * "Accounting Made Simple" – Mike Piper
+  * "Corporate Finance" – Aswath Damodaran (beginner level)
+* Tasks:
+
+  * Learn to read Income Statement, Balance Sheet, Cash Flow
+  * Understand financial ratios and their meanings
+  * Learn corporate finance basics: TVM, cost of capital, capital structure
+
+Month 3-4: Excel & Financial Modeling
+
+* Books/Resources:
+
+  * "Financial Modeling" – Simon Benninga
+  * Wall Street Prep / Breaking into Wall Street online modules
+* Tasks:
+
+  * Master Excel formulas, pivot tables, and charts
+  * Build 3-statement financial models
+  * Practice scenario analysis, sensitivity analysis, forecasting
+
+Month 5-6: Valuation & M\&A Basics
+
+* Books:
+
+  * "Investment Banking: Valuation, Leveraged Buyouts, and Mergers & Acquisitions" – Rosenbaum & Pearl
+  * "Damodaran on Valuation" – Aswath Damodaran
+* Tasks:
+
+  * Learn DCF, Comparable Company Analysis, Precedent Transactions
+  * Understand M\&A processes, deal structures, and LBO basics
+  * Practice case studies
+
+Month 7-8: Markets & Investment Products
+
+* Books:
+
+  * "The Intelligent Investor" – Benjamin Graham
+  * "A Random Walk Down Wall Street" – Burton G. Malkiel
+  * "Options, Futures, and Other Derivatives" – John C. Hull
+* Tasks:
+
+  * Learn equity, debt, derivatives, IPOs, bonds
+  * Track financial news daily (Bloomberg, WSJ, Financial Times)
+  * Understand macroeconomics basics and market trends
+
+Month 9-10: Technical Skills (Python & SQL for Finance)
+
+* Books/Resources:
+
+  * "Python for Finance" – Yves Hilpisch
+  * SQL tutorials: W3Schools or Mode Analytics
+* Tasks:
+
+  * Use Python for data analysis, modeling, automation
+  * Use SQL for extracting and analyzing financial datasets
+  * Build mini projects: stock analysis, dashboards
+
+Month 11-12: Practical Experience & Networking
+
+* Books:
+
+  * "Investment Banking Workbook" – Rosenbaum & Pearl
+  * "The Investment Banking Guide" – William H. Hutt
+* Tasks:
+
+  * Build portfolio of models and case studies
+  * Apply for internships or virtual IB programs
+  * Network with alumni, LinkedIn, and finance communities
+  * Optional: Start CFA Level 1 prep
+
+Key Tips for CS Graduates:
+
+1. Leverage quantitative skills for financial modeling, quant analysis, fintech roles.
+2. Focus on hands-on practice: models, pitch books, valuations.
+3. Network extensively; IB relies heavily on relationships.
+4. Consider CFA or FRM for credibility if not pursuing an MBA.
