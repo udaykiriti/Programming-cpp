@@ -23,11 +23,9 @@ Output:
 
 #include <bits/stdc++.h>
 using namespace std;
-#define BYE return 0;
 #define FOR(i, a, b) for (int i = a; i < b; i++)
 
-void solve()
-{
+void solve(){
   int n; cin >> n;
   int current = 3;
   FOR(i, 0, n){
@@ -39,11 +37,10 @@ void solve()
   cout << '\n';
 }
 
-int main()
-{
+int main(int argc , char *argv[]) {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL); cout.tie(NULL);
   int t; cin >> t;
   while (t--) solve();
-  BYE;
+  return 0;
 }
