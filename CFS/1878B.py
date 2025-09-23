@@ -36,7 +36,7 @@ def main():
             while current % 3 == 0:
                 current += 1
             result.append(current)
-            current += 1
+            current += 2
         
         print(" ".join(map(str, result)))
 
