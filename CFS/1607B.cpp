@@ -1,50 +1,27 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 #define ll long long
-#define endl '\n'
-#define debug(n) cout<<(n)<<endl;
-const ll INF = 2e18 + 99;
 
 int main(){
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL); cout.tie(NULL);
-  ll t; cin>>t;
-  while(t--){
-    ll n, moves; cin>>n>>moves;
-    if(n % 2 == 0){
-      if(moves % 4 == 0){
-        cout<<n<<endl;
-        continue;
-      }
-      if(moves % 4 == 1){
-        cout<<(n - moves)<<endl;
-      }
-      if(moves % 4 == 2){
-        cout<<(n - (moves - 1) + moves)<<endl;
-        continue;
-      }
-      if(moves % 4 == 3){
-        cout<<(n - (moves - 2) + (moves - 1) + moves)<<endl;
-        continue;
-      }
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    ll t; cin >> t;
+    while(t--){
+        ll n, moves; cin >> n >> moves;
+        ll ans;
+        if(n % 2 == 0){
+            if(moves % 4 == 0) ans = n;
+            else if(moves % 4 == 1) ans = n - moves;
+            else if(moves % 4 == 2) ans = n + 1;
+            else ans = n + moves + 1;
+        }
+        else{
+            if(moves % 4 == 0) ans = n;
+            else if(moves % 4 == 1) ans = n + moves;
+            else if(moves % 4 == 2) ans = n - 1;
+            else ans = n - moves - 1;
+        }
+        cout << ans << "\n";
     }
-    else{
-      if(moves % 4 == 0){
-        cout<<n<<endl;
-        continue;
-      }
-      if(moves % 4 == 1){
-        cout<<(n + moves)<<endl;
-        continue;
-      }
-      if(moves % 4 == 2){
-        cout<<(n + (moves - 1) - moves)<<endl;
-        continue;
-      }
-      if(moves % 4 == 3){
-        cout<<(n + (moves - 2) - (moves - 1) - moves)<<endl;
-        continue;
-      }
-    }
-  }
 }
