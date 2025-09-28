@@ -1,20 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool isPossible(const vector<int> &angles, int index = 0, int current_sum = 0)
+bool isPossible(const vector<int> &a, int i = 0, int sum = 0)
 {
-  if (index == angles.size()) return current_sum % 360 == 0;
-  return isPossible(angles, index + 1, current_sum + angles[index]) || isPossible(angles, index + 1, current_sum - angles[index]);
+  if (i == a.size()) return sum % 360 == 0;
+  return isPossible(a, i + 1, sum + a[i]) || isPossible(a, i + 1, sum - a[i]);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL); cout.tie(NULL);
+  ios::sync_with_stdio(false); 
+  cin.tie(0); cout.tie(0);
   int n; cin >> n;
-  vector<int> angles(n);
-  for (int i = 0; i < n; ++i) cin >> angles[i];
-  if (isPossible(angles)) cout << "YES" << endl;
-  else cout << "NO" << endl;
-  return 0;
+  vector<int> a(n);
+  for (int &x : a) cin >> x;
+  cout << (isPossible(a) ? "YES\n" : "NO\n");
 }
