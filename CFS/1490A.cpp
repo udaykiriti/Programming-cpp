@@ -9,8 +9,7 @@ void solve()
   for (int i = 0; i < n; ++i)
     cin >> a[i];
   int insertions = 0;
-  for (int i = 0; i < n - 1; ++i)
-  {
+  for (int i = 0; i < n - 1; ++i) {
     int x = a[i];
     int y = a[i + 1];
     int small = min(x, y);
@@ -23,14 +22,10 @@ void solve()
   }
   cout << insertions << endl;
 }
-void FastIO()
-{
+
+int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL); cout.tie(NULL);
-}
-int main()
-{
-  FastIO();
   int t; cin >> t;
   while (t--) solve();
   return 0;
