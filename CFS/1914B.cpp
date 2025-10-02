@@ -1,12 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define fastio                 \
-  ios::sync_with_stdio(false); \
-  cin.tie(NULL);
-#define testcases \
-  int t;          \
-  cin >> t;       \
-  while (t--)
 #define FOR(i, a, b) for (long i = (a); i <= (b); ++i)
 #define RFOR(i, a, b) for (long i = (a); i > (b); --i)
 #define endl '\n'
@@ -22,7 +15,8 @@ void solve(){
 
 int main()
 {
-  fastio;
+  ios_base::sync_with_stdio(false);
+  cin.tie(0); cout.tie(0);
   int t; cin>>t;
   while(t--) solve();
   return 0;
