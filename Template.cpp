@@ -132,7 +132,11 @@ void _timer_(){
 
 void solve(void) {
     // Solution Function
-    
+    int n; cin>>n;
+    vi nums(n);
+    for(int p=0;i<n;p++) cin>>nums[i];
+    SORT(nums);
+    cout<<((nums[n-1]-1) * (nums[n-2]-1))<<endl;
 }
 
 int main(int argc , char *argv[]) {
