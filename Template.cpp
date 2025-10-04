@@ -120,6 +120,7 @@ void _timer_(){
     FIXED(2);
     cout << "[time: "<< delta <<" ms]\n";
 }
+
 //#define TIME
 //#define PRAGMA
 
@@ -134,7 +135,7 @@ void solve(void) {
     // Solution Function
     int n; cin>>n;
     vi nums(n);
-    for(int p=0;i<n;p++) cin>>nums[i];
+    for(int p=0;p<n;p++) cin>>nums[p];
     SORT(nums);
     cout<<((nums[n-1]-1) * (nums[n-2]-1))<<endl;
 }
