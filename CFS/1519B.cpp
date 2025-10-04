@@ -1,11 +1,5 @@
-// Problem: 1519B - The Cake Is a Lie
-// Link: https://codeforces.com/contest/1519/problem/B
-
 #include <bits/stdc++.h>
 using namespace std;
-#define fastio                 \
-  ios::sync_with_stdio(false); \
-  cin.tie(nullptr);
 #define ll long long
 
 void solve()
@@ -19,9 +13,9 @@ void solve()
 
 int main()
 {
-  fastio;
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);
   int t; cin >> t;
-  while (t--)
-    solve();
+  while (t--) solve();
   return 0;
 }
