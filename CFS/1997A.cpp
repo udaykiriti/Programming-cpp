@@ -16,7 +16,7 @@ int main()
   {
     string s; cin >> s;
     string best;
-    int max_time = 0;
+    int maxT = 0;
 
     for (int i = 0; i <= s.size(); i++)
     {
@@ -24,9 +24,9 @@ int main()
       {
         string temp = s.substr(0, i) + c + s.substr(i);
         int time = typing_time(temp);
-        if (time > max_time)
+        if (time > maxT)
         {
-          max_time = time;
+          maxT = time;
           best = temp;
         }
       }

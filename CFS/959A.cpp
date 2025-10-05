@@ -9,7 +9,7 @@ int main()
 {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL); cout.tie(NULL);
-  int n; cin >> n;
+  ll n; cin >> n;
   // n & 1 == 0 (bitwise AND)
   // (n >> 1) * 2 == n (right shift)
   // (n / 2) * 2 == n (integer division)

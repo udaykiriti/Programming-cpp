@@ -1,47 +1,47 @@
 
-# 📦 Git Basics & Setup
+#  Git Basics & Setup -------------------------------------------------------------------
 
-git init                               # Initialize a new git repository locally
-git clone <repo-url>                   # Clone an existing remote repository
-git config --global user.name "Name"  # Set your global git username
+git init                                            # Initialize a new git repository locally
+git clone <repo-url>                                # Clone an existing remote repository
+git config --global user.name "Name"                # Set your global git username
 git config --global user.email "email@example.com"  # Set your global email
 git config --global core.editor "code --wait"       # Set VS Code as default editor
 
-# 🔄 Remote Interaction
+#  Remote Interaction -------------------------------------------------------------------
 
-git remote -v                         # List all remotes and their URLs
-git remote add origin <repo-url>     # Add a remote repo called 'origin'
-git fetch                            # Fetch all remote branches without merging
-git fetch --prune                   # Fetch and clean deleted remote branches locally
-git pull origin <branch>            # Fetch and merge remote branch into current branch
-git push origin <branch>            # Push your local branch to remote
-git push -u origin <branch>         # Push and set upstream tracking branch
-git push origin --delete <branch>   # Delete a remote branch
+git remote -v                            # List all remotes and their URLs
+git remote add origin <repo-url>         # Add a remote repo called 'origin'
+git fetch                                # Fetch all remote branches without merging
+git fetch --prune                        # Fetch and clean deleted remote branches locally
+git pull origin <branch>                 # Fetch and merge remote branch into current branch
+git push origin <branch>                 # Push your local branch to remote
+git push -u origin <branch>              # Push and set upstream tracking branch
+git push origin --delete <branch>        # Delete a remote branch
 
 
-# 📥 Fetch & Pull
+#  Fetch & Pull -------------------------------------------------------------------
 
 git fetch                                # Fetch latest from remote (no merge)
 git pull origin <branch-name>            # Fetch and merge changes
 
-# 📤 Push
+#  Push -------------------------------------------------------------------
 
 git push origin <branch-name>            # Push current branch to remote
 git push -u origin <branch-name>         # Push and set upstream
 
-# 🌿 Branch Management
+#  Branch Management-------------------------------------------------------------------
 
 
-git branch                          # List local branches
-git branch -r                       # List remote branches
-git branch -a                       # List all branches (local + remote)
-git branch <new-branch>             # Create a new branch (locally)
-git checkout <branch>               # Switch to an existing branch
-git checkout -b <new-branch>        # Create and switch to a new branch (older style)
-git switch <branch>                 # Switch branch (modern)
-git switch -c <new-branch>          # Create and switch (modern)
-git branch -d <branch>              # Delete a local branch (only if merged)
-git branch -D <branch>              # Force delete a local branch (even if unmerged)
+git branch                               # List local branches
+git branch -r                            # List remote branches
+git branch -a                            # List all branches (local + remote)
+git branch <new-branch>                  # Create a new branch (locally)
+git checkout <branch>                    # Switch to an existing branch
+git checkout -b <new-branch>             # Create and switch to a new branch (older style)
+git switch <branch>                      # Switch branch (modern)
+git switch -c <new-branch>               # Create and switch (modern)
+git branch -d <branch>                   # Delete a local branch (only if merged)
+git branch -D <branch>                   # Force delete a local branch (even if unmerged)
 
 git branch                               # List local branches
 git branch -r                            # List remote branches
@@ -53,25 +53,25 @@ git switch <branch>                      # Modern way to switch
 git switch -c <new-branch>               # Modern way to create + switch
 git branch -d branch-name                # Delete A branch
 
-# 🔀 Merging
+#  Merging-------------------------------------------------------------------
 
 git checkout main                        # Switch to main branch
-git merge <feature-branch>              # Merge feature into current branch
+git merge <feature-branch>               # Merge feature into current branch
 git merge --no-commit --no-ff <branch>   # Dry run merge
 git merge --abort                        # Abort merge if conflicts
 
-# ⚔️ Conflict Resolution
+#  Conflict Resolution-------------------------------------------------------------------
 
 # After resolving conflicts:
 git add <file>
 git commit
 
-# 🧹 Delete Branch
+#  Delete Branch -------------------------------------------------------------------
 
 git branch -d <branch>                   # Delete local branch
 git push origin --delete <branch>        # Delete remote branch
 
-# 📜 Logs and History
+#  Logs and History -------------------------------------------------------------------
 
 git log                                  # Full commit history
 git log --oneline --graph --all          # Visual branch graph
@@ -79,24 +79,24 @@ git status                               # Show current changes
 git diff                                 # Show unstaged changes
 git show <commit-hash>                   # Show a specific commit
 
-# 🗑️ Undo & Reset
+#  Undo & Reset -------------------------------------------------------------------
 
 git reset --hard HEAD                    # Reset to last commit (dangerous)
 git checkout -- <file>                   # Discard changes to a file
-git checkout -- <file>           # Discard changes in working directory for a file
-git reset HEAD <file>            # Unstage a staged file (keep changes in working dir)
-git reset --soft HEAD~1          # Undo last commit but keep changes staged
-git reset --mixed HEAD~1         # Undo last commit and unstage changes
-git reset --hard HEAD~1          # Undo last commit and discard all changes (dangerous!)
+git checkout -- <file>                   # Discard changes in working directory for a file
+git reset HEAD <file>                    # Unstage a staged file (keep changes in working dir)
+git reset --soft HEAD~1                  # Undo last commit but keep changes staged
+git reset --mixed HEAD~1                 # Undo last commit and unstage changes
+git reset --hard HEAD~1                  # Undo last commit and discard all changes (dangerous!)
 
 
-# ✅ Staging & Committing
+#  Staging & Committing -------------------------------------------------------------------
 
 git add .                                # Stage all files
 git add <file>                           # Stage one file
 git commit -m "Your message"             # Commit staged changes
 
-# 🚀 Feature Branch Workflow
+# Feature Branch Workflow-------------------------------------------------------------------
 
 git checkout main
 git pull origin main
@@ -114,11 +114,11 @@ git push origin main
 git branch -d feature-xyz
 git push origin --delete feature-xyz
 
-⚔️ Git Merge Conflict Resolution Cheat Sheet
+Git Merge Conflict Resolution Cheat Sheet
 ============================================
 
-🔍 Detecting Conflicts
-----------------------
+Detecting Conflicts
+---------------------------------------------------
 To merge or pull and possibly create conflicts:
     git pull origin <branch>
     # or
@@ -128,8 +128,8 @@ If there are conflicts, Git will show:
     CONFLICT (content): Merge conflict in <file>
     Automatic merge failed; fix conflicts and then commit the result.
 
-🧑‍💻 Fixing Conflicts
----------------------
+Fixing Conflicts
+---------------------------------------------------------
 Open each conflicted file and resolve manually. Look for markers like:
     <<<<<<< HEAD
     // your local changes
@@ -139,19 +139,19 @@ Open each conflicted file and resolve manually. Look for markers like:
 
 Edit to keep the correct content and remove these markers.
 
-✅ Mark as Resolved
--------------------
+Mark as Resolved
+----------------------------------------------------
 After fixing each file:
     git add <file>
 
-💾 Commit the Merge
--------------------
+Commit the Merge
+----------------------------------------------------
 Finish the merge with:
     git commit
     # This will open the merge editor; save and close it.
 
-💡 Optional Tools
------------------
+Optional Tools
+----------------------------------------------------
 Keep YOUR version:
     git checkout --ours <file>
     git add <file>
@@ -160,13 +160,13 @@ Keep THEIR version:
     git checkout --theirs <file>
     git add <file>
 
-🧼 Abort the Merge
-------------------
+Abort the Merge
+----------------------------------------------------
 If you want to cancel the merge:
     git merge --abort
 
-🧪 Example Flow
-----------------
+Example Flow
+----------------------------------------------------
     git pull origin main
     # Fix conflicts in each file manually
     git add 1327A.cpp
@@ -175,15 +175,15 @@ If you want to cancel the merge:
     git commit
     git push origin main
 
-✅ Done!
+Done!
 
-📝 Saving and Exiting in Vim During Git Merge Commit
+Saving and Exiting in Vim During Git Merge Commit
 ====================================================
 
 When Git prompts for a commit message (e.g., during a merge), it often opens the default editor: Vim.
 
 What does `:wq` mean?
-----------------------
+----------------------------------------------
 In Vim:
   :w  - Writes (saves) the file.
   :q  - Quits the editor.
@@ -191,15 +191,15 @@ In Vim:
 So, `:wq` saves your commit message and exits Vim.
 
 Steps to Use `:wq` After a Merge Conflict
-------------------------------------------
+----------------------------------------------
 1. Type your commit message (or leave the default one).
 2. Press `Esc` (to ensure you're not in insert mode).
 3. Type `:wq` and press `Enter`.
 
-✅ This completes the merge and exits the editor.
+This completes the merge and exits the editor.
 
 Alternative Editors for Git
-----------------------------
+-----------------------------------------------
 To avoid Vim and use a simpler editor like VS Code or Nano:
 
 Set VS Code as Git editor:
