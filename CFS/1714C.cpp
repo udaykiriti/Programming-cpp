@@ -1,17 +1,7 @@
-// Problem: C. Minimum Varied Number
-// Contest: Codeforces Round 811 (Div. 3) - Problem 1714C
-// LINK: https://codeforces.com/contest/1714/problem/C
-
 #include <bits/stdc++.h>
 using namespace std;
-
-#define fast_io                \
-  ios::sync_with_stdio(false); \
-  cin.tie(nullptr);            \
-  cout.tie(nullptr)
-#define int long long
+#define ll long long
 #define endl '\n'
-#define EXIT return 0
 
 void solve()
 {
@@ -30,8 +20,9 @@ void solve()
 
 int32_t main()
 {
-  fast_io;
-  int t; cin >> t;
+  ios::sync_with_stdio(false); 
+  cin.tie(nullptr); cout.tie(nullptr);
+  ll t; cin >> t;
   while (t--) solve();
-  EXIT;
+  return 0;
 }
