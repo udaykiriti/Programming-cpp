@@ -1,9 +1,11 @@
+5
+5
+bbbab
+6
+bbaaba
 4
-4 2
-01
-3 2
-22
-1 1
-2
-7 5
-01201
+aaaa
+12
+aabbaaabbaab
+5
+aabaa
