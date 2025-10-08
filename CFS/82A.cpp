@@ -8,15 +8,15 @@ int main()
   cin.tie(NULL); cout.tie(NULL);
   int n; cin >> n;
   vector<string> names = {"Sheldon", "Leonard", "Penny", "Rajesh", "Howard"};
-  int i = 0, group_size = 1;
+  int i = 0, groupSZ = 1;
 
-  while (n > group_size * 5)
+  while (n > groupSZ * 5)
   {
-    n -= group_size * 5;
-    group_size *= 2;
+    n -= groupSZ * 5;
+    groupSZ *= 2;
   }
 
-  int index = (n - 1) / group_size;
+  int index = (n - 1) / groupSZ;
   cout << names[index] << endl;
   return 0;
 }
