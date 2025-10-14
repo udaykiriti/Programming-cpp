@@ -1,16 +1,20 @@
-#include <bits\stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+#define ll long long
+#define endl '\n'
 
-int main(int argc, char const *argv[])
+int main()
 {
-    int t;
-    long long a, b, k;
-    cin >> t;
-    while (t--)
+    int t; cin >> t;
+    ll a, b, k, TwoSteps;
+    while(t--)
     {
-        cin >> a >> b >> k;
-        cout << (long long)((a * ceil(k / 2.0)) - (b * (k / 2))) << "\n";
+        cin >> a >> b>> k;
+        TwoSteps = a - b;
+        if(k % 2 == 0) 
+            cout << TwoSteps * k / 2 << endl;
+        else 
+            cout << TwoSteps * (k / 2) + a << endl;
     }
-
     return 0;
 }
