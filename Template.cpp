@@ -124,6 +124,7 @@ void _timer_(){
 
 //#define TIME
 //#define PRAGMA
+#define ONPC
 
 #ifdef PRAGMA
 #pragma GCC optimize("O3")
@@ -134,20 +135,24 @@ void _timer_(){
 
 void solve(void) {
     // Solution Here.....
-    
+    int n; cin>>n;
+    string s; cin>>s;
+    FOR(i,0,s.size()){
+        s[i]=='U' ? s[i]='D' : s[i] == 'D' ? s[i]='U' : s[i]=s[i];
+    } cout << s <<endl;
 }
 
 int main(int argc , char *argv[]) {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr); cout.tie(nullptr);
-    #ifdef TIME
+    #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout<<"===========================Compilation Done==============================="<<endl;
     #endif
     int t(1),tcase(0); cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
-            cout<<"[testcase: "<<tcase<<"]---------------------------------";
+            cout << "[testcase: " << tcase <<"]---------------------------------";
             _timer_();
         #endif
         solve();
