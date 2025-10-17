@@ -176,10 +176,8 @@ void solve() {
 
 // Main Function
 int main() {
-    stop_sync;
-    untie_ios;
-    int t;
-    cin >> t;
+    stop_sync; untie_ios;
+    int t; cin >> t;
     while (t--) solve();
     return 0;
 }

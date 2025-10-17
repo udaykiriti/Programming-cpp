@@ -13,7 +13,7 @@ int main() {
     int a, b;
     while (n--){
       cin >> a >> b;
-      if (b >= a c++;
+      if (b >= a)c++;
     }
     cout << t - c << endl;
   } return 0;
