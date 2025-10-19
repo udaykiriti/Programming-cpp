@@ -1,23 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
+#define endl '\n'
 
-void solve()
-{
-  int t; cin >> t;
-  while (t--)
-  {
+void solve() {
     ll a, b; cin >> a >> b;
-    ll total = a + b;
-    ll teams = min({a, b, total / 4});
-    cout << teams << '\n';
-  }
+    cout << min(min(a,b),(a+b)/4) << endl;
 }
 
-int main()
-{
+int main() {
   ios::sync_with_stdio(false);
-  cin.tie(NULL); cout.tie(NULL);
-  solve();
-  return 0;
+  cin.tie(0); cout.tie(0);
+  int t(1),tcase(0); cin>>t;
+  while(++tcase,t--) solve();
+  return 0; 
 }
