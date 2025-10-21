@@ -80,7 +80,6 @@ using sc = set<char>;
 #define SCANA(x)             for (auto &i : x) cin >> i
 
 // Math Utilities
-#define gcd(a, b)            __gcd(a, b)
 #define lcm(a, b)            ((a) * ((b) / gcd((a), (b))))
 #define popcount(x)          __builtin_popcountll(x)
 #define ctz(x)               __builtin_ctzll(x)
@@ -92,10 +91,68 @@ using sc = set<char>;
 #define isOdd(x)             ((x) % 2 != 0)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-// Binary Search Shorthand
-#define bin_sc(a, x)         binary_search(all(a), x)
-#define lbd(a, x)            lower_bound(all(a), x)
-#define ubd(a, x)            upper_bound(all(a), x)
+// Base case: print primitive types
+void __print(int x) { std::cout << x; }
+void __print(long x) { std::cout << x; }
+void __print(long long x) { std::cout << x; }
+void __print(unsigned x) { std::cout << x; }
+void __print(unsigned long x) { std::cout << x; }
+void __print(unsigned long long x) { std::cout << x; }
+void __print(float x) { std::cout << x; }
+void __print(double x) { std::cout << x; }
+void __print(long double x) { std::cout << x; }
+void __print(char x) { std::cout << x; }
+void __print(const char* x) { std::cout << x; }
+void __print(const std::string& x) { std::cout << x; }
+void __print(bool x) { std::cout << (x ? "true" : "false"); }
+
+// STL containers (you can add more as needed)
+template <typename T>
+void __print(const std::vector<T>& v) {
+    std::cout << "[";
+    for (size_t i = 0; i < v.size(); ++i) {
+        __print(v[i]);
+        if (i + 1 != v.size()) std::cout << ", ";
+    }
+    std::cout << "]";
+}
+
+template <typename T>
+void __print(const std::set<T>& s) {
+    std::cout << "{";
+    size_t i = 0;
+    for (const auto& el : s) {
+        __print(el);
+        if (++i != s.size()) std::cout << ", ";
+    }
+    std::cout << "}";
+}
+
+template <typename K, typename V>
+void __print(const std::map<K, V>& m) {
+    std::cout << "{";
+    size_t i = 0;
+    for (const auto& [key, value] : m) {
+        __print(key);
+        std::cout << ": ";
+        __print(value);
+        if (++i != m.size()) std::cout << ", ";
+    }
+    std::cout << "}";
+}
+
+// Variadic version to print multiple things
+template <typename T, typename... Args>
+void __print(T&& first, Args&&... rest) {
+    __print(std::forward<T>(first));
+    std::cout << " ";
+    __print(std::forward<Args>(rest)...);
+}
+
+// Final case for 0 arguments (do nothing)
+void __print() {
+    std::cout << std::endl;
+}
 
 // Utility Functions
 ll gcd(ll a, ll b){return b==0?a:gcd(b,a%b);}
@@ -135,11 +192,7 @@ void _timer_(){
 
 void solve(void) {
     // Solution Here.....
-    int n; cin>>n;
-    string s; cin>>s;
-    FOR(i,0,s.size()){
-        s[i]=='U' ? s[i]='D' : s[i] == 'D' ? s[i]='U' : s[i]=s[i];
-    } cout << s <<endl;
+
 }
 
 int main(int argc , char *argv[]) {
