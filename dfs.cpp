@@ -9,12 +9,12 @@ vector<int> adj[N];
 // visited array to mark nodes as visited during DFS
 bool visited[N];
 
-// DFS function: prints nodes reachable from 'node'
+//Print Nodes
 void dfs(int node) {
     visited[node] = true;
     cout << node << " ";
-
-    // Explore all neighbors of current node
+    
+    // Curr node to all edges
     for (int neighbor : adj[node]) {
         if (!visited[neighbor]) {
             dfs(neighbor);
@@ -27,7 +27,7 @@ int main() {
     cin.tie(0); cout.tie(0);
 
     int n, m;  
-    cin >> n >> m;  // number of nodes and edges
+    cin >> n >> m;  // number of nodes(vertices) and edges
 
     // Read edges and build adjacency list
     for (int i = 0; i < m; ++i) {
