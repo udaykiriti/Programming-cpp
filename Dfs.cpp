@@ -1,22 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 const int N = 1e5 + 5;
 
 // Adjacency list for unweighted graph: array of vectors
 vector<int> adj[N];
 //vector<pair<int, int>> adj[N]; // adj[u] = list of (neighbor, weight) pairs
 // visited array to mark nodes as visited during DFS
-bool visited[N];
+bool ok[N];
 
 //Print Nodes
 void dfs(int node) {
-    visited[node] = true;
+    ok[node] = true;
     cout << node << " ";
     
     // Curr node to all edges
     for (int neighbor : adj[node]) {
-        if (!visited[neighbor]) {
+        if (!ok[neighbor]) {
             dfs(neighbor);
         }
     }
@@ -26,13 +25,10 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
 
-    int n, m;  
-    cin >> n >> m;  // number of nodes(vertices) and edges
-
+    int n, m; cin >> n >> m;
     // Read edges and build adjacency list
     for (int i = 0; i < m; ++i) {
-        int u, v; 
-        cin >> u >> v;
+        int u, v; cin >> u >> v;
 
         adj[u].push_back(v);  // edge u -> v
 
@@ -51,9 +47,7 @@ int main() {
     }
     */
 
-    int start; 
-    cin >> start;  // Starting node for DFS
-    dfs(start);  // Run DFS and print nodes reachable from start
-
+    int start; cin >> start; 
+    dfs(start); 
     return 0;
 }
