@@ -92,66 +92,66 @@ using sc = set<char>;
 #define uceil(a, b)          ((a + b - 1) / (b))
 
 // Base case: print primitive types
-void __print(int x) { std::cout << x; }
-void __print(long x) { std::cout << x; }
-void __print(long long x) { std::cout << x; }
-void __print(unsigned x) { std::cout << x; }
-void __print(unsigned long x) { std::cout << x; }
-void __print(unsigned long long x) { std::cout << x; }
-void __print(float x) { std::cout << x; }
-void __print(double x) { std::cout << x; }
-void __print(long double x) { std::cout << x; }
-void __print(char x) { std::cout << x; }
-void __print(const char* x) { std::cout << x; }
-void __print(const std::string& x) { std::cout << x; }
-void __print(bool x) { std::cout << (x ? "true" : "false"); }
+void __print(int x) { cout << x; }
+void __print(long x) { cout << x; }
+void __print(long long x) { cout << x; }
+void __print(unsigned x) { cout << x; }
+void __print(unsigned long x) { cout << x; }
+void __print(unsigned long long x) { cout << x; }
+void __print(float x) { cout << x; }
+void __print(double x) { cout << x; }
+void __print(long double x) { cout << x; }
+void __print(char x) { cout << x; }
+void __print(const char* x) { cout << x; }
+void __print(const string& x) { cout << x; }
+void __print(bool x) { cout << (x ? "true" : "false"); }
 
 // STL containers (you can add more as needed)
 template <typename T>
-void __print(const std::vector<T>& v) {
-    std::cout << "[";
+void __print(const vector<T>& v) {
+    cout << "[";
     for (size_t i = 0; i < v.size(); ++i) {
         __print(v[i]);
-        if (i + 1 != v.size()) std::cout << ", ";
+        if (i + 1 != v.size()) cout << ", ";
     }
-    std::cout << "]";
+    cout << "]";
 }
 
 template <typename T>
-void __print(const std::set<T>& s) {
-    std::cout << "{";
+void __print(const set<T>& s) {
+    cout << "{";
     size_t i = 0;
     for (const auto& el : s) {
         __print(el);
-        if (++i != s.size()) std::cout << ", ";
+        if (++i != s.size()) cout << ", ";
     }
-    std::cout << "}";
+    cout << "}";
 }
 
 template <typename K, typename V>
-void __print(const std::map<K, V>& m) {
-    std::cout << "{";
+void __print(const map<K, V>& m) {
+    cout << "{";
     size_t i = 0;
     for (const auto& [key, value] : m) {
         __print(key);
-        std::cout << ": ";
+            cout << ": ";
         __print(value);
-        if (++i != m.size()) std::cout << ", ";
+        if (++i != m.size()) cout << ", ";
     }
-    std::cout << "}";
+        cout << "}";
 }
 
 // Variadic version to print multiple things
 template <typename T, typename... Args>
 void __print(T&& first, Args&&... rest) {
-    __print(std::forward<T>(first));
-    std::cout << " ";
-    __print(std::forward<Args>(rest)...);
+    __print(forward<T>(first));
+        cout << " ";
+    __print(forward<Args>(rest)...);
 }
 
 // Final case for 0 arguments (do nothing)
 void __print() {
-    std::cout << std::endl;
+    cout << endl;
 }
 
 // Utility Functions
@@ -192,12 +192,13 @@ void _timer_(){
 
 void solve(void) {
     // Solution Here.....
-
+    vi vec = {1,2,3,2,4,3};
+    __print(vec);
 }
 
 int main(int argc , char *argv[]) {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout<<"===========================Compilation Done==============================="<<endl;
