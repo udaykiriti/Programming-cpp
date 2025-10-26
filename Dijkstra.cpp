@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define endl '\n'
 
-typedef pair<int, int> pii; // (distance, node)
+typedef pair<int, int> pii; 
 
-// Dijkstra's algorithm
 vector<int> dijkstra(int n, vector<vector<pii>>& adj, int start) {
     vector<int> dist(n + 1, INT_MAX);
     dist[start] = 0;
@@ -37,12 +37,10 @@ int main() {
     cin.tie(0); cout.tie(0);
 
     int n, m;
-    cout << "Enter number of nodes and edges: ";
     cin >> n >> m;
 
     vector<vector<pii>> adj(n + 1);
 
-    cout << "Enter edges (u v w):\n";
     for (int i = 0; i < m; i++) {
         int u, v, w;
         cin >> u >> v >> w;
@@ -51,16 +49,14 @@ int main() {
     }
 
     int start;
-    cout << "Enter start node: ";
     cin >> start;
 
     vector<int> dist = dijkstra(n, adj, start);
 
-    cout << "\nShortest distances from node " << start << ":\n";
     for (int i = 1; i <= n; i++) {
         cout << "Node " << i << ": ";
-        if (dist[i] == INT_MAX) cout << "INF\n";
-        else cout << dist[i] << "\n";
+        if (dist[i] == INT_MAX) cout << "INF" <<endl;
+        else cout << dist[i] << endl;
     }
 
     return 0;
