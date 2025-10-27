@@ -1,6 +1,6 @@
 /******************************
  *    author:  uday           *
- *    created: 27 11:26:38    *
+ *    created: 27 11:30:48    *
  ******************************/
 
 // g++ -std=c++17 new.cpp -o new
@@ -22,28 +22,12 @@ using namespace std;
 
 void solve(){
    //solution here.........
-  int n; cin >> n;
-  vector<ll> vec(n);
-  for (int i = 0; i < n; ++i) cin >> vec[i];
-  ll sum = 0;
-  int ops = 0;
-  bool isNi = false;
-
-  for (int i = 0; i < n; ++i)
-  {
-    sum += abs(vec[i]);
-
-    if (vec[i] < 0 && !isNi)
-    {
-      isNi = true;
-      ops++;
-    }
-    else if (vec[i] > 0)
-    {
-      isNi = false;
-    }
-  }
-  cout << sum << " " << ops << "\n";
+   ll a,b; 
+   cin>>a>>b;
+   ll res;
+   if(a==b && a==1) res=1;
+   else res=b-a;
+   cout<< res << endl;
 }
 
 int main(){

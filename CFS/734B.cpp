@@ -1,6 +1,6 @@
 /******************************
  *    author:  uday           *
- *    created: 27 11:26:38    *
+ *    created: 27 19:39:14    *
  ******************************/
 
 // g++ -std=c++17 new.cpp -o new
@@ -22,34 +22,26 @@ using namespace std;
 
 void solve(){
    //solution here.........
-  int n; cin >> n;
-  vector<ll> vec(n);
-  for (int i = 0; i < n; ++i) cin >> vec[i];
-  ll sum = 0;
-  int ops = 0;
-  bool isNi = false;
-
-  for (int i = 0; i < n; ++i)
-  {
-    sum += abs(vec[i]);
-
-    if (vec[i] < 0 && !isNi)
-    {
-      isNi = true;
-      ops++;
-    }
-    else if (vec[i] > 0)
-    {
-      isNi = false;
-    }
-  }
-  cout << sum << " " << ops << "\n";
+   ll k2,k3,k5,k6;
+   cin >> k2 >> k3 >> k5 >> k6;
+   ll a = min(k2,k5);
+   ll b = min(a,k6);
+   ll x = b * 256;
+   ll d = k2-b;
+   if(d > 0){
+        ll c = min(d,k3);
+        ll y = c*32;
+        cout << x+y << endl;
+   }
+   else{
+    cout<<x<<endl;
+   }
 }
 
 int main(){
     //freopen("in.txt","r",stdin);
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
-    int t(1), tcase(0); cin>>t;
+    int t(1), tcase(0); //cin>>t;
     while (++tcase, t--) solve();
 }
