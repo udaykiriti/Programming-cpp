@@ -7,7 +7,9 @@ using namespace std;
 void dfs(int u , int p, vi G[],vi &s){
     s[u] = 1;
     for(int v : G[u]){
-        if(v==p) continue;
+        if(v==p){
+             continue;
+        }
         dfs(v,u,G,s);
         s[u]+=s[v];
     }
