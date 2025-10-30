@@ -98,7 +98,9 @@ using sc = set<char>;
 #define oms_rank(ms, val) ms.order_of_key({val, 0})
 */
 
+#define FastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie()
 
+// Output Utilities
 #define FIXED(x) cout << fixed << setprecision(x)
 #define _flush endl
 #define endl '\n'
@@ -107,6 +109,7 @@ using sc = set<char>;
 #define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
 #define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
 
+// Macros & Constants
 #define MOD 1000000000
 #define PI  3.141592653589793
 #define INF 1000000000000000000LL
@@ -241,6 +244,12 @@ void _timer_(){
 
 void solve(void) {
     // Solution Here.....
+    ll k,x;
+    cin >> k >>x;
+    while(k--) {
+        x *= 2;
+    }
+    cout << x << '\n';
 }
 
 int main(int argc , char *argv[]) {
