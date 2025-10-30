@@ -5,7 +5,7 @@
 
 // g++ -std=c++17 new.cpp -o new
 // ./new
-//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name
 //./file-name
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
@@ -26,7 +26,6 @@ void solve(){
     int n; cin >> n;
     vector<vi> g(n + 1);
     vector<vector<int>> arr(n + 1, vector<int>(n + 1, 0));
-
     for (int i = 0; i < n - 1; i++) {
         int a, b;
         cin >> a >> b;
@@ -50,7 +49,7 @@ void solve(){
 
     while (!u.empty() && j != n) {
         int k = u.front();
-        
+
         for (size_t i = (k == 1 ? 0 : 1); i < (g[k].size()); i++) {
             if (arr[k][vec[j]] != 1) {
                 cout << "NO";
@@ -72,7 +71,7 @@ void solve(){
 }
 
 int main(){
-    //freopen("in.txt","r",stdin);
+    //freopen("in.txt","r",stdin);curl -f https://zed.dev/install.sh | sh
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); //cin>>t;

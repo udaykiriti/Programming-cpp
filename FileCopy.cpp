@@ -5,7 +5,7 @@
 
 // g++ -std=c++17 new.cpp -o new
 // ./new
-//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name
 //./file-name
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
