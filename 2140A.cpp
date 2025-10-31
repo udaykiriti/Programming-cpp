@@ -246,7 +246,20 @@ void _timer_(){
 #endif
 
 void solve(void) {
-    // Solution Here.....
+	int n;
+	cin >> n;
+	string s;
+	cin >> s;
+	int y(0),c(0);
+	for(char ch : s){
+		if(ch == '0')
+			y++;
+	}
+	for(int i=0;i<y;i++){
+		if(s[i] == '1')
+			c++;
+	}
+	cout << c << endl;
 }
 
 int main(int argc , char *argv[]) {

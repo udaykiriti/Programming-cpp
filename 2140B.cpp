@@ -246,7 +246,9 @@ void _timer_(){
 #endif
 
 void solve(void) {
-    // Solution Here.....
+	int n;
+	cin >> n;
+	cout << 2 * n << endl;
 }
 
 int main(int argc , char *argv[]) {
