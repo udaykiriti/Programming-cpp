@@ -3,40 +3,36 @@ using namespace std;
 #define endl '\n'
 #define ll long long
 
-void solve();
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
 
-int main(){
-  ios_base::sync_with_stdio(false);
-  cin.tie(0);
-  cout.tie(0);
-  int t;
-  cin >> t;
-  while (t--) {
-    solve();
-  }
-}
+    int t(1),tcase(0);
+    cin >> t;
 
-void solve(){
-  int n;
-  cin >> n;
-  if(n <  2) {
-    cout << "NO" << '\n';
-    return ;
-  }
+    while(++tcase,t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n - 2);
+        for (int &x : a) cin >> x;
+        bool ok = true;
+        for (int i = 0; i < n - 2;) {
+            if (a[i] == 1) {
+                ++i;
+                int cnt = 0;
+                while (i < n - 2 && a[i] != 1) {
+                    ++cnt; ++i;
+                }
+                if (cnt && cnt < 2 && i < n - 2 && a[i] == 1)
+                    ok = false;
+            } else {
+                ++i;
+            }
+        }
 
-  vector <int> vec(n-2);
-  for(int i = 0 ; i < n-2 ; i++){
-    if(!(cin >> vec[i]))
-      return;
-  }
-
-  bool ok = true;
-  for(int i = 0 ; i < n-3 ; i++){
-    if(vec[i] == 1 && vec[i+1] == 0 && vec[i+2] == 1){
-      ok = false;
-      break;
+        cout << (ok ? "YES\n" : "NO\n");
     }
-  }
-  if(ok) cout << "YES" << endl;
-  else cout << "NO" << endl;
+
+    return 0;
 }
