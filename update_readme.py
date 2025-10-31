@@ -14,7 +14,6 @@ def custom_sort_key(file_names):
     # Convert letters to lowercase for case-insensitive sorting
     parts = [p.lower() if not p.isdigit() else p for p in parts]
     
-    # Apply priority order to characters
     parts = [(priority_order[c] if c in priority_order else c) for c in parts]
     
     return parts
@@ -55,7 +54,7 @@ def update_readme(readme_path, new_files):
     updated_readme_lines = readme_lines[:start_index+2] + sorted_files + readme_lines[end_index-1:]
 
     with open(readme_path, 'w') as f:
-        f.writelines(updated_readme_lines)
+        f.writelines(updated_readme_lines):        
 
 if __name__ == "__main__":
     readme_path = "README.md"

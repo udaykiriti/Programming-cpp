@@ -1,4 +1,4 @@
-/******************************
+/*******************************
  *    author:  -----          *
  *    created: 25 14:47:25    *
  ******************************/
@@ -71,7 +71,7 @@ void solve(){
 }
 
 int main(){
-    //freopen("in.txt","r",stdin);curl -f https://zed.dev/install.sh | sh
+    //freopen("in.txt","r",stdin);;
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); //cin>>t;

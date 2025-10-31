@@ -41,7 +41,6 @@ void solve() {
     if (h == 1) {
         h = 2;
     }
-
     while (l <= r) {
         int mid = (l + r) / 2;
         if (check(mid, d)) {
