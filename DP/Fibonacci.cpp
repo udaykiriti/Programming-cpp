@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define endl '\n'
+
 
 int f(int n , vector<int> &dp){
     if(n <= 1) return 1;
@@ -9,10 +11,6 @@ int f(int n , vector<int> &dp){
 
 int main()
 {
-    #ifndef ONLINE_JUDGE
-    freopen("in.txt","r",stdin);
-    freopen("out.txt","w",stdout);
-    #endif
     int n; cin>>n;
     vector<int> dp(n+1,-1);
     cout<< f(n,dp)<<endl;
