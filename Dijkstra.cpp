@@ -44,13 +44,15 @@ int main() {
     for (int i = 0; i < m; i++) {
         int u, v, w;
         cin >> u >> v >> w;
-        adj[u].push_back({v, w});
-        adj[v].push_back({u, w}); // comment this line if graph is directed
-    }
 
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+
+    }
+    /*
     int start;
     cin >> start;
-
+    */
     vector<int> dist = dijkstra(n, adj, start);
 
     for (int i = 1; i <= n; i++) {
