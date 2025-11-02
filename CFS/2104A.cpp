@@ -54,56 +54,46 @@
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
 
-/*
-  author:  -----          
-  created: 02 10:48:19    
-*/
-
 #include <bits/stdc++.h>
-#define MAXM 100005
-typedef long long ll;
-
 using namespace std;
+#define ll long long
 
-pair <int , int> dp [MAXM];
-int n,m,ans = 0;
-char num [5];
-int p = 0 , q = 0 ;
+void solve(){
+  int a,b,c;
+  cin >> a >> b >> c;
+  int ToT = a + b + c;
+  int req = ToT / 3;
+  if(ToT % 3 != 0){
+    cout << "NO" << '\n';
+    return ;
+  }
+  int wth = c - req;
+  if(b > req){
+    cout << "NO" << '\n';
+    return ;
+  }
+  wth -= (req - b);
+  if(a > req){
+    cout << "NO" << '\n';
+    return ;
+  }
+  a +=  wth;
+  
+  if(a!=req){
+    cout << "NO" << '\n';
+    return ;
+  }
+  cout << "YES" << '\n';
+}
 
-string str;
-
-vector <int> arr [MAXM];
-
-
-
-int main()
-{
-	ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
-	
-	int t;
-	cin>>t;
-	for (int i = 1 ; i <= t ; i++)
-	{
-		int a,b;
-		cin>>a>>b;
-		dp[i] = {a , b};
-	}
-	for (int i = 1 ; i <= t ; i++)
-	{
-		if(i == 1 || i == t){
-			ans++;
-        }
-		else if(dp[i-1].first < dp[i].first-dp[i].second){
-			ans++;
-        }
-		else if(dp[i].first + dp[i].second < dp[i+1].first)
-		{
-			ans++;
-			dp[i].first += dp[i].second;
-		}
-	}
-	
-	cout<<ans<<endl;
-	
-	return 0;
+int main (int argc, char *argv[]) {
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);
+  cout.tie(0);
+  int t(1);
+  cin >> t;
+  while(t--) {
+    solve();
+  }
+  return 0;
 }
