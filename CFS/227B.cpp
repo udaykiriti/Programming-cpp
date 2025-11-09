@@ -1,5 +1,4 @@
 
-
 /*
 ....................................................................................................
 ....                                                                                               .
@@ -56,48 +55,56 @@
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
 
+
 /*
   author:  -----          
-  created: 09 11:15:56    
+  created: 09 11:18:42    
 */
 
 
 
-#include<bits/stdc++.h>
+
+// g++ -std=c++17 new.cpp -o new
+// ./new
+//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+//./file-name
+#undef _GLIBCXX_DEBUG
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define endl '\n'
-#define debug(n) cout<<(n)<<endl;
-const ll INF = 2e18 + 99;
+
+#ifdef LOCAL
+#include "algo/debug.h"
+#else
+#define debug(...) 42
+#endif
+
+void solve(){
+   //soLuSHoNN hErE.........
+    int n;
+    if (!(cin >> n)) return ;
+    vector<int> pos(n + 1);
+    for (int i = 1; i <= n; ++i) {
+        int x; cin >> x;
+        pos[x] = i;
+    }
+
+    int m; cin >> m;
+    long long leftSum = 0, rightSum = 0;
+    for (int i = 0; i < m; ++i) {
+        int q; cin >> q;
+        int p = pos[q];
+        leftSum += p;              
+        rightSum += (n - p + 1);   
+    }
+
+    cout << leftSum << ' ' << rightSum << '\n';
+    return ;
+}
 
 int main(){
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL); cout.tie(NULL);
-  int t; cin>>t;
-  while(t--){
-    int n; cin>>n;
-    int H, M; cin>>H>>M;
-    int h, m;
-    int timeh, timem, mintimeh = 24, mintimem = 60;
-    while(n--){
-      cin>>h>>m;
-      timeh = h - H;
-      timem = m - M;
-      if(timem < 0){
-        timem += 60;
-        timeh--;
-      }
-      if(timeh < 0){
-        timeh += 24;
-      }
-      if(timeh < mintimeh){
-        mintimeh = timeh;
-        mintimem = timem;
-      }
-      else if(timeh == mintimeh && timem < mintimem){
-        mintimem = timem;
-      }
-    }
-    cout<<mintimeh<<" "<<mintimem<<endl;
-  }
+    //freopen("in.txt","r",stdin);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    int t(1), tcase(0); //cin>>t;
+    while (++tcase, t--) solve();
 }
