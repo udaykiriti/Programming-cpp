@@ -53,6 +53,14 @@
 ....................................................................................................
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
+
+/*
+  author:  -----          
+  created: 12 15:49:40    
+*/
+
+
+
 // g++ -std=c++17 new.cpp -o new
 // ./new
 //g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
@@ -60,9 +68,6 @@
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
-#define endl '\n'
-#define ll long long
-#define vi vector<int>
 
 #ifdef LOCAL
 #include "algo/debug.h"
@@ -70,37 +75,68 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-void solve(){
-    int n;
-    cin>>n;
-    vector<int> vec(n);
-    for(int i = 0 ; i < n ; i++){
-        cin>>vec[i];
-    }
-    int ret = 0;
-    sort(vec.begin(),vec.end());
-    do{
-        int p = vec[0];
-        for(int i = 1 ; i < n ; i++){
-            if(p == 0) break; 
-            p %= vec[i];
-        }
-        if(p != 0) {
-            ret = 1;
-            break;
-        }
-    }
-    while(next_permutation(vec.begin(),vec.end()));
+using i64 = long long;
+const int inf = 2e9 + 5;
+#define vi vector<int>
+#define pb push_back
 
-    if(ret) cout << "YES" << '\n';
-    else cout << "NO" << '\n';
+
+void solve(){
+   //soLuSHoNN hErE.........
+    int n;
+    cin >> n;
+    vector<vi> g(n + 5);
+    for (int i = 2; i <= n; i++) {
+        int u, v;
+        cin >> u >> v;
+        
+        g[u].pb(v);
+        g[v].pb(u);
+    }
+
+    set<pair<int, int>> se;
+    // store all exst edgs As ordd prs (u,v)..
+    for (int i = 1 ; i <= n; i++) {
+        for (auto& x : g[i])
+            se.insert({i, x}); // (i -> x)
+    }
+    vector<vi> v;
+
+    for (int i = 1; i <= n; i++) 
+        v.pb({ (int)g[i].size(), i });
+    sort(v.begin(), v.end(), greater<>());
+    // here v[0] has vertex with hight DeGree
+
+    int ans = 0;
+    for (size_t i = 0; i < v.size(); i++) {
+        for (size_t j = i + 1; j < v.size(); j++) {
+            /* 
+            if(a,b) not belongs to E -> ans = deg(a) + deg(b) -1
+            if(a,b)  belongs to E -> ans = deg(a) + deg(b) -2
+             */
+            auto it = se.find({v[i][1], v[j][1]});
+            if (it == se.end())
+                ans = max(ans, v[i][0] + v[j][0] - 1);
+            else 
+                ans = max(ans, v[i][0] + v[j][0] - 2);
+
+            // here v is sorted by desc ord ,if evn the curr pair
+
+            if (v[i][0] + v[j][0] - 1 < ans) {
+                //cout << ans << '\n';
+                break;
+            }
+        }
+    }
+    cout << ans << '\n';
 }
 
+
+
 int main(){
-    ios::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);
-    int tcase(0),t(1);
-    cin>>t;
-    while(++tcase,t--) solve();
-    return 0;
+    //freopen("in.txt","r",stdin);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    int t(1), tcase(0); cin>>t;
+    while (++tcase, t--) solve();
 }
