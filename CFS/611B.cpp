@@ -41,18 +41,21 @@
  #else
  #define debug(...) 42
  #endif
+ #define ll long long
+ ll a,b,num = 0;
  
+void dfs(ll x, int y){
+    if(x > b) return;
+    else if(x >= a and y == 1) num++;
+    if(y == 0) dfs(x<<1 , 1);
+    dfs((x<<1)+1,y);
+}
+
  void solve(){
     //soLuSHoNN hErE.........
-    ll a,b,res(0);
     cin >> a >> b;
-    for(ll i = 0 ;i <= 63 ; i++){
-        for(ll j = 0; j <= i-2 ; j++){
-            ll x = pow(2 ,i) - pow(2,j)-1;
-            if(x >= a && x <= b) res++;
-        }
-    }
-    cout << res << '\n';
+    dfs(1,0);
+    cout << num << '\n';
  }
  
  int main(){
