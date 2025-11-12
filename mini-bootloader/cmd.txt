@@ -1,0 +1,18 @@
+# 1) install Rust toolchain (rustup)
+curl https://sh.rustup.rs -sSf | sh   # if not installed
+source $HOME/.cargo/env
+
+# 2) add nightly toolchain and source
+rustup toolchain install nightly
+rustup component add rust-src --toolchain nightly
+
+# 3) install cargo-binutils if you want objdump/objcopy helpers (optional)
+cargo +nightly install cargo-binutils
+
+# 4) ensure cross toolchain exists (we assumed i686-elf-* tools):
+# either you installed cross via Fedora (rare) or built it earlier:
+which i686-elf-objcopy || echo "make sure i686-elf-objcopy is in PATH (from your cross toolchain)"
+
+# 5) verify qemu & nasm installed (you already installed earlier)
+nasm --version
+qemu-system-i386 --version
