@@ -1,3 +1,4 @@
+
 /*
 ....................................................................................................
 ....                                                                                               .
@@ -53,6 +54,13 @@
 ....................................................................................................
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
+
+/*
+  author:  -----          
+  created: 13 11:43:50    
+*/
+
+
 // g++ -std=c++17 new.cpp -o new
 // ./new
 //g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
@@ -60,9 +68,6 @@
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
-#define endl '\n'
-#define ll long long
-#define vi vector<int>
 
 #ifdef LOCAL
 #include "algo/debug.h"
@@ -70,36 +75,23 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-void solve(){
-    int n;
-    cin>>n;
-    vector<int> vec(n);
-    for(int i = 0 ; i < n ; i++){
-        cin>>vec[i];
-    }
-    int ret = 0;
-    sort(vec.begin(),vec.end());
-    do{
-        int p = vec[0];
-        for(int i = 1 ; i < n ; i++){
-            if(p == 0) break; 
-            p %= vec[i];
-        }
-        if(p != 0) {
-            ret = 1;
-            break;
-        }
-    }
-    while(next_permutation(vec.begin(),vec.end()));
+bool sp(int x , int y){
+    if(x == y) return 1;
+    if(x % 3 != 0 or x < y ) return 0;
+    return sp(x / 3 , y) or sp( (x / 3) * 2 , y);
+}
 
-    if(ret) cout << "YES" << '\n';
-    else cout << "NO" << '\n';
+void solve(){
+   //soLuSHoNN hErE.........
+   int n , m;
+   cin >> n >> m;
+   cout << (sp(n, m) ? "YES\n" : "NO\n");
 }
 
 int main(){
-    ios::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);
-    int tcase(0),t(1); cin>>t;
-    while(++tcase,t--) solve();
-    return 0;
+    //freopen("in.txt","r",stdin);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    int t(1), tcase(0); cin>>t;
+    while (++tcase, t--) solve();
 }

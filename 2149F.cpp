@@ -20,15 +20,14 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-int h,d,cnt;
+int h , d , cnt;
 ll cost;
 
 bool check(int mid, int n) {
     int round = n % (mid + 1);
     int x = n / (mid + 1);
 
-    cost = 1LL * round * (x + 1) * (x + 2) / 2
-            + 1LL * (mid + 1 - round) * (x + 1) * x / 2;
+    cost = 1LL * round * (x + 1) * (x + 2) / 2 + 1LL * (mid + 1 - round) * (x + 1) * x / 2;
 
     return cost <= (ll)h + mid - 1;
 }
