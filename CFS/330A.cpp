@@ -54,19 +54,18 @@
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
 
+
 /*
   author:  -----          
-  created: 14 14:32:10    
+  created: 14 10:41:19    
 */
 
 
-/*
-g++ -std=c++17 new.cpp -o new
-./new
-g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
-./file-name
-*/
 
+// g++ -std=c++17 new.cpp -o new
+// ./new
+//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+//./file-name
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
@@ -77,77 +76,43 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-using i64 = long long;
-const int inf = 2e9 + 5;
-#define vi vector<int>
-#define pb push_back
-
-const int mx=2e5+7;
-int in[mx];
-vector<int>adj[mx];
-
 void solve(){
    //soLuSHoNN hErE.........
-    int n;
-    cin >> n;
-    for(int i = 1 ; i <= n ; i++){
-        in[i] = 0;
-        adj[i].clear();
+    int r, c , cnt1(0) , cnt2(0);
+    cin >> r >> c;
+    string s[r+3];
+    for(int i = 0; i < r; i++)
+        cin >> s[i];
+    for(int i = 0 ; i < r; i++)
+    {
+        for(int j = 0; j < c ; j++)
+        {
+            if(s[i][j]=='S')
+            {
+                cnt1++;
+                break;
+            }
+        }
     }
-    
-    for(int i = 0 ; i < n-1 ; i++){
-        int a,b;
-        cin >> a >> b;
-        in[a]++;
-        in[b]++;
-        adj[a].pb(b);
-        adj[b].pb(a);
+    for(int i=0; i<c; i++)
+    {
+        for(int j=0; j<r; j++)
+        {
+            if(s[j][i]=='S')
+            {
+                cnt2++;
+                break;
+            }
+        }
     }
+    cout << (r * c) -(cnt1 * cnt2) << endl;
 
-    if(n == 2){
-        cout << 0 << endl;
-        return;
-    }
-
-    int mx = 0;
-    set<pair<int,int>>st;
-    for(int i = 1 ; i <= n ; i++){
-        mx=max(mx,in[i]);
-        st.insert({in[i],i});
-    }
-    
-    int ans=0;
-    for(int i = 1 ; i <= n ; i++){
-        if(in[i] == mx) {
-        st.erase({in[i],i});
-        int tmpAns = 0;
-        tmpAns += in[i] - 1;
-            
-        for(int x:adj[i]){
-            st.erase({in[x] , x});
-            in[x]--;  
-            st.insert({in[x] , x});
-        }
-        tmpAns += (*st.rbegin()).first;
-        ans = max(ans , tmpAns);
-    
-        st.insert({in[i],i});
-        for(int x:adj[i]){
-            st.erase({in[x],x});
-            in[x]++;
-            st.insert({in[x],x});
-        }
-        }
-    }
-    cout << ans << '\n';
 }
-
-
 
 int main(){
     //freopen("in.txt","r",stdin);
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
-    int t(1), tcase(0); cin>>t;
+    int t(1), tcase(0); //cin>>t;
     while (++tcase, t--) solve();
 }

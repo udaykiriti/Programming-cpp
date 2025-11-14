@@ -53,10 +53,21 @@
 ....................................................................................................
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
-// g++ -std=c++17 new.cpp -o new
-// ./new
-//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
-//./file-name
+
+
+/*
+  author:  -----          
+  created: 14 14:45:21    
+*/
+
+
+/*
+ g++ -std=c++17 new.cpp -o new
+./new
+g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+./file-name 
+*/
+
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
@@ -70,30 +81,36 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-void solve(){
-    int n;
-    cin>>n;
-    vector<int> vec(n);
-    for(int i = 0 ; i < n ; i++){
-        cin>>vec[i];
-    }
-    int ret = 0;
-    sort(vec.begin(),vec.end());
-    do{
-        int p = vec[0];
-        for(int i = 1 ; i < n ; i++){
-            if(p == 0) break; 
-            p %= vec[i];
-        }
-        if(p != 0) {
-            ret = 1;
-            break;
-        }
-    }
-    while(next_permutation(vec.begin(),vec.end()));
+#define FOR(i,a,b) for(int i=a;i<b;i++)
 
-    if(ret) cout << "YES" << '\n';
-    else cout << "NO" << '\n';
+
+void solve(){
+    //soLuSHoNN hErE.........
+    int n;
+	cin >> n;
+	int a[n];
+	int gcd1 = 0;
+	map< int ,int > mp;
+
+	FOR(i,0,n){
+        cin >> a[i];
+
+        gcd1 = (__gcd(gcd1,a[i]));
+        mp[a[i]]++;
+    }
+
+	sort(a,a+n);
+
+	if(mp[a[0]] == 1){
+		cout << "YES" << '\n';
+		return;
+	}
+	if(gcd1 == a[0]){
+		cout << "NO" << '\n';
+		return;
+	}
+	cout << "YES" << '\n';
+	return;
 }
 
 int main(){

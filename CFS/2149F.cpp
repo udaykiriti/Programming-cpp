@@ -56,8 +56,9 @@
 
 /*
   author:  -----          
-  created: 12 21:22:59    
+  created: 14 14:25:27    
 */
+
 
 // g++ -std=c++17 new.cpp -o new
 // ./new
@@ -66,6 +67,9 @@
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
+#define endl '\n'
+#define ll long long
+#define vi vector<int>
 
 #ifdef LOCAL
 #include "algo/debug.h"
@@ -73,39 +77,32 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-#define FOR(i,a,b) for(int i=(a); i<(b); ++i)
-#define vi vector<int>
-const int INF = 1e9;
+#define ll long long
 
-void solve(){
-    //soLuSHoNN hErE.........
-    int n; cin >> n;
-    vi vec(n),dp(3, INF); 
+void solve() {
+    ll h, d;
+    cin >> h >> d;
+    ll lo = d, hi = 2 * d - 1, ans = 2 * d;
+    while (lo <= hi) {
+        ll mid = lo + (hi - lo) / 2;
+ 
+        ll x = mid - d + 1;
+        ll s1 = (d / x) * (d / x + 1) / 2;
+        ll s2 = (d / x + 1) * (d / x + 2) / 2;
+        ll s = (d % x) * s2 + (x - d % x) * s1;
 
-    for (int &x : vec) cin >> x;
-    
-    FOR (p,0,3) 
-        if (p >= vec[0]) 
-            dp[p] = p - vec[0];
-
-    FOR (i,1,n) {
-        vi nd(3, INF);
-        FOR (p,0,3) 
-            if (dp[p] < INF)
-            FOR (c,0,3)
-                if (c != p && c >= vec[i]) 
-                    nd[c] = min(nd[c], dp[p] + c - vec[i]);
-        dp = nd;
-    }
-    cout << *min_element(dp.begin(), dp.end()) << '\n';
+        if (s < h + mid - d) {
+            ans = mid;
+            hi = mid - 1;
+        } else
+            lo = mid + 1;
+    } 
+    cout << ans << '\n';
 }
 
 
 int main(){
-    /* 
-    freopen("in.txt","r",stdin);
-    freopen("out.txt","w",stdout); 
-    */
+    //freopen("in.txt","r",stdin);
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); cin>>t;
