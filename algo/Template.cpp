@@ -69,7 +69,7 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #ifdef LOCAL
-#include "algo/debug.h"
+#include "debug.h"
 #else
 #define debug(...) 42
 #endif
@@ -108,11 +108,13 @@ using sc = set<char>;
 #define FIXED(x) cout << fixed << setprecision(x)
 #define _flush endl
 #define endl '\n'
+
+/* 
 #define debug(x) cout << (x) << endl
 #define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " "; cout << endl; } while(0)
 #define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
 #define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
-
+*/
 #define MOD 1000000000
 #define PI  3.141592653589793
 #define INF 1000000000000000000LL
@@ -209,6 +211,7 @@ void __print() {
     cout << endl;
 }
 
+
 // Utility Functions
 ll gcd(ll a, ll b){return b==0?a:gcd(b,a%b);}
 bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
@@ -245,11 +248,12 @@ void _timer_(){
 #pragma optimize("gt",on)
 #endif
 
-void solve(void) {
+void _GO(void) {
     // Solution Here.....
+    
 }
 
-int main(int argc , char *argv[]) {
+int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     #ifdef ONPC
@@ -262,7 +266,7 @@ int main(int argc , char *argv[]) {
             cout << "[testcase: " << tcase <<"]---------------------------------";
             _timer_();
         #endif
-        solve();
+        _GO();
     }
     #ifdef TIME
         cout << "\nfinished in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec\n";

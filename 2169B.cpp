@@ -54,19 +54,19 @@
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
 
+
 /*
   author:  -----          
-  created: 14 14:32:10    
+  created: 14 21:10:54    
 */
 
 
-/*
+/* 
 g++ -std=c++17 new.cpp -o new
 ./new
 g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
-./file-name
+./file-name 
 */
-
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
@@ -77,75 +77,63 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-using i64 = long long;
-const int inf = 2e9 + 5;
-#define vi vector<int>
 #define pb push_back
-
-const int mx=2e5+7;
-int in[mx];
-vector<int>adj[mx];
+using vi = vector<int>;
+using vii = vector<vi>;
+#define all(x)  (x).begin(), (x).end()
+#define FOR(i,a,b) for(int i = (a);i < (b);i++)
+#define RFOR(i,a,b) for(int i = (a); i >= (b); --i)
 
 void solve(){
    //soLuSHoNN hErE.........
-    int n;
-    cin >> n;
-    for(int i = 1 ; i <= n ; i++){
-        in[i] = 0;
-        adj[i].clear();
-    }
-    
-    for(int i = 0 ; i < n-1 ; i++){
-        int a,b;
-        cin >> a >> b;
-        in[a]++;
-        in[b]++;
-        adj[a].pb(b);
-        adj[b].pb(a);
+    string str; cin >> str;
+    int n = str.size();
+
+    vii g(n);
+    vi in(n), out(n) , od;
+
+    FOR ( p, 0, n) {
+        if (str[p] != '<') (p+1 < n ? (g[p].pb(p+1), in[p+1]++) : out[p] = 1);
+        if (str[p] != '>') (p-1 >= 0 ? (g[p].pb(p-1), in[p-1]++) : out[p] = 1);
     }
 
-    if(n == 2){
-        cout << 0 << endl;
+    queue<int> que;
+    FOR (p, 0, n) { 
+        if(!in[p]) 
+            que.push(p);
+    }
+
+    while (!que.empty()) {
+        int nd = que.front(); 
+        que.pop();
+        od.pb(nd);
+        for (int u : g[nd]) 
+            if (--in[u] == 0) 
+                que.push(u);
+    }
+
+    if ((int)od.size() < n) {
+        cout << -1 << '\n';
         return;
     }
 
-    int mx = 0;
-    set<pair<int,int>>st;
-    for(int i = 1 ; i <= n ; i++){
-        mx=max(mx,in[i]);
-        st.insert({in[i],i});
+    vi dp(n);
+    for (int p = n-1; p >= 0; p--) {
+        int v = od[p];
+        int maxi = out[v] ? 1 : 0;
+        for (int u : g[v]) 
+            maxi = max(maxi, dp[u] + 1);
+        dp[v] = maxi;
     }
-    
-    int ans=0;
-    for(int i = 1 ; i <= n ; i++){
-        if(in[i] == mx) {
-        st.erase({in[i],i});
-        int tmpAns = 0;
-        tmpAns += in[i] - 1;
-            
-        for(int x:adj[i]){
-            st.erase({in[x] , x});
-            in[x]--;  
-            st.insert({in[x] , x});
-        }
-        tmpAns += (*st.rbegin()).first;
-        ans = max(ans , tmpAns);
-    
-        st.insert({in[i],i});
-        for(int x:adj[i]){
-            st.erase({in[x],x});
-            in[x]++;
-            st.insert({in[x],x});
-        }
-        }
-    }
-    cout << ans << '\n';
+
+    cout << *max_element(all(dp)) << '\n';
 }
 
-
-
 int main(){
-    //freopen("in.txt","r",stdin);
+    /*
+    freopen("in.txt","r",stdin);
+    freopen("out.txt","w",stdout); 
+    */
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); cin>>t;

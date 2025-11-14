@@ -1,12 +1,8 @@
-/******************************
- *    author:  uday           *
- *    created: 27 00:11:05    *
- ******************************/
+/*
+  author:  -----          
+  created: 14 15:01:51    
+*/
 
-// g++ -std=c++17 new.cpp -o new
-// ./new
-//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name
-//./file-name
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
@@ -23,25 +19,25 @@ using namespace std;
 void solve(){
    //solution here.........
    string source , desti;
-   getline(cin,source);
-   getline(cin,desti);
+   getline(cin , source);
+   getline(cin , desti);
    ifstream src(source , ios::binary);
 
    if(!src){
     cerr << "oops, chk the src file ...." << endl;
     return ;
    }
-   ofstream dest(desti,ios::binary);
+   ofstream dest(desti , ios::binary);
     if(!dest){
     cerr << "oops, chk the dst file ...." << endl;
     return ;
    }
    char buff[1024];
-   while(src.read(buff,sizeof(buff))){
-    dest.write(buff,src.gcount());
+   while(src.read(buff , sizeof(buff))){
+    dest.write(buff , src.gcount());
    }
-   dest.write(buff,src.gcount());
-   cout<<"DOne!!..."<<endl;
+   dest.write(buff , src.gcount());
+   cout << "DOne!!..." << endl;
    src.close();
    dest.close();
    return ;

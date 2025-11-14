@@ -1,20 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define endl '\n'
-#define debug(x) cout<<(x)<<endl
+#define int long long
 
-void solve()
-{
+void solve() {
   int n; cin >> n;
   vector<int> a(n);
   for (int i = 0; i < n; ++i)
     cin >> a[i];
 
   vector<int> freq(100001, 0);
+
   for (int x : a)
     freq[x]++;
 
-  vector<long long> dp(100001, 0);
+  vector<int> dp(100001, 0);
   dp[1] = freq[1];
 
   for (int i = 2; i <= 100000; ++i)
@@ -23,10 +22,9 @@ void solve()
   cout << dp[100000] << "\n";
 }
 
-int main()
-{
+int main() {
   ios_base::sync_with_stdio(0);
-  cin.tie(0); cout.tie(NULL);
+  cin.tie(0); cout.tie(0);
   solve();
   return 0;
 }
