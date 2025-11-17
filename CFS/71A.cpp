@@ -33,7 +33,6 @@ p43s
 #include <bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-#define BYE return 0;
 #define FOR(i, a, b) for (int i = a; i < b; i++)
 
 int main()

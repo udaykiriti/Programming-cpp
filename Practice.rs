@@ -4,7 +4,7 @@ fn main(){
     // let x = 10;
     // let x = x+1;
     // let x = x+2;
-    let spaces = "   ";
-    let x = spaces.len();
-    println!("{}",x);   
+    let mut spaces = "   ";
+     spaces = spaces.len();
+    println!("{}",spaces);   
 }
