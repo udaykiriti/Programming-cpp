@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define pb push_back
 
 const int maxn = 200010;
 
@@ -23,18 +24,18 @@ int main() {
     for (int i = 1; i <= m; i ++) {
         int u, v;
         cin >> u >> v;
-        e[u].push_back(v), e[v].push_back(u);
+        e[u].pb(v), e[v].pb(u);
     }
     int lim = (2 * n + k - 1) / k;
     vector < vector < int > > res(k, vector < int > (0));
     dfs(1);
-    int cur = 1;
-    for (int i = 0; i < k; i ++) {
-        while (res[i].size() < lim && cur <= cnt) {
-            res[i].push_back(a[cur ++]);
-        }
-    }
     
+    int cur = 1;
+
+    for (int i = 0; i < k; i ++) 
+        while (res[i].size() < lim && cur <= cnt) 
+            res[i].pb(a[cur ++]);
+
     for (int i = 0; i < k; i ++) {
         cout << res[i].size() << " ";
         for (auto j : res[i]) cout << j << " "; 
