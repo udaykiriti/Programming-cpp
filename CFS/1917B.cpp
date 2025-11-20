@@ -1,3 +1,4 @@
+
 /*
  *                                                     ----~~~~~~~~~~~------___
  *                                    .  .   ~~//====......          --~ ~~
@@ -22,45 +23,70 @@
  *                       DiVine BeAst bleSSes, may there be no buGs
  */
 
+/*
+  author:  -----          
+  created: 17 22:15:51    
+*/
+
+
+
+// g++ -std=c++17 new.cpp -o new
+// ./new
+//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+//./file-name
+#undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
-const int MOD = 676767677;
+
+#ifdef LOCAL
+#include "algo/debug.h"
+#else
+#define debug(...) 42
+#endif
+
 #define ll long long
-#define vi vector<int>
-#define FOR(i, a, b) for (int i = (a); i <= (b); ++i)
 
-bool valid(int n, const vi& q, int L) {
-    if (L < 0 || L > n) return false;
-    int prev(0);
-    FOR(i, 1, n) {
-        int r = L + q[i] - prev;
-        int s = r - prev;
-        if (s != 0 && s != 1) return false;
-        if (r < 0 || r > i) return false;
-        prev = r;
+void solve(){
+   //soLuSHoNN hErE.........
+   int n;
+   cin >> n;
+   string s;
+   cin >> s;
+   map<int , vector<int>> mp;
+   for(int i =0 ;i < n ;i++){
+    mp[s[i]].push_back(i);
+   }
+   ll ans = 0;
+   for (int i = n - 1; i >= 1; i--) {
+        ans += 1;
+        for (char ch = 'a'; ch <= 'z'; ch++) {
+            if (ch == s[i - 1]) {
+                continue;
+            }
+            auto &vec = mp[ch];
+            if (vec.empty()) {
+                continue;
+            }
+            if (vec[0] < i) {
+                ans += 1;
+            }
+        }
     }
-    return prev == L;
+    ans += 1;
+    for (char ch = 'a'; ch <= 'z'; ch++) {
+        auto &vec = mp[ch];
+        if (!vec.empty()) {
+            ans += 1;
+        }
+    }
+    ans -= 1;
+    cout << ans << '\n';
 }
 
-void solve() {
-    int n(1); cin >> n;
-    vi p(n + 1), q(n + 1);
-    FOR(i, 1, n) cin >> p[i];
-    FOR(i, 1, n) q[i] = p[i] - (n - i + 1);
-
-    ll ans (0);
-    int c1 = -q[1];
-    int c2 = 1 - q[1];
-    if (valid(n, q, c1)) ++ans;
-    if (c1 != c2 && valid(n, q, c2)) ++ans;
-
-    cout << ans % MOD << "\n";
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
-    int T(1),tcase(0); cin >> T;
-    while (tcase++,T--) solve();
-    return 0;
+int main(){
+    //freopen("in.txt","r",stdin);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    int t(1), tcase(0); cin>>t;
+    while (++tcase, t--) solve();
 }

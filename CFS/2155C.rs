@@ -22,45 +22,48 @@
  *                       DiVine BeAst bleSSes, may there be no buGs
  */
 
-#include <bits/stdc++.h>
-using namespace std;
-const int MOD = 676767677;
-#define ll long long
-#define vi vector<int>
-#define FOR(i, a, b) for (int i = (a); i <= (b); ++i)
 
-bool valid(int n, const vi& q, int L) {
-    if (L < 0 || L > n) return false;
-    int prev(0);
-    FOR(i, 1, n) {
-        int r = L + q[i] - prev;
-        int s = r - prev;
-        if (s != 0 && s != 1) return false;
-        if (r < 0 || r > i) return false;
+ use std::io::{self, Read};
+
+const MOD: i64 = 676_767_677;
+
+fn valid(n: usize, q: &Vec<i64>, L: i64) -> bool {
+    if L < 0 || L as usize > n { return false; }
+    let mut prev: i64 = 0;
+    for i in 1..=n {
+        let r = L + q[i] - prev;
+        let s = r - prev;
+        if s != 0 && s != 1 { return false; }
+        if r < 0 || r > i as i64 { return false; }
         prev = r;
     }
-    return prev == L;
+    prev == L
 }
 
-void solve() {
-    int n(1); cin >> n;
-    vi p(n + 1), q(n + 1);
-    FOR(i, 1, n) cin >> p[i];
-    FOR(i, 1, n) q[i] = p[i] - (n - i + 1);
+fn main() {
+    // fast input
+    let mut s = String::new();
+    io::stdin().read_to_string(&mut s).unwrap();
+    let mut it = s.split_whitespace();
 
-    ll ans (0);
-    int c1 = -q[1];
-    int c2 = 1 - q[1];
-    if (valid(n, q, c1)) ++ans;
-    if (c1 != c2 && valid(n, q, c2)) ++ans;
+    let t: usize = it.next().unwrap().parse().unwrap();
+    for _case in 0..t {
+        let n: usize = it.next().unwrap().parse().unwrap();
+        let mut p = vec![0i64; n + 1];
+        for i in 1..=n {
+            p[i] = it.next().unwrap().parse().unwrap();
+        }
+        let mut q = vec![0i64; n + 1];
+        for i in 1..=n {
+            q[i] = p[i] - (n as i64 - i as i64 + 1);
+        }
 
-    cout << ans % MOD << "\n";
-}
+        let mut ans: i64 = 0;
+        let c1 = -q[1];
+        let c2 = 1 - q[1];
+        if valid(n, &q, c1) { ans += 1; }
+        if c1 != c2 && valid(n, &q, c2) { ans += 1; }
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
-    int T(1),tcase(0); cin >> T;
-    while (tcase++,T--) solve();
-    return 0;
+        println!("{}", (ans % MOD + MOD) % MOD);
+    }
 }

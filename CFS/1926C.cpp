@@ -54,54 +54,55 @@
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
 
-
 /*
   author:  -----          
-  created: 17 22:06:30    
+  created: 20 19:26:43    
 */
 
 
-
-#include<bits/stdc++.h>
+// g++ -std=c++17 new.cpp -o new
+// ./new
+//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+//./file-name
+#undef _GLIBCXX_DEBUG
+#include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
 
-ll rec(int i, int prev, vector<int> &v, vector<int> &c, vector<vector<ll>> &dp){
-    if(i == ll(v.size())) return 0;
+#ifdef LOCAL
+#include "algo/debug.h"
+#else
+#define debug(...) 42
+#endif
 
-    if(dp[i][prev + 1] != -1){
-        return dp[i][prev + 1];
+#define ll long long
+vector<int> pref(200005,0);
+
+
+
+void prec (){
+    for(int i=1; i<=200000;i++){
+        int r = i;
+        int sum = 0;
+        while(r > 0){
+            sum += r % 10;
+            r/=10;
+        }
+        pref[i] = pref[i-1] + sum;
     }
-
-    ll change = LLONG_MAX, nChange = LLONG_MAX;
-    
-    change = rec(i + 1, prev, v, c, dp) + c[i]; 
-
-    if(prev == -1 || v[prev] <= v[i]){
-        nChange = rec(i + 1, i, v, c, dp);
-    }
-
-    return dp[i][prev + 1] = min(change, nChange);
 }
 
-void solve(){
-    int n; cin >> n;
-    vector<int> v(n) , c(n);
-    for(auto &x : v) cin >> x;
-    for(auto &x : c) cin >> x;
-    
-    vector<vector<ll>> dp(n + 1, vector<ll>(n + 1, -1));
-    cout << rec(0, -1, v, c, dp) << '\n';
+void solve(int T){
+    int n;
+    cin >> n;
+    cout << pref[n] << endl;
 }
 
 int main(){
-    /*
-    freopen("in.txt","r",stdin);
-    freopen("out.txt","w",stdout); 
-    */    
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    int tcase(0),t(1); cin >> t;
-    while(++tcase,t--) solve();
+    //freopen("in.txt","r",stdin);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    prec();
+    int t(1), tcase(0); cin >> t;
+    while (++tcase, t--) solve(1);
+    return 0;
 }
