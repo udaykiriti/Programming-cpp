@@ -10,7 +10,7 @@ int main(int argc , char *argv[]){
         int n;ll y;
         cin >> n >> y;
         vector<int> a(n);
-        int m = 0;
+        int m = 0; 
         for (int i = 0; i < n; ++i){
             cin >> a[i];
             if (a[i] > m)
