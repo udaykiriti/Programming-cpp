@@ -29,12 +29,9 @@ void solve(){
    }
    ofstream dest(desti , ios::binary);
     if(!dest){
-    cerr << "oops, chk the dst file ...." << endl;
-    return ;
-   }
-   char buff[1024];
-   while(src.read(buff , sizeof(buff))){
-    dest.write(buff , src.gcount());
+      cerr << "oops, chk the dst file ...." << endl;
+      return ;
+      dest.write(buff , src.gcount());
    }
    dest.write(buff , src.gcount());
    cout << "DOne!!..." << endl;

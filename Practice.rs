@@ -5,6 +5,6 @@ fn main(){
     // let x = x+1;
     // let x = x+2;
     let mut spaces = "   ";
-     spaces = spaces.len();
-    println!("{}",spaces);   
+    spaces = spaces.len();
+    println!("{}",spaces);
 }
