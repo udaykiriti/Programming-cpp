@@ -221,7 +221,7 @@ fn main() {
 
     // Single-run (default)
     solve_once(&mut sc, &mut out);
-
+    
     // print buffered output once
     print!("{}", out);
 }
