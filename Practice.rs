@@ -17,6 +17,7 @@ fn main() {
     another_fn();
     let x:i32 = passpa(arr[1],arr[2]);
     println!("{}",x);
+    let _res:i32 = plus_one(arr[0]);
 }
 
 fn another_fn() {
@@ -31,4 +32,9 @@ fn passpa(x : i32 , y : i32) -> i32{
     println!("{}",y);
     let sum : i32 = x + y;
     sum
+}
+
+
+fn plus_one(x : i32) -> i32{
+    x + 1
 }
