@@ -140,6 +140,7 @@ void solve(){
     }
    }
 
+
    FOR(i,0,n){
     if(i) cout << ' ';
     cout << vec[i];
@@ -150,6 +151,7 @@ void solve(){
 
 int main(){
     //freopen("in.txt","r",stdin);
+    //freopen("out.txt","w",stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); cin>>t;
