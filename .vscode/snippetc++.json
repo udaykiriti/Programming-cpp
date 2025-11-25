@@ -2,10 +2,10 @@
   "Codeforces Header": {
     "prefix": "cfheader",
     "body": [
-      "/******************************",
-      " *    author:  -----          *",
-      " *    created: ${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}    *",
-      " ******************************/",
+      "/*",
+      "  author:  -----          ",
+      "  created: ${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}    ",
+      "*/",
       ""
     ],
     "description": "Insert Codeforces style header with current timestamp"
@@ -13,17 +13,13 @@
   "Codeforces Template with debug": {
     "prefix": "cftemplate",
     "body": [
-      "",
-      "// g++ -std=c++17 new.cpp -o new",
-      "// ./new",
-      "//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name ",
-      "//./file-name",
+      "/*",
+      "g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL ${TM_FILENAME}  -o ${TM_FILENAME_BASE} ",
+      "./${TM_FILENAME_BASE} <in.txt> out.txt",
+      "*/",
       "#undef _GLIBCXX_DEBUG",
       "#include <bits/stdc++.h>",
       "using namespace std;",
-      "#define endl '\\n'",
-      "#define ll long long",
-      "#define vi vector<int>",
       "",
       "#ifdef LOCAL",
       "#include \"algo/debug.h\"",
@@ -32,16 +28,20 @@
       "#endif",
       "",
       "void solve(){",
-      "   //solution here.........",
+      "   //soLuSHoNN hErE.........",
       "",
       "}",
       "",
       "int main(){",
-      "    //freopen(\"in.txt\",\"r\",stdin);",
+      "     /*",
+      "    freopen(\"in.txt\",\"r\",stdin);",
+      "    freopen(\"out.txt\",\"w\",stdout);",
+      "     */",
       "    ios_base::sync_with_stdio(false);",
       "    cin.tie(0); cout.tie(0);",
       "    int t(1), tcase(0); cin>>t;",
       "    while (++tcase, t--) solve();",
+      "    return 0;",
       "}"
     ],
     "description": "Codeforces template with author, timestamp, and debug macros"
@@ -51,8 +51,6 @@
     "body": [
         "/*",
         "....................................................................................................",
-        "....                                                                                               .",
-        "....                                                                                               .",
         "....                                         .                                                     .",
         "....                                   .........................                                   .",
         "....                           .....   ......::=***===+=-:......                                   .",
@@ -98,12 +96,8 @@
         "....                           .............:-+***####*+=-:.........                               .",
         "....                                      ......................                                   .",
         "....                                                 ....                                          .",
-        "....                                                                                               .",
-        "....                                                                                               .",
-        "....                                                                                               .",
         "....................................................................................................",
-        "                                   (╯°□°）╯︵ ┻━┻",
-        "                     When in doubt, just flip the table and recompile.",
+        "                     WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.",
         "*/"
     ],
     "description": "ASCII table flip art for fun"
@@ -132,7 +126,7 @@
         " *                                       //.-~--\\",
         " *                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         " *",
-        " *                       Divine Beast blesses, may there be no bugs",
+        " *                       DiVine BeAst bleSSes, may there be no buGs",
         " */"
     ],
     "description": "Divine Beast ASCII art to bless your code"
@@ -168,13 +162,13 @@
         "                (/\\/\\)           /   /   //",
         "                       _________/   /    /",
         "                      \\____________/    ",
-        "                   Bugs get eaten.",
+        "                   buGs geT EaTeNN.",
         "*/"
     ],
     "description": "Inserts a detailed ASCII dragon as a comment block."
   },
   "Targaryen1 Header": {
-    "prefix": "Targaryen1",
+    "prefix": "TargaryenClean",
     "body": [
       "/*",
       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣴⣯⣿⣶⣶⣶⠖⠒⠒⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -207,8 +201,8 @@
       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⢿⣿⣶⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣴⣾⣿⣿⣿⠻⠟⠁⠀⠀⢀⣤⣾⡿⠋⠀⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⠿⠿⣿⣿⣿⣶⣶⣶⣶⣶⣶⣶⣿⣿⣿⣿⣿⣿⠟⠻⠟⠁⠀⣰⣶⣶⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠛⠛⠛⢻⣿⣿⡿⠛⣻⣿⡿⠋⠙⠋⠁⠀⠀⢀⣠⣾⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-      "                        mAY buGs mAy bleSS mE",
-      "*\""
+      "                        mAY buGs bleSS mE",
+      "*/"
     ],
     "description": "Insert Codeforces style header with current timestamp"
   },
