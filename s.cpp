@@ -51,9 +51,14 @@
 
 /*
   author:  -----          
-  created: 25 21:48:23    
+  created: 26 20:32:05    
 */
 
+
+/*
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL s.cpp  -o s 
+./s <in.txt> out.txt
+*/
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
@@ -63,50 +68,22 @@ using namespace std;
 #else
 #define debug(...) 42
 #endif
-
-#define pb push_back
-const int maxn = 200010;
-#define vi vector<int>
-
-int n, m, k, a[maxn * 2], cnt;
-bool vis[maxn];
-vi G[maxn];
-
-void dfs(int u) {
-    vis[u] = 1;
-    a[++ cnt] = u;
-    for (auto v : G[u]) if (!vis[v]) {
-        dfs(v);
-        a[++cnt] = u;
-    }
+#define ll long long
+void solve(){
+  //soLuSHoNN hErE.........
+  ll n;
+  cin >> n;
+  cout << ((n-1)/2) * (n - 2 - ((n-1)/2)) << '\n';
 }
 
-int main() {
-    ios :: sync_with_stdio(false);
-    cin.tie(nullptr), cout.tie(nullptr);
-    cin >> n >> m >> k;
-    for (int i = 1; i <= m; i ++) {
-        int u, v;
-        cin >> u >> v;
-        G[u].pb(v);
-        G[v].pb(u);
-    }
-    int lmt = (2 * n + k - 1) / k;
-    vector < vector < int > > res(k, vector < int > (0));
-    dfs(1);
-    
-    int curr = 1;
-
-    for (int i = 0; i < k; i ++) {
-        while (res[i].size() < lmt and curr <= cnt) 
-            res[i].pb(a[curr ++]);
-    }
-
-    for (int i = 0; i < k; i ++) {
-        cout << res[i].size() << " ";
-        for (auto j : res[i]) 
-            cout << j << " "; 
-        cout << '\n';
-    }
+int main(){
+     /*
+    freopen("in.txt","r",stdin);
+    freopen("out.txt","w",stdout);
+     */
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    int t(1), tcase(0); cin>>t;
+    while (++tcase, t--) solve();
     return 0;
 }

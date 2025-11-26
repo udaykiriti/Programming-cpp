@@ -50,10 +50,9 @@
 */
 
 /*
-  author:  -----          
-  created: 25 21:48:23    
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL 2150A.cpp  -o 2150A 
+./2150A <in.txt> out.txt
 */
-
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
@@ -63,50 +62,75 @@ using namespace std;
 #else
 #define debug(...) 42
 #endif
+#define ll long long
 
-#define pb push_back
-const int maxn = 200010;
-#define vi vector<int>
 
-int n, m, k, a[maxn * 2], cnt;
-bool vis[maxn];
-vi G[maxn];
+void solve(){
+   //soLuSHoNN hErE.........
+   int n,m;
+   cin >> n >> m;
+   string s;
+   cin >> s;
+   s = "#" + s;
+   const int len = 6*n + 6*m + 100;
+   vector<ll> st(len + 5);
+   vector<ll> t;
 
-void dfs(int u) {
-    vis[u] = 1;
-    a[++ cnt] = u;
-    for (auto v : G[u]) if (!vis[v]) {
-        dfs(v);
-        a[++cnt] = u;
-    }
+   for(ll i = 1 ; i <= m; i++){
+     ll x;
+     cin >> x;
+     if(x <= len)
+       st[x] = 1;
+     else
+       t.push_back(x);
+   }
+   debug(st);
+   debug(t);
+   int p(1);
+
+   for(ll i = 1 ; i <= n ;i++){
+     if(s[i] == 'A'){
+       p++;
+       st[p] = 1;
+     }else{
+       int q = p;
+       while(st[q + 1])
+         q++;
+       q++;
+       st[q] = 1;
+       while(st[q+1])
+         q++;
+       q++;
+       p = q;
+     }
+   }
+
+   vector <ll> ans;
+
+   for(ll i = 1 ; i <= len +1 ;i++){
+     if(st[i])
+       ans.push_back(i);
+   }
+
+   cout << ans.size() + t.size() << '\n';
+
+   for(ll x : ans){
+     cout << x << ' ';
+   }
+   for(ll x : t){
+     cout << x << ' ';
+   }
+   cout << endl;
 }
 
-int main() {
-    ios :: sync_with_stdio(false);
-    cin.tie(nullptr), cout.tie(nullptr);
-    cin >> n >> m >> k;
-    for (int i = 1; i <= m; i ++) {
-        int u, v;
-        cin >> u >> v;
-        G[u].pb(v);
-        G[v].pb(u);
-    }
-    int lmt = (2 * n + k - 1) / k;
-    vector < vector < int > > res(k, vector < int > (0));
-    dfs(1);
-    
-    int curr = 1;
-
-    for (int i = 0; i < k; i ++) {
-        while (res[i].size() < lmt and curr <= cnt) 
-            res[i].pb(a[curr ++]);
-    }
-
-    for (int i = 0; i < k; i ++) {
-        cout << res[i].size() << " ";
-        for (auto j : res[i]) 
-            cout << j << " "; 
-        cout << '\n';
-    }
+int main(){
+     /*
+    freopen("in.txt","r",stdin);
+    freopen("out.txt","w",stdout);
+     */
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    int tt(1), tcase(0); cin>>tt;
+    while (++tcase, tt--) solve();
     return 0;
 }
