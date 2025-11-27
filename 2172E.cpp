@@ -51,12 +51,13 @@
 
 /*
   author:  -----          
-  created: 26 21:32:59    
+  created: 27 12:00:33    
 */
 
+
 /*
-g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL s.cpp  -o s 
-./s <in.txt> out.txt
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL 2172E.cpp  -o 2172E 
+./2172E <in.txt> out.txt
 */
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
@@ -68,94 +69,39 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-#define vi vector<int>
-#define pb push_back
-
 void solve(){
   //soLuSHoNN hErE.........
-  int n,k;
-  cin >> n >> k;
-  vi vec(n);
-  for(auto &x : vec) cin >> x;
-  vi ki,c(101,0);
-
-  for(int i = 0; i < n; i++){
-      if(-1 != vec[i]){
-          ki.pb(i);
-          c[vec[i]]++;
-      }
-  }
-  debug(ki);
-  //debug(c);
-  int tk (int(ki.size()));
-  vi aSSgn(tk);
-  int posi(0);
-
-  int cx (c[k]);
+  string n;
+  int j, k;
+  cin >> n >> j >> k;
   
-  for(int i = 0 ; i < cx; i++){
-      aSSgn[posi++] = k;
-  }
-  debug(aSSgn);
+  string s ( n);
+  sort(s.begin(), s.end());
+  vector<string> perms;
 
-  for(int i = 1 ; i <= 100 ; i++){
-      if(i == k) 
-        continue;
-      for(int j = 0; j < c[i]; j++){
-          aSSgn[posi++] = i;
-      }
-  }
-  debug(aSSgn);
-  while(posi < tk) aSSgn[posi++] = k;
+  do {
+      perms.push_back(s);
+  } while (next_permutation(s.begin(), s.end()));
 
-  vi B (vec);
-  for(int i = 0; i < tk; i++){
-      B[ki[i]] = aSSgn[i];
-  }
-  debug(B);
-  vi pre(101,0), vot(101,0);
+  string a = perms[j-1];
+  string b = perms[k-1];
 
-  for(int idx : ki){
-    int val = B[idx];
-    if(val >= 1 and val <= 100)
-      vot[val]++;
+  int A(0);
+  for (size_t i = 0; i < a.size(); ++i) {
+    if (a[i] == b[i]) 
+        ++A;
   }
-  //debug(vot);
-  int kn(0);
-  for(int i =0; i <n;i++){
-      if(B[i] != -1){
-          if(B[i] >=1 and B[i] <=100)
-            pre[B[i]]++;
-          kn++;
-      } else {
-          if(0 == kn) continue;
-          int bf = -1;
-          int bv= -1;
-          bool tie = false;
-          for(int v = 1; v <= 100; v++){
-              if(pre[v] > bf){
-                  bf = pre[v];
-                  bv = v;
-                  tie = false;
-              } else if( bf== pre[v] && bf > 0){
-                  tie = true;
-              }
-          }
-          if(bf > 0 and !tie) {
-            vot[bv]++;
-          }
-      }
-  }
-  //debug(pre);
-  bool ok(true);
-  for(int i= 1; i<= 100; i++){
-      if(i == k) continue;
-      if(vot[i] >= vot[k]) {
-        ok = false;
-        break;
-      }
-  }
-  cout << (ok ? "Yes" : "No") << '\n';
+  vector<int> fa(10,0), fb(10,0);
+
+  for (char c : a) 
+    fa[c - '0']++;
+  for (char c : b) 
+    fb[c - '0']++;
+
+  int t0T(0);
+  for (int d = 0; d <= 9; ++d) t0T += min(fa[d], fb[d]);
+  int B = t0T - A;
+  cout << A << 'A' << B << 'B' << '\n';
 }
 
 int main(){
