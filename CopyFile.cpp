@@ -57,6 +57,7 @@ int main(){
     while (++tcase, t--){ 
     	bool ok = solve();
     }
+
     cout << (ok ? "Completed" : "Something went wrong,debug or run again");
     return 0;
 }

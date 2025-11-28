@@ -1,7 +1,5 @@
 /*
 ....................................................................................................
-....                                                                                               .
-....                                                                                               .
 ....                                         .                                                     .
 ....                                   .........................                                   .
 ....                           .....   ......::=***===+=-:......                                   .
@@ -47,20 +45,98 @@
 ....                           .............:-+***####*+=-:.........                               .
 ....                                      ......................                                   .
 ....                                                 ....                                          .
-....                                                                                               .
-....                                                                                               .
-....                                                                                               .
 ....................................................................................................
                      WhEN In DoUBt,  (╯°□°）╯︵ ┻━┻ ....ReComPiLe.
 */
 
+/*
+    g++ -std=c++23 -Wall -Wextra -O2 -DLOCAL 2157C.cpp -o 2157C && ./2157C <in.txt> out.txt
+*/
+//WA at tcase 6
+/*
+Test: #6, time: 296 ms., memory: 0 KB, exit code: 0, checker exit code: 1, verdict: WRONG_ANSWER
+Input
+500
+100 16 100
+2 20 38
+2 64 79
+2 81 97
+2 64 79
+2 41 61
+2 20 38
+2 22 37
+2 21 38
+2 1 17
+2 41 57
+2 2 17
+2 1 16
+2 41 62
+2 41 61
+2 21 38
+2 82 100
+2 82 100
+1 19 19
+2 81 96
+1 18 19
+2 1 16
+2 20 37
+2 2 17
+2 81 100
+2 82 100
+2 21 37
+2 2 17
+2 41 60
+2 64 79
+2 20 38
+2 21 38
+2 21 38
+2 2 17
+2 43 61
+2 21 38
+2 81 98
+2 43 62
+2 64 79
+2 22 38
+2 41 57
+2 22 38
+2 64 79
+2 81 97
+2 20 38
+2 2 17
+2 81 97
+2 41 62
+2 41 60
+2 64 79
+2 20 38
+2 1 17
+2 1 17
+1 38 39
+2 41 62
+2 21 38
+2 81 ...
+Output
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 16 16 1000000000 1000000000 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 1000000000 16 16 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 1 1000000000 1000000000 1000000000 1000000000 1000000000 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 1000000000 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 1 1000000000 1000000000
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 36 36 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26...
+Answer
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 1 16 16 17 17 6 7 8 9 10 11 12 13 14 15 0 1 2 3 4 5 17 16 16 9 10 11 12 13 14 15 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 16 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 1 2 3 4 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 0 36 36 36 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 0 1 2 3 4 36 36 36 36 36 36 36 36 36 36 36 36 36 36 36 36 36 36 36 3...
+Checker Log
+wrong answer wrong constraint (2, 2, 47) (test case 56)
 
 
 
-// g++ -std=c++17 new.cpp -o new
-// ./new
-//g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
-//./file-name
+-----------------
+in seg[l,r] the mex must be k;
+[0 to k-1]  must appear at least once in [l,r];
+
+every val from 0 to k-1 must be Present;
+but it can appear anyplace in seg
+any posi can be reused bt # segs
+
+Missing edge cases
+
+
+*/
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
 using namespace std;
@@ -75,85 +151,111 @@ using namespace std;
 #define pb push_back
 #define FOR(i,a,b) for(int i=a;i<b;i++)
 
+
 void solve(){
-   //soLuSHoNN hErE.........
-   int n,k,q;
-   cin >> n >> k >> q;
-   vi c(q),l(q),r(q);
-
-   FOR(i,0,q){
-    cin >> c[i] >> l[i] >> r[i];
-    l[i]--;
-    r[i]--;
-   }
-
-   vi vec(n,k),fbg(n,0),fbk(n,0);
-
-   FOR(i,0,q){
-    if(1 == c[i]) {
-        for(int j = l[i] ;j <= r[i] ; j++){
-            fbg[j] = 1;
-        }
-    }else{
-        for(int j = l[i] ; j <= r[i] ; j++) {
-            fbk[j] = 1;
-        }
+    int n,k,q;
+    cin >> n >> k >> q;
+    vi c(q), l(q), r(q);
+    FOR(i,0,q){
+        cin >> c[i] >> l[i] >> r[i];
+        l[i]--; r[i]--;
     }
-   }
 
-   FOR(i,0,q){
-    if(2 != c[i]) continue;
-    vi cnd;
-    for(int j = l[i] ; j<= r[i] ; j++){
-        if(!fbg[j]){
-            cnd.pb(j);
+    const int BIG = 1000000000;
+    vi ans(n, BIG);
+
+    vi inAnyMin(n,0), inAnyMex(n,0);
+    vector<pair<int,int>> mexRanges;
+    FOR(i,0,q){
+        if(1 == c[i]){
+            for(int p=l[i]; p<=r[i]; p++) 
+                inAnyMin[p]=1;
+        } else {
+            for(int p = l[i]; p <= r[i]; p++) 
+                inAnyMex[p]=1;
+            mexRanges.emplace_back(l[i], r[i]);
         }
     }
-    for (int j = 0; j < (int)cnd.size() && j < k; j++){
-        vec[cnd[j]] = j;
-    }
-    for (int j = l[i]; j <= r[i]; j++){
-        if (vec[j] == k) vec[j] = k + 1;
-    }
-   }
 
-   FOR(i,0,q){
-    if(1 != c[i]) continue;
-    for(int j = l[i];j<=r[i];j++){
-        if(vec[j] < k) vec[j] = k+1;
+    for(int i= 0; i < n; i++){
+        if(inAnyMin[i] && !inAnyMex[i]) 
+            ans[i] = k;
     }
-    bool ok = false;
 
-    for(int j = l[i] ;j<=r[i];j++){
-        if(vec[j] == k){
-            ok = true;
-            break;
+    for(auto &seg : mexRanges){
+        int L = seg.first, R = seg.second;
+        vector<int> cand;
+        for(int p= L;  p <= R; p++){
+            if(!inAnyMin[p]) 
+                cand.push_back(p);
         }
-    }
-    if(!ok){
-        for(int j = l[i];j<=r[i];j++){
-            if(!fbk[j]){
-                vec[j] = k;
-                break;
+        for(int v= 0; v < k; v++){
+            bool found = false;
+            for(int pos : cand){
+                if(v == ans[pos]) { 
+                    found = true; 
+                    break; 
+                }
             }
+            if(found) continue;
+            bool placed = false;
+            for(int pos : cand){
+                if(ans[pos] == BIG){
+                    ans[pos] = v;
+                    placed = true;
+                    break;
+                }
+            }
+            if(!placed){
+                int bestPos = -1, bestBad = INT_MAX;
+                for(int pos : cand){
+                    int bad = 0;
+                    for(auto &seg: mexRanges){
+                        int L = seg.first, R = seg.second;
+                        if(pos < L || pos > R) 
+                            continue;
+                        for(int w = 0; w < k; ++w){
+                            bool existsElse = false;
+                            for(int p=L; p<=R; ++p){
+                                if(p==pos) 
+                                    continue;
+                                if(ans[p]==w){ 
+                                    existsElse = true; 
+                                    break; 
+                                }
+                            }
+                            if(!existsElse && ans[pos]==w) 
+                                bad++;
+                        }
+                    }
+                    if(bad < bestBad){ 
+                        bestBad = bad; 
+                        bestPos = pos; 
+                    }
+                }
+                if(-1 == bestPos) 
+                    bestPos = cand[0];
+                ans[bestPos] = v;
+            }
+
         }
     }
-   }
-
-
-   FOR(i,0,n){
-    if(i) cout << ' ';
-    cout << vec[i];
-   }
-
-   cout << endl;
+    for(int i = 0;i < n ; i++){
+        if(i) cout << ' ';
+        cout << ans[i];
+    }
+    cout << '\n';
 }
 
+
 int main(){
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+    /*
+    freopen("in.txt","r",stdin);
+    freopen("out.txt,"w",stdin);
+    */
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); cin>>t;
     while (++tcase, t--) solve();
+    return 0;
 }
