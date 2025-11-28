@@ -35,12 +35,27 @@
 */
 
 #undef _GLIBCXX_DEBUG
+/* #include <algorithm>
+#include <array>
+#include <bitset>
+#include <cassert>
+#include <chrono>
+#include <climits>
+#include <cmath>
+#include <complex>
+#include <cstring>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <vector> */
 #include <bits/stdc++.h>
 #include <chrono>
-#include<ext/pb_ds/assoc_container.hpp>
-#include<ext/pb_ds/tree_policy.hpp>
 using namespace std;
-using namespace __gnu_pbds;
 
 #ifdef LOCAL
 #include "debug.h"
@@ -61,9 +76,24 @@ using sc = set<char>;
 
 #define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
 
-#define ordered_set(T)      tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>
-#define ordered_map(K, V)   tree<K, V, less<K>, rb_tree_tag, tree_order_statistics_node_update>
-#define multiordered_set    tree<pii,null_type,less<pii>,rb_tree_tag,tree_order_statistics_node_update>
+#ifdef USE_PBDS
+  #include <ext/pb_ds/assoc_container.hpp>
+  #include <ext/pb_ds/tree_policy.hpp>
+
+  using namespace __gnu_pbds;
+
+  template <class T>
+  using ordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+  template <class K, class V>
+  using ordered_map = tree<K, V, std::less<K>, rb_tree_tag, tree_order_statistics_node_update>;
+
+  template <class T>
+  using multiordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+  // optional convenience typedefs:
+  using pii = std::pair<int,int>;
+#endif
 
 /*
 #define os_insert(s, val) s.insert(val)
@@ -78,8 +108,6 @@ using sc = set<char>;
 */
 
 #define FIXED(x) cout << fixed << setprecision(x)
-#define _flush endl
-#define endl '\n'
 
 /* 
 #define debug(x) cout << (x) << endl
@@ -123,9 +151,8 @@ using sc = set<char>;
 #define isOdd(x)             (0 != (x) % 2)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-template<typename T>
-requires std::is_arithmetic_v<T>
-void __print(T x){ cout << x; }
+template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+void __print(T x) { cout << x; }
 
 void __print(char x) { cout << x; }
 void __print(const char* x) { cout << x; }
@@ -212,9 +239,9 @@ void _GO() {
 }
 
 int main(/* int argc, char *argv[] */) {
-    /* ios_base::sync_with_stdio(0);
-    cin.tie(0); */ 
-    cin.tie(0)->ios::sync_with_stdio(0);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    //cin.tie(0)->ios::sync_with_stdio(0);
     cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
@@ -233,3 +260,12 @@ int main(/* int argc, char *argv[] */) {
     #endif
     return 0;
 }
+
+
+/* stuff you should look for
+ * int overflow, array bounds
+ * special cases (n=1?)
+ * do smth instead of nothing and stay organized
+ * WRITE STUFF DOWN
+ * DON'T GET STUCK ON ONE APPROACH
+ */
