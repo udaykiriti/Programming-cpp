@@ -63,19 +63,6 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-using int_64 = long long;
-using pii = pair<int, int>;
-using pll = pair<int_64, int_64>;
-using vi = vector<int>;
-using vint_64 = vector<int_64>;
-using vb = vector<bool>;
-using vs = vector<string>;
-using mii = map<int, int>;
-using si = set<int>;
-using sc = set<char>;
-
-#define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
-
 #ifdef USE_PBDS
   #include <ext/pb_ds/assoc_container.hpp>
   #include <ext/pb_ds/tree_policy.hpp>
@@ -94,6 +81,33 @@ using sc = set<char>;
   // optional convenience typedefs:
   using pii = std::pair<int,int>;
 #endif
+
+
+using int_64 = long long;
+using db = long double;  // or double, if TL is tight
+using str = string;      // like python!
+
+/* Pairs */
+using pi = pair <int,int>;
+using pll = pair<int_64, int_64>;
+using pdb = pair<db,db>;
+
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
+#define tcT template <class T
+#define tcTU tcT, class U
+// ^ lol this makes everything look weird but I'll try it
+tcT > using V = vector<T>;
+tcT, size_t SZ > using AR = array<T, SZ>;
+using vi = V<int>;
+using vb = V<bool>;
+using vl = V<int_64>;
+using vd = V<db>;
+using vs = V<str>;
+using vpi = V<pi>;
+using vpl = V<pll>;
+using vpd = V<pdb>;
+
+#define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
 
 /*
 #define os_insert(s, val) s.insert(val)
@@ -116,17 +130,29 @@ using sc = set<char>;
 #define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
 */
 
-#define MOD 1000000000
+const int MOD = 998244353;  // 1e9+7;
 #define PI  3.141592653589793
 #define INF 1000000000000000000LL
 #define EPS 1e-9
-#define MAX 10000000000000000LL
+const int MX = (int)2e5 + 5;
+const int_64 BIG = 1e18;  // not too close to LLONG_MAX
 #define MIN -10000000
 
+const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
+
+
+#define sz(x)     int(size(x))
 #define pb        push_back
 #define eb        emplace_back
 #define F         first
 #define S         second
+#define mp        make_pair
+#define rsz       resize
+#define ins       insert
+#define lb        lower_bound
+#define ub        upper_bound
+tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - bg(a)); }
+tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define all(a)    (a).begin(), (a).end()
 #define rall(a)   (a).rbegin(), (a).rend()
 #define SORT(a)   sort(all(a))
