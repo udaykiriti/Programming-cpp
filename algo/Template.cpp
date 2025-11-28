@@ -1,64 +1,38 @@
 /*
-....................................................................................................
-....                                                                                               .
-....                                                                                               .
-....                                         .                                                     .
-....                                   .........................                                   .
-....                           .....   ......::=***===+=-:......                                   .
-....                        .............=######%#####=-:...........                               .
-....                        ....:=-...:*+==+#######*#####--=++*-....                               .
-....                    ......-*####++-..:+###%*=--:.####*--*####+:...........                     .
-....                    ..:+*##########*-.-=:..::....*###*:..:*####*+*:.......                     .
-....               ......-**####*-*#####*=...........*###*:.*#####*####*+-......                   .
-....               .....*#####*:....-####=... ....:+####*:.+###:...+#*-*##+.....                   .
-....             ....:###*##%*..   ...####=.....:######*:..:###...:*##:.+##%%-....                 .
-....             ...::-:-==#*-..   ..=%##*-..:*####%*#:.....+#%#%%%%#*...:+###+:..                 .
-....          .......=-...=*-...   ..-####==######*=..........+##**+......:+####-....              .
-....          ...-..............   ..-%#%##%###==:..:-+*#%%%%%%###+-:.. ...:*####+:..              .
-....          ..-*.:-.=#+*#+++:......*#######*-..:*##################%*=:.....+###=....            .
-....          ..#-=##*#%#########=..:#######-....:=###################%###+:..:+##*+...            .
-....      .....+#######+-+++#####%#=:#####%=..   ..:########################*:.:+##*.....          .
-....      ....+#####*-......:-*###%#####%#=...   ...+######*##%#=..:*#########*:.-*#%:...          .
-....      ...==%###*-..     ....+##########=........+##%##-....::....-%##*##%###=.=##=+..          .
-....      ...-#####=..  .   .....:##########+:.....+#%#%##*-.....+##+..=...+#%%##=:####..          .
-....      ...=##*#*=:........:-:..+##########%####%###%#-......:+%##%##:....*####%+-###-.          .
-....      ..:##.++#+:.....:*#%##-.-*################%#######*-=%########+...:%####%=:##=.          .
-....      ...==:+:++-...-*#%####*..:*####################################*:..*######:-#+.          .
-....      ...=++.........:+######:..:+####################################*:.=%%####*.++.          .
-....      ...-*%:...........:+%##+....+####################################+....-*##%::+.          .
-....      ...-##:.:--*#-=+:...-%##=....:*%################################%#=....=##%-.:.          .
-....      ....*%=:*#%%%####+:.:%###+:.....-#%################################....=###=...          .
-....      ...:*%#=#=.....+##*-*#*:*%#+....:*%#######%###############%#*######=...+###=...          .
-....      .....###*:.....:+#*-#+...-####*::*###%#*+##################*.:#####*..-###%-...          .
-....         ..*%#=.......+#*=.......:*#########+.+#################=+.:*#####..+###%....          .
-....          ..=%#+:...:+##-...   ......=*####*..+##################=.:######...+##*....          .
-....          ..+####%##%*-=......:--.......+#+...-*#######*=#######::.=%####*...-##:...           .
-....          ...=#*-..+-....  ..-=*#*.....::......-*#####=.:#######*...-*###=...=#=...            .
-....          ...-*#*:....... ..:=#####=............=#####-.=######++...-####...-#+..              .
-....          ....:=##=...    ..+######%#*=:....:=+*######=.+######=...=##%%=..-*+...              .
-....          . ...:+##*:.......:::.::*%#####%%%%#####%##*:-#######-.:####%+..-#=....              .
-....             ....:=##=.............-#*:.............::.+#####=::######+..*#:....               .
-....               ...:####=........ ..-##=...   ........+######+...:%###=.-#-...                  .
-....               ......-*###=:.......:+:............:=#%###%-.....:%#*::+:......                 .
-....                    ...-+*###*-:..............:-=######=+:...:-+##-.:.....                     .
-....                    .....-+#######*++====+*######%**#+:..+**###*-........                      .
-....                        .....:*###%######%###*+#*=.....:*###*=:....                            .
-....                        ...........:===:.-+=-......:=+###+-:.....                              .
-....                           .............:-+***####*+=-:.........                               .
-....                                      ......................                                   .
-....                                                 ....                                          .
-....                                                                                               .
-....                                                                                               .
-....                                                                                               .
-....................................................................................................
-                                   (╯°□°）╯︵ ┻━┻
-                     When in doubt, just flip the table and recompile.
+              __                  __
+             ( _)                ( _)
+            / / \              / /\_\_
+           / /   \            / / | \ \
+          / /     \          / /  |\ \ \
+         /  /   ,  \ ,       / /   /|  \ \
+        /  /    |\_ /|      / /   / \   \_\
+       /  /  |\/ _ '_|\    / /   /   \    \
+      |  /   |/  0 \0\ \  / |    |    \    \
+      |    |\|      \_\_ /  /    |     \    \
+      |  | |/    \.\ o\o)  /      \     |    \
+      \    |     /\`v-v  /        |    |     \
+       | \/    /_| \_|  /         |    | \    \
+       | |    /__/_     /   _____  |    |  \    \
+       \|    [__]  \_/  |_________  \   |   \    ()
+        /    [___] (    \         \  |\ |   |   //
+       |    [___]                  |\| \|   /  |/
+      /|    [____]                  \  |/\ / / ||
+    (  \   [____ /     ) _\      \  \    \| | ||
+      \  \  [_____|    / /     __/    \   / / //
+      |   \ [_____/   / /        \    |   \/ //
+      |   /  '----|   /=\____   _/    |   / //
+   __ /  /        |  /   ___/  _/\    \  | ||
+  (/-(/-\)       /   \  (/\/\)/  |    /  | /
+                (/\/\)           /   /   //
+                       _________/   /    /
+                      \____________/    
+                   buGs geT EaTeNN.
 */
 
-/******************************
- *    author:  -----          *
- *    created: 30 20:39:22    *
- ******************************/
+/*
+  author:  -----          
+  created: 28 22:12:27    
+*/
 
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
@@ -74,19 +48,18 @@ using namespace __gnu_pbds;
 #define debug(...) 42
 #endif
 
-using ll = long long;
-using i64 = long long;
+using int_64 = long long;
 using pii = pair<int, int>;
-using pll = pair<ll, ll>;
+using pll = pair<int_64, int_64>;
 using vi = vector<int>;
-using vll = vector<ll>;
+using vint_64 = vector<int_64>;
 using vb = vector<bool>;
 using vs = vector<string>;
 using mii = map<int, int>;
 using si = set<int>;
 using sc = set<char>;
 
-#define matrix2d(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
+#define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
 
 #define ordered_set(T)      tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>
 #define ordered_map(K, V)   tree<K, V, less<K>, rb_tree_tag, tree_order_statistics_node_update>
@@ -104,7 +77,6 @@ using sc = set<char>;
 #define oms_rank(ms, val) ms.order_of_key({val, 0})
 */
 
-
 #define FIXED(x) cout << fixed << setprecision(x)
 #define _flush endl
 #define endl '\n'
@@ -115,6 +87,7 @@ using sc = set<char>;
 #define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
 #define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
 */
+
 #define MOD 1000000000
 #define PI  3.141592653589793
 #define INF 1000000000000000000LL
@@ -124,8 +97,8 @@ using sc = set<char>;
 
 #define pb        push_back
 #define eb        emplace_back
-#define f         first
-#define s         second
+#define F         first
+#define S         second
 #define all(a)    (a).begin(), (a).end()
 #define rall(a)   (a).rbegin(), (a).rend()
 #define SORT(a)   sort(all(a))
@@ -140,25 +113,20 @@ using sc = set<char>;
 #define SCANA(x)             for (auto &i : x) cin >> i
 
 #define lcm(a, b)            ((a) * ((b) / gcd((a), (b))))
-#define popcount(x)          __builtin_popcountll(x)
+#define setbits(x)          __builtin_popcountll(x)
 #define ctz(x)               __builtin_ctzll(x)
 #define clz(x)               __builtin_clzll(x)
 #define parity(x)            __builtin_parityll(x)
 #define sqr(x)               ((x) * (x))
 #define cube(x)              ((x) * (x) * (x))
-#define isEven(x)            ((x) % 2 == 0)
-#define isOdd(x)             ((x) % 2 != 0)
+#define isEven(x)            (0 == (x) % 2)
+#define isOdd(x)             (0 != (x) % 2)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-void __print(int x) { cout << x; }
-void __print(long x) { cout << x; }
-void __print(long long x) { cout << x; }
-void __print(unsigned x) { cout << x; }
-void __print(unsigned long x) { cout << x; }
-void __print(unsigned long long x) { cout << x; }
-void __print(float x) { cout << x; }
-void __print(double x) { cout << x; }
-void __print(long double x) { cout << x; }
+template<typename T>
+requires std::is_arithmetic_v<T>
+void __print(T x){ cout << x; }
+
 void __print(char x) { cout << x; }
 void __print(const char* x) { cout << x; }
 void __print(const string& x) { cout << x; }
@@ -198,40 +166,27 @@ void __print(const map<K, V>& m) {
         cout << "}";
 }
 
-// Variadic version to print multiple things
-template <typename T, typename... Args>
-void __print(T&& first, Args&&... rest) {
-    __print(forward<T>(first));
-        cout << " ";
-    __print(forward<Args>(rest)...);
-}
 
-// Final case for 0 arguments (do nothing)
-void __print() {
-    cout << endl;
-}
-
-
-// Utility Functions
-ll gcd(ll a, ll b){return b==0?a:gcd(b,a%b);}
+/* Utility Functions */
+int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
 bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
 bool isUp(char ch){locale loc;return isupper(ch,loc);}
 
-// Power & Combinatorics
-ll binpow(ll a,ll b){ll r=1;while(b){if(b&1)r*=a;a*=a;b>>=1;}return r;}
-ll binpow(ll a,ll b,ll m){a%=m;ll r=1;while(b){if(b&1)r=r*a%m;a=a*a%m;b>>=1;}return r;}
-ll powerMod(ll a,ll b,ll m){return binpow(a,b,m);}
-ll factorialMod(ll n,ll m){ll r=1;for(ll i=1;i<=n;++i)r=r*i%m;return r;}
+/* Power & Combinatorics */
+int_64 binpow(int_64 a,int_64 b){int_64 r=1;while(b){if(b&1)r*=a;a*=a;b>>=1;}return r;}
+int_64 binpow(int_64 a,int_64 b,int_64 m){a%=m;int_64 r=1;while(b){if(b&1)r=r*a%m;a=a*a%m;b>>=1;}return r;}
+int_64 powerMod(int_64 a,int_64 b,int_64 m){return binpow(a,b,m);}
+int_64 factorialMod(int_64 n,int_64 m){int_64 r=1;for(int_64 i=1;i<=n;++i)r=r*i%m;return r;}
 int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
 int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
-i64 mulmod(i64 a, i64 b){ return (a*b) % MOD; }
-i64 NcR(i64 n,i64 r){i64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;i64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
-i64 NpR(i64 n,i64 r){i64 r1=1;while(r--)r1*=n--;return r1;}
+int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
+int_64 NcR(int_64 n,int_64 r){int_64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;int_64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
+int_64 NpR(int_64 n,int_64 r){int_64 r1=1;while(r--)r1*=n--;return r1;}
 
-// XOR Range Queries
+/* XOR Range Queries */
 int XOR1toN(int N){int m=N%4;if(m==0)return N;if(m==1)return 1;if(m==2)return N+1;return 0;}
 int XORLtoR(int L,int R){return XOR1toN(R)^XOR1toN(max(L-1,0));}
-//=======================TIMER========================
+/* ---------- TIMER ---------- */
 const auto start_time = chrono::high_resolution_clock::now();
 void _timer_(){
     const auto end_time = std::chrono::high_resolution_clock::now();
@@ -251,30 +206,30 @@ void _timer_(){
 #pragma optimize("gt",on)
 #endif
 
-void _GO(void) {
+void _GO() {
     // Solution Here.....
-    
+    cout << 'f';
 }
 
-int main() {
+int main(/* int argc, char *argv[] */) {
     /* ios_base::sync_with_stdio(0);
     cin.tie(0); */ 
     cin.tie(0)->ios::sync_with_stdio(0);
     cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
-        cout<<"===========================Compilation Done==============================="<<endl;
+        cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
     int t(1),tcase(0); cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
-            cout << "[testcase: " << tcase <<"]---------------------------------";
+            cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
             _timer_();
         #endif
         _GO();
     }
     #ifdef TIME
-        cout << "\nfinished in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec\n";
+        cout << "\nExecuted in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec\n";
     #endif
     return 0;
 }
