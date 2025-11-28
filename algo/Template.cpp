@@ -222,6 +222,9 @@ ll binpow(ll a,ll b){ll r=1;while(b){if(b&1)r*=a;a*=a;b>>=1;}return r;}
 ll binpow(ll a,ll b,ll m){a%=m;ll r=1;while(b){if(b&1)r=r*a%m;a=a*a%m;b>>=1;}return r;}
 ll powerMod(ll a,ll b,ll m){return binpow(a,b,m);}
 ll factorialMod(ll n,ll m){ll r=1;for(ll i=1;i<=n;++i)r=r*i%m;return r;}
+int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
+int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
+i64 mulmod(i64 a, i64 b){ return (a*b) % MOD; }
 i64 NcR(i64 n,i64 r){i64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;i64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
 i64 NpR(i64 n,i64 r){i64 r1=1;while(r--)r1*=n--;return r1;}
 
