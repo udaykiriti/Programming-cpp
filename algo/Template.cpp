@@ -309,7 +309,6 @@ struct Fenwik{
     }
 };
 
-
 #define TIME
 //#define PRAGMA
 #define ONPC
