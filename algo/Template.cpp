@@ -255,8 +255,9 @@ void _timer_(){
 /**
  * Disjoint Set Union(DSU) 
  * Source : https://codeforces.com/blog/entry/120381
- * Time: almost constant O(alpg(n))
- *
+ * Time: almost constant O(alph(n))
+ * It is Efficiently manages and merges disjoint sets used to track connectivity-
+ * && group elements like kruskal's Algo for MST and connected compnent detection.
 **/
 struct DSU{
     int n;
@@ -359,7 +360,6 @@ int main(/* int argc, char *argv[] */) {
     #endif
     return 0;
 }
-
 
 /* stuff you should look for
  * int overflow, array bounds
