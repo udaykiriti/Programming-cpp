@@ -35,7 +35,8 @@
 */
 
 #undef _GLIBCXX_DEBUG
-/* #include <algorithm>
+/* 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cassert>
@@ -52,7 +53,8 @@
 #include <queue>
 #include <random>
 #include <set>
-#include <vector> */
+#include <vector> 
+*/
 #include <bits/stdc++.h>
 #include <chrono>
 using namespace std;
@@ -66,7 +68,6 @@ using namespace std;
 #ifdef USE_PBDS
   #include <ext/pb_ds/assoc_container.hpp>
   #include <ext/pb_ds/tree_policy.hpp>
-
   using namespace __gnu_pbds;
 
   template <class T>
@@ -327,14 +328,6 @@ struct st{
 void _GO() {
   // Solution Here.....
   
-}
-
-  int_64 ans(0);
-  FOR(i,0,m){
-    if(VC[i] > 0)
-      ans += min((int_64)VC[i], (int_64)EC[i]);
-  }
-  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
