@@ -1,5 +1,0 @@
-o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o
-[ testcase: 1 ] ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-[time: 0.00 ms]
-1
-Executed in 0.00 sec
