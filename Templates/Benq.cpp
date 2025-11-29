@@ -431,8 +431,7 @@ void parallel_dfs(PalTree<SIGMA> &p, PalTree<SIGMA> &rp, int al, int ar) {
  * Description: length of largest palindrome centered at each character of
  * string and between every consecutive pair Verification:
  * http://www.spoj.com/problems/MSUBSTR/
- */
-
+**/
 vi manacher(str _S) {
 	str S = "@";
 	each(c, _S) S += c, S += "#";

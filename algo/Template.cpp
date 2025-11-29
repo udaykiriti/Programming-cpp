@@ -131,13 +131,12 @@ using vpd = V<pdb>;
 */
 
 const int MOD = 998244353;  // 1e9+7;
-#define PI  3.141592653589793
-#define INF 1000000000000000000LL
-#define EPS 1e-9
+double PI = 3.14159265358979323846;
+int_64 INF = 1000000000000000000LL;
+double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
 const int_64 BIG = 1e18;  // not too close to LLONG_MAX
 #define MIN -10000000
-
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 
 
@@ -149,14 +148,14 @@ const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 #define mp        make_pair
 #define rsz       resize
 #define ins       insert
-#define lb        lower_bound
-#define ub        upper_bound
-tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - bg(a)); }
-tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define all(a)    (a).begin(), (a).end()
 #define rall(a)   (a).rbegin(), (a).rend()
 #define SORT(a)   sort(all(a))
 #define RSORT(a)  sort(rall(a))
+#define lb        lower_bound
+#define ub        upper_bound
+tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - bg(a)); }
+tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 
 #define FOR(i, a, b)         for (int i = (a); i < (b); ++i)
 #define RFOR(i, a, b)        for (int i = (a); i >= (b); --i)
@@ -165,7 +164,6 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define RFORK(i, a, b, k)    for (int i = (a); i >= (b); i -= k)
 #define FORA(a)              for (auto u : a)
 #define SCANA(x)             for (auto &i : x) cin >> i
-
 #define lcm(a, b)            ((a) * ((b) / gcd((a), (b))))
 #define setbits(x)          __builtin_popcountll(x)
 #define ctz(x)               __builtin_ctzll(x)
@@ -226,8 +224,15 @@ bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;r
 bool isUp(char ch){locale loc;return isupper(ch,loc);}
 
 /* Power & Combinatorics */
-int_64 binpow(int_64 a,int_64 b){int_64 r=1;while(b){if(b&1)r*=a;a*=a;b>>=1;}return r;}
-int_64 binpow(int_64 a,int_64 b,int_64 m){a%=m;int_64 r=1;while(b){if(b&1)r=r*a%m;a=a*a%m;b>>=1;}return r;}
+
+template <typename T>
+T binpow(T a,int_64 e , T mod){
+    T r = 1; a %= mod;
+    while(e > 0){
+        if(e & 1) r = (r * a) % mod;
+        a = (a * a) % mod; e >>= 1;
+    } return r;}
+
 int_64 powerMod(int_64 a,int_64 b,int_64 m){return binpow(a,b,m);}
 int_64 factorialMod(int_64 n,int_64 m){int_64 r=1;for(int_64 i=1;i<=n;++i)r=r*i%m;return r;}
 int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
@@ -247,10 +252,66 @@ void _timer_(){
     FIXED(2);
     cout << "[time: "<< delta <<" ms]\n";
 }
+/**
+ * Disjoint Set Union(DSU) 
+ * Source : https://codeforces.com/blog/entry/120381
+ * Time: almost constant O(alpg(n))
+ *
+**/
+struct DSU{
+    int n;
+    vi parent,size;
+    DSU(int n) : n(n),parent(n),size(n,1){
+        iota(all(parent),0);
+    }
+    int find(int v){
+        if(parent[v] == v) return v;
+        return parent[v] = find(parent[v]);
+    }
+    bool unite(int a , int b){
+        a = find(a);
+        b = find(b);
+        if(a == b) return false;
+        if(size[a] < size[b]) swap(a,b);
+        parent[b] = a;
+        size[a] += size[b];
+        return true;
+    }
+};
 
-//#define TIME
+/**
+ * Fenwik Tree (BIT)
+ * Source: https://codeforces.com/blog/entry/57292
+ * Time: update = O(log n), query = O(log n)
+ * Description: 
+ * Uses binary index jumps based on lowest set bits
+ * Good for range sums, inversion counting, frequncies
+ * simple and faster than segment tree for point updates
+**/
+struct Fenwik{
+    int n;
+    vector<int_64> bit;
+    Fenwik(int n) : n(n),bit(n+1,0){ }
+
+    void update(int i, int_64 v){
+        for( ; i <= n ; i += i & -i)
+            bit[i] += v;
+    }
+    int_64 query(int i){
+        int_64 s(0);
+        for(; i > 0 ; i -= i & -i)
+            s += bit[i];
+        return s;
+    }
+    int_64 range(int l , int r){
+        return query(r) - query(l-1);
+    }
+};
+
+
+#define TIME
 //#define PRAGMA
-//#define ONPC
+#define ONPC
 
 #ifdef PRAGMA
 #pragma GCC optimize("O3")
@@ -261,7 +322,19 @@ void _timer_(){
 
 void _GO() {
     // Solution Here.....
-    cout << 'f';
+/*     Fenwik ft (5);
+    ft.update(1,1);
+    ft.update(2,2);
+    ft.update(3,3);
+    ft.update(4,4);
+    ft.update(5,5);
+
+    cout << ft.query(3) << '\n';
+    cout << ft.range(2,4) << flush; */
+    DSU s(5);
+    s.unite(1,2);
+    s.unite(3,4);
+    cout << s.find(1);
 }
 
 int main(/* int argc, char *argv[] */) {
