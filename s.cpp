@@ -157,7 +157,7 @@ const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - bg(a)); }
 tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 
-#define FOR(i, a, b)         for (int_64 i = (a); i < (b); ++i)
+#define FOR(i, a, b)         for (int i = (a); i < (b); ++i)
 #define RFOR(i, a, b)        for (int i = (a); i >= (b); --i)
 #define FORE(i, a, b)        for (int i = (a); i <= (b); i++)
 #define FORk(i, a, b, k)     for (int i = (a); i < (b); i += k)

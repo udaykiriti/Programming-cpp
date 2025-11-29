@@ -58,7 +58,7 @@
 using namespace std;
 
 #ifdef LOCAL
-#include "debug.h"
+#include "algo/debug.h"
 #else
 #define debug(...) 42
 #endif
@@ -181,7 +181,7 @@ void __print(T x) { cout << x; }
 void __print(char x) { cout << x; }
 void __print(const char* x) { cout << x; }
 void __print(const string& x) { cout << x; }
-void __print(bool x) { cout << (x ? "true" : "false"); }
+void __print(bool x) { cout << (x ? "Yes" : "No") << '\n'; }
 
 template <typename T>
 void __print(const vector<T>& v) {
@@ -309,9 +309,9 @@ struct Fenwik{
     }
 };
 
-#define TIME
+//#define TIME
 //#define PRAGMA
-#define ONPC
+//#define ONPC
 
 #ifdef PRAGMA
 #pragma GCC optimize("O3")
@@ -320,21 +320,21 @@ struct Fenwik{
 #pragma optimize("gt",on)
 #endif
 
-void _GO() {
-    // Solution Here.....
-/*     Fenwik ft (5);
-    ft.update(1,1);
-    ft.update(2,2);
-    ft.update(3,3);
-    ft.update(4,4);
-    ft.update(5,5);
+struct st{
+  int up,dn,lft,rt;
+};
 
-    cout << ft.query(3) << '\n';
-    cout << ft.range(2,4) << flush; */
-    DSU s(5);
-    s.unite(1,2);
-    s.unite(3,4);
-    cout << s.find(1);
+void _GO() {
+  // Solution Here.....
+  
+}
+
+  int_64 ans(0);
+  FOR(i,0,m){
+    if(VC[i] > 0)
+      ans += min((int_64)VC[i], (int_64)EC[i]);
+  }
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -346,7 +346,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t(1),tcase(0); //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
@@ -360,9 +360,9 @@ int main(/* int argc, char *argv[] */) {
     return 0;
 }
 
-/* stuff you should look for
- * int overflow, array bounds
- * special cases (n=1?)
+/* Look for |>
+ * int overflow, array bounds , segmentation Faults
+ * special cases (n=1?) ,Edge cases
  * do smth instead of nothing and stay organized
  * WRITE STUFF DOWN
  * DON'T GET STUCK ON ONE APPROACH
