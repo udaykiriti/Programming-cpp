@@ -1,0 +1,233 @@
+GDB NOTES (TEXT VERSION)
+
+1. Compile with debug symbols:
+   [debug(...)]
+   g++ -g -O0 file.cpp -o a.out
+   [If you dont want to debug and want to use some extrnl debugs]
+   g++ -std=c++20 -Wall -Wextra -O2 -DLOCAL name.cpp -o name
+   ./name <in.txt> out.txt
+
+
+2. Start GDB:
+   gdb ./a.out
+   run         [normal run]
+   run <in.txt [with input file]
+
+3. Breakpoints:
+   [At specific line or may be functions names and you can watch vars]
+   watch varname       [watch variable when they change]
+   break 25            [at specific line marks as Breakpoint]
+   break solve         [at particular functions]
+   break 42 if x > 100 [at conditions]
+
+   info break  [about Breakpoints]
+   delete 2    [delete watch points]
+   rwatch name [detect when a variable is read]
+   awatch name [detect all access "r" + "w"] 
+   disable 1 / enable 1 [disable or enable ]
+   watch *ptr  [watch pointer]
+
+4. Execution:
+   continue [resumes and go and stops until the next Breakpoint]
+   step     [go to piece of line even may be  like pc + 1][if function present it go to it]
+   next     [Executes && go to piece of line like pc + 1][skips functions]
+   finish   [completes the debugging]
+   si       [next instruction not code or any line][like low level]
+
+5. Print variables:
+   print x     [value of variable]
+   p x         [short notation of print x]
+   p arr[0]@10 [print 10 consecutive elements from arr[0]]
+   p vec       [entire arry or vector]
+   p *ptr      [prints the value stores in that Memory location]
+   watch x     [Stops execution when the value of x changes]
+
+6. Backtrace:
+   bt       [show the call stack (functions that led to the current point)]
+   bt full  [show the call stack with local variables for each frame]
+   frame 2  [switch to stack frame #2 to inspect its variables and context.]
+
+7. Jump:
+   jump 60 [move execution to that line {skips b/w lines}]
+
+8. Memory:
+   x/20xb &arr [examine 20 bytes of memory at &arr in hex (x = hex, b = byte)]
+   x/5i $pc    [show the next 5 assembly instructions starting at the current program counter ($pc)]
+
+9. Segfault debugging:
+   run [runs the entire program until it crashes]
+   bt [after crash, show the call stack to find the exact line that caused the segmentation fault]
+
+10. Search:
+   list       [show Src code around the current line]
+   list 40    [show Src code around line 40]
+   list solve [show the Src code of the fun solve()]
+
+11. TUI mode:
+   layout src [open TUI mode showing the source code window]
+   layout asm [open TUI mode showing the assembly instructions]
+   layout regs[open TUI mode showing CPU registers]
+
+12. Useful settings:
+   set pagination off   [disable “—More—” prompts for uninterrupted output]
+   set print pretty on  [pretty-print complex structures (STL containers, structs)]
+   set logging on       [start logging all GDB output to a file (gdb.txt by default)]
+
+
+--------------------------------VIM COMMANDS (TEXT VERSION)---------------------------------------
+
+1. MODES:
+i           -> insert mode
+a           -> insert after cursor
+o           -> new line below and insert
+I           -> insert at start of line
+A           -> insert at end of line
+Esc         -> switch to normal mode
+v           -> visual mode
+V           -> visual line mode
+Ctrl+v      -> visual block mode
+
+2. MOVEMENT:
+h j k l     -> left, down, up, right
+w           -> next word
+b           -> previous word
+e           -> end of word
+0           -> start of line
+$           -> end of line
+gg          -> go to start of file
+G           -> go to end of file
+:number     -> go to specific line
+%           -> jump matching bracket
+f<char>     -> jump to next occurrence of char
+
+3. EDIT/DELETE:
+x           -> delete character
+dd          -> delete line
+dw          -> delete word
+d$          -> delete to end of line
+D           -> delete to end of line
+yy          -> copy line
+y6j         -> copy the curr to next num line
+yw          -> yank word
+y$          -> yank to end of line
+p           -> paste below
+P           -> paste above
+u           -> undo
+Ctrl+r      -> redo
+
+4. VISUAL MODE ACTIONS:
+v           -> visual start
+V           -> visual line
+Ctrl+v      -> block selection
+d           -> delete selection
+y           -> yank selection
+p           -> paste
+>           -> indent
+<           -> unindent
+
+5. SEARCH/REPLACE:
+ /text      -> search forward
+ ?text      -> search backward
+ n          -> repeat search
+ N          -> reverse search
+ :%s/old/new/g      -> replace all
+ :%s/old/new/gc     -> replace with confirm
+
+6. FILE OPERATIONS:
+ :w         -> save
+ :q         -> quit
+ :q!        -> quit no save
+ :wq        -> save and quit
+ :x         -> save and quit
+ :w new.txt -> save to new file
+
+7. INDENT/FORMAT:
+ ==         -> auto-indent line
+ gg=G       -> auto-indent file
+ >>         -> indent
+ <<         -> unindent
+
+8. WINDOWS/TABS:
+ :sp        -> horizontal split
+ :vsp       -> vertical split
+ Ctrl+w w   -> switch split
+ Ctrl+w c   -> close split
+ Ctrl+w =   -> equal size
+ :tabnew    -> new tab
+ :tabn      -> next tab
+ :tabp      -> prev tab
+
+9. MULTI-LINE EDITS:
+ 5yy        -> yank 5 lines
+ 3dd        -> delete 3 lines
+
+10. SETTINGS:
+ :set number            -> show line numbers
+ :set relativenumber    -> relative numbers
+ :set tabstop=4 shiftwidth=4 expandtab
+ :set paste             -> paste mode
+ :set nopaste
+
+
+--------------------------------------EMACS COMMANDS (TEXT VERSION)---------------------------------
+
+1. BASIC MOVEMENT:
+C-f        -> move right
+C-b        -> move left
+C-n        -> next line
+C-p        -> previous line
+M-f        -> next word
+M-b        -> previous word
+C-a        -> start of line
+C-e        -> end of line
+M-<        -> start of file
+M->        -> end of file
+
+2. EDITING:
+C-d        -> delete char
+M-d        -> delete word forward
+M-Del      -> delete word backward
+C-k        -> kill to end of line
+C-y        -> yank (paste)
+M-y        -> cycle kill-ring
+C-/ or C-_ -> undo
+C-g        -> cancel command
+
+3. SEARCHING:
+C-s        -> search forward
+C-r        -> search backward
+C-s C-s    -> repeat search
+
+4. FILE OPERATIONS:
+C-x C-s    -> save file
+C-x C-f    -> open file
+C-x C-w    -> save as
+C-x C-c    -> quit emacs
+
+5. SELECTING TEXT:
+C-space    -> set mark (begin selection)
+C-w        -> cut region
+M-w        -> copy region
+C-y        -> paste
+
+6. WINDOWS (SPLITS):
+C-x 2      -> split horizontally
+C-x 3      -> split vertically
+C-x 0      -> close current window
+C-x 1      -> close all other windows
+C-x o      -> switch window
+
+7. BUFFERS:
+C-x b      -> switch buffer
+C-x C-b    -> list buffers
+C-x k      -> kill buffer
+
+8. INDENT & CODE:
+Tab        -> indent line
+M-;        -> comment/uncomment line
+C-M-\     -> indent region
+
+9. MACROS:
+C-x (      -> start recording macro
+C-x )      -> stop recording
+C-x e      -> play macro
