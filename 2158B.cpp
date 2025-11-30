@@ -323,7 +323,29 @@ struct Fenwik{
 
 void _GO() {
   // Solution Here.....
-  
+  int n;
+  cin >> n;
+  vi vec(n+n);
+  FOR(i,0,n+n){
+    cin >> vec[i];
+  }
+  SORT(vec);
+  int N = n+n;
+  int srt = 0, ed= 0;
+  for (int i = 0; i < N; ) {
+    int j = i;
+    while (j < N and vec[j] == vec[i]) 
+        j++;
+    int tmp = j - i;
+    if (tmp & 1) srt++;
+    else ed++;
+    i = j;
+  }
+
+  int ele = min(ed, n);
+  if (0== srt and ((n - ele) & 1)) ele--; 
+  if (ele < 0) ele = 0;
+  cout << srt + 2*ele << "\n";
 }
 
 int main(/* int argc, char *argv[] */) {

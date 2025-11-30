@@ -323,7 +323,9 @@ struct Fenwik{
 
 void _GO() {
   // Solution Here.....
-  
+  int n,a,b;
+  cin >> n >> a >> b;
+  cout << min(n, b+(a/2)) << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {

@@ -323,7 +323,32 @@ struct Fenwik{
 
 void _GO() {
   // Solution Here.....
-  
+  int n;
+  cin >> n;
+  vl vec(n);
+  FOR(i,0,n){
+    cin >> vec[i];
+  }
+  int l(-1),r(-1);
+  FOR(i,0,n){
+    if(0 != vec[i]){
+        if(-1 == l) 
+            l = i;
+        r = i;
+    }
+  }
+  if(-1 == l){
+    cout << 0 << '\n';
+    return ;
+  }
+  bool ok(false);
+  for(int i = l; i<= r;i++){
+    if(0 == vec[i]){
+        ok = true;
+        break;
+    }
+  }
+  cout << (ok ? 2 : 1) << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {

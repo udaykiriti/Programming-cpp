@@ -323,7 +323,40 @@ struct Fenwik{
 
 void _GO() {
   // Solution Here.....
-  
+  int_64 n,k;
+  cin >> n >> k;
+  vl vec1(n),vec2(n);
+  for(auto &x : vec1) cin >> x;
+  for(auto &x : vec2) cin >> x;
+
+  vl el(n);
+  el[0] = vec1[0];
+
+  FOR(i,1,n){
+    el[i] = max(vec1[i],el[i-1] + vec1[i]);
+  }
+  int_64 ORG = el[0];
+  FOR(i,0,n){
+    ORG = max(ORG,el[i]);
+  }
+  if(0 ==(k & 1)){
+    cout << ORG << '\n';
+    return;
+  }
+  vl srt(n);
+  srt[n-1] = vec1[n-1];
+  for(int i = n-2 ;i>= 0 ;i--){
+    srt[i] = max(vec1[i],srt[i+1] + vec1[i]);
+  }
+  int_64 choosen(ORG);
+
+  FOR(i,0,n){
+    int_64 ltc = (0 == i ? 0LL : max(0LL,el[i-1]));
+    int_64 rtc = (i + 1 >= n ? 0LL : max(0LL,srt[i+1]));
+    int_64 cd = ltc + (vec1[i] + vec2[i]) + rtc;
+    choosen = max(choosen,cd);
+  }
+  cout << choosen << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
