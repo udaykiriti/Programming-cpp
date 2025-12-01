@@ -323,7 +323,40 @@ struct Fenwik{
 
 void _GO() {
   // Solution Here.....
-  
+  int p, q, r;
+  cin >> p >> q >> r;
+
+  auto mb = [&](int ln) {
+      vi v; 
+      v.reserve(ln);
+      for (int i = 0; i < ln; ++i) 
+        v.pb((i % 2) == 0 ? 1 : 0);
+      return v;
+  };
+
+  vi A = mb(p);
+  vi B = mb(q);
+  vi C = mb(r);
+
+  auto build = [&](vi a, vi b){
+    a.pb(2);
+    a.ins(a.end(), b.begin(), b.end());
+    return a;
+  };
+
+  vi tmp1 = build(A, B);
+  vi tmp2 = build(A, C);
+  vi tmp3 = build(B, C);
+
+
+  auto ps = [&](const vi& s) {
+      cout << s.size();
+      for (int x : s) cout << ' ' << x;
+      cout << '\n';
+  };
+  ps(tmp1);
+  ps(tmp2);
+  ps(tmp3);
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -335,7 +368,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t(1),tcase(0); //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";

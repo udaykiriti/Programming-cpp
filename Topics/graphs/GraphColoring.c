@@ -4,9 +4,9 @@
 #define FOR(i,a,b) for(int i=a;i<b;i++)
 #define FORE(i,a,b) for(int i=a;i<=b;i++)
 
-int grid[MAX][MAX] = {0};  
-int color[MAX] = {0};   
-int n, m;                 
+int grid[MAX][MAX] = {0};
+int color[MAX] = {0};
+int n, m;
 
 int isSafe(int v, int c) {
     FOR(i, 0, n) {
