@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define endl '\n'
 
 typedef pair<int, int> pii; 
 
@@ -49,16 +48,14 @@ int main() {
         adj[v].push_back({u, w});
 
     }
-    /*
     int start;
     cin >> start;
-    */
     vector<int> dist = dijkstra(n, adj, start);
 
     for (int i = 1; i <= n; i++) {
         cout << "Node " << i << ": ";
-        if (dist[i] == INT_MAX) cout << "INF" <<endl;
-        else cout << dist[i] << endl;
+        if (dist[i] == INT_MAX) cout << "INF" << '\n';
+        else cout << dist[i] << '\n';
     }
 
     return 0;

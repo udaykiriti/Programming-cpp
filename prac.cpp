@@ -14,14 +14,44 @@ using namespace std;
 
 #define int_64 long long
 
+struct Mex {
+    int mex = 0;
+    set<int> elements;
+
+    void add(int x) {
+        if ( x < mex ) return;
+        if ( elements.find(x) != elements.end() ) return;
+
+        elements.insert(x);
+        if ( x != mex ) return;
+
+        while (*elements.begin() == mex) {
+            elements.erase(elements.begin());
+            mex++;
+        }
+    }
+    
+};
+
+Mex mexes[100][100];
+
 void solve(){
   //soLuSHoNN hErE.........
-  int_64 n,ans(0);
+  int n;
   cin >> n;
-  for(int_64 i =5;i <= n;i*=5){
-    ans += n/i;
+ // vector<vector<int>> mex(n,vector<int>(n));
+ int mex[n][n];
+  for(int i = 0 ; i < n ; i++){
+    for(int j = 0 ; j < n ; j++){
+      int mex = mexes[i][j].mex;
+      cout << mex << ' ';
+      for(int k = 0 ; k < n ; k++){
+        mexes[i][k].add(mex);
+        mexes[k][j].add(mex);
+      }
+    }
+    cout << '\n';
   }
-  cout << ans;
 }
 
 int main(){
