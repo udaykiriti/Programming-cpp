@@ -40,7 +40,9 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 ./p <in.txt> out.txt
 */
 #undef _GLIBCXX_DEBUG
-/* #include <algorithm>
+
+/* 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cassert>
@@ -49,7 +51,9 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <cmath>
 #include <complex>
 #include <cstring>
+#include <containers>
 #include <functional>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -57,7 +61,97 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <queue>
 #include <random>
 #include <set>
-#include <vector> */
+#include <string>
+#include <vector>
+
+// Old Libraries 
+// Source - https://stackoverflow.com/a/26803644
+// Posted by deW1, modified by community. See post 'Timeline' for change history
+// Retrieved 2025-12-03, License - CC BY-SA 3.0
+
+// C++ Full Standard Header Include
+#include <cstdlib>
+#include <csignal>
+#include <csetjmp>
+#include <cstdarg>
+#include <typeinfo>
+#include <typeindex>
+#include <type_traits>
+#include <bitset>
+#include <functional>
+#include <utility>
+#include <ctime>
+#include <chrono>
+#include <cstddef>
+#include <initializer_list>
+#include <tuple>
+#include <new>
+#include <memory>
+#include <scoped_allocator>
+#include <climits>
+#include <cfloat>
+#include <cstdint>
+#include <cinttypes>
+#include <limits>
+#include <exception>
+#include <stdexcept>
+#include <cassert>
+#include <system_error>
+#include <cerrno>
+#include <cctype>
+#include <cwctype>
+#include <cstring>
+#include <cwstring>
+#include <cwchar>
+#include <cuchar>
+#include <string>
+#include <array>
+#include <vector>
+#include <deque>
+#include <list>
+#include <forward_list>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include <stack>
+#include <queue>
+#include <algorithm>
+#include <iterator>
+#include <cmath>
+#include <complex>
+#include <valarray>
+#include <random>
+#include <numeric>
+#include <ratio>
+#include <cfenv>
+#include <iosfwd>
+#include <ios>
+#include <istream>
+#include <ostream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <strstream>
+#include <iomanip>
+#include <streambuf>
+#include <cstdio>
+#include <locale>
+#include <clocale>
+#include <codecvt>
+#include <regex>
+#include <atomic>
+#include <thread>
+#include <mutex>
+#include <future>
+#include <condition_variable>
+#include <ciso646>
+#include <ccomplex>
+#include <ctgmath>
+#include <cstdalign>
+#include <cstdbool>
+*/
+
 #include <bits/stdc++.h>
 #include <chrono>
 using namespace std;
