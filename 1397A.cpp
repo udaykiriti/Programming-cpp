@@ -31,18 +31,16 @@
 
 /*
   author:  -----          
-  created: 03 08:27:32    
+  created: 04 10:14:48    
 */
 
 
 /*
-g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p 
-./p <in.txt> out.txt
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL 1397A.cpp  -o 1397A 
+./1397A <in.txt> out.txt
 */
 #undef _GLIBCXX_DEBUG
-
-/* 
-#include <algorithm>
+/* #include <algorithm>
 #include <array>
 #include <bitset>
 #include <cassert>
@@ -51,9 +49,7 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <cmath>
 #include <complex>
 #include <cstring>
-#include <containers>
 #include <functional>
-#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -61,97 +57,7 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <queue>
 #include <random>
 #include <set>
-#include <string>
-#include <vector>
-
-// Old Libraries 
-// Source - https://stackoverflow.com/a/26803644
-// Posted by deW1, modified by community. See post 'Timeline' for change history
-// Retrieved 2025-12-03, License - CC BY-SA 3.0
-
-// C++ Full Standard Header Include
-#include <cstdlib>
-#include <csignal>
-#include <csetjmp>
-#include <cstdarg>
-#include <typeinfo>
-#include <typeindex>
-#include <type_traits>
-#include <bitset>
-#include <functional>
-#include <utility>
-#include <ctime>
-#include <chrono>
-#include <cstddef>
-#include <initializer_list>
-#include <tuple>
-#include <new>
-#include <memory>
-#include <scoped_allocator>
-#include <climits>
-#include <cfloat>
-#include <cstdint>
-#include <cinttypes>
-#include <limits>
-#include <exception>
-#include <stdexcept>
-#include <cassert>
-#include <system_error>
-#include <cerrno>
-#include <cctype>
-#include <cwctype>
-#include <cstring>
-#include <cwstring>
-#include <cwchar>
-#include <cuchar>
-#include <string>
-#include <array>
-#include <vector>
-#include <deque>
-#include <list>
-#include <forward_list>
-#include <set>
-#include <map>
-#include <unordered_set>
-#include <unordered_map>
-#include <stack>
-#include <queue>
-#include <algorithm>
-#include <iterator>
-#include <cmath>
-#include <complex>
-#include <valarray>
-#include <random>
-#include <numeric>
-#include <ratio>
-#include <cfenv>
-#include <iosfwd>
-#include <ios>
-#include <istream>
-#include <ostream>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <strstream>
-#include <iomanip>
-#include <streambuf>
-#include <cstdio>
-#include <locale>
-#include <clocale>
-#include <codecvt>
-#include <regex>
-#include <atomic>
-#include <thread>
-#include <mutex>
-#include <future>
-#include <condition_variable>
-#include <ciso646>
-#include <ccomplex>
-#include <ctgmath>
-#include <cstdalign>
-#include <cstdbool>
-*/
-
+#include <vector> */
 #include <bits/stdc++.h>
 #include <chrono>
 using namespace std;
@@ -231,11 +137,11 @@ using vpd = V<pdb>;
 
 const int MOD = 998244353;  // 1e9+7;
 double PI = 3.14159265358979323846;
-int_64 INF = 1e18;
+int_64 INF = 1000000000000000000LL;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
 const int_64 BIG = 1e18;  // not too close to LLONG_MAX
-#define MIN -1e7
+#define MIN -10000000
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 
 
@@ -337,7 +243,6 @@ int_64 factorialMod(int_64 n,int_64 m){int_64 r=1;for(int_64 i=1;i<=n;++i)r=r*i%
 int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
 int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
 int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
-int_64 modinv(int_64 a){ return binpow(a,(int_64)MOD-2,(int_64)MOD); }
 int_64 NcR(int_64 n,int_64 r){int_64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;int_64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
 int_64 NpR(int_64 n,int_64 r){int_64 r1=1;while(r--)r1*=n--;return r1;}
 
@@ -409,57 +314,6 @@ struct Fenwik{
     }
 };
 
-/**
- * MEX (Minimum EXcluded Value)
- * Time: O(n)
- * Description:
- * Finds the smallest non-negative integer not present in the array.
- * mex_fast uses a presence array of size n+1 -> ideal when values lie in [0..n].
- * For general arrays with negatives/large values, use mex_set.
-**/
-
-int mex(const vi &a){
-    unordered_set<int>os;
-    os.reserve(a.size() * 2);
-    for(int x : a)
-        if(x >= 0)
-            os.ins(x);
-    int curr(0);
-    while(true){
-        if(os.find(curr) == os.end())
-            curr++;
-    }
-    return curr;
-}
-
-/**
- * DFS (Depth-First Search)
- * Time: O(n + m)
- * Description:
- * Traverses a graph by exploring as deep as possible before backtracking.
- * Useful for connected components, tree traversal, cycle detection, etc.
- * Works on adjacency list; 'vis' tracks visited nodes.
-**/
-/* 
-void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
-    int n = sz(adj);
-    parent.assign(n, -1);
-    stack<int> st;
-    st.push(src);
-    while(!st.empty()){
-        int u = st.top(); st.pop();
-        if(vis[u]) continue;
-        vis[u] = 1;
-        for(int v : adj[u]){
-            if(!vis[v]){
-                parent[v] = u;
-                st.push(v);
-            }
-        }
-    }
-}
-*/
-
 //#define TIME
 //#define PRAGMA
 //#define ONPC
@@ -471,79 +325,26 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 #pragma optimize("gt",on)
 #endif
 
-
 void _GO() {
   // Solution Here.....
   int n;
   cin >> n;
-  vector<vi> G(n+1);
-  for(int i = 2; i <= n; ++i){
-    int p; cin >> p;
-    G[p].pb(i);
-    G[i].pb(p);
-  }
-  string X; cin >> X;
-  X = " " + X;
-  
-  vi deg(n+1);
-  for(int i=1;i<=n;++i) {
-    deg[i] = G[i].size();
-  }
-  vector<char> removed(n+1, 0), marked(n+1,0);
-  for(int i=1;i<=n;++i) {
-    if(X[i] == '1') 
-        marked[i]=1;
-  }
-  queue<int> q;
-
-  for(int i = 1 ; i <= n ; i++){
-    if(deg[i] <= 1 and !marked[i]){
-        q.push(i);
-        removed[i] = 1;
+  vi c(26,0);
+  FOR(i,0,n){
+    string s;
+    cin >> s;
+    for(char ch : s){
+     c[ch - 'a']++;
     }
   }
-  while(!q.empty()){
-    int u = q.front(); q.pop();
-    for(int v: G[u]){
-        if(removed[v]) 
-            continue;
-        deg[v]--;
-        if(1 == deg[v] and !marked[v]){
-           removed[v] = 1;
-           q.push(v);
-        }
+  bool ok(true);
+  for(int x : c){
+    if(0 != x % n){
+        ok = false;
+        break;
     }
   }
-  int E = 0;
-  for(int u=1; u<=n; ++u){
-    for(int v: G[u]){
-        if(u < v && !removed[u] && !removed[v]) ++E;
-    }
-  }
-  if(0== E){
-    cout << 0 << '\n';
-    return;
-  }
-  vi dist(n+1, -1);
-  queue<int> qq;
-  if(!removed[1]){
-     dist[1] = 0;
-     qq.push(1);
-  }
-  while(!qq.empty()){
-    int u = qq.front(); qq.pop();
-    for(int v: G[u]){
-        if(removed[v]) continue;
-        if(-1 == dist[v]){
-            dist[v] = dist[u] + 1;
-            qq.push(v);
-        }
-    }
-  }
-  int d = 0;
-  if(dist[n] != -1) d = dist[n];
-  int_64 ans = 2LL * E - d;
-  cout << ans << '\n';
+  __print(ok);
 }
 
 int main(/* int argc, char *argv[] */) {
