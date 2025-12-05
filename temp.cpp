@@ -460,15 +460,13 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 }
 */
 
-//#define TIME
-//#define PRAGMA
-//#define ONPC
+#define TIME
+#define PRAGMA
+#define ONPC
 
 #ifdef PRAGMA
-#pragma GCC optimize("O3")
-#pragma GCC target("avx,avx2,fma")
-#pragma GCC optimize("unroll-loops")
-#pragma optimize("gt",on)
+#pragma GCC optimize("O3","unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
 
