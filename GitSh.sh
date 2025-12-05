@@ -1,34 +1,38 @@
 #!/bin/bash
 
-echo "=== SYSTEM DIAGNOSTIC MODE ==="
-echo "Module: Git Operation Unit"
+echo "----------------------------------------"
+echo "   SYSTEM UTILITY v1.0  (C) 1989 RTS     "
+echo "   MODULE: GIT OPERATION HANDLER         "
+echo "----------------------------------------"
 echo ""
 
 if [ -z "$1" ]; then
-    echo "ERROR: Commit message missing."
+    echo "ERROR: NO COMMIT MESSAGE PROVIDED"
     echo "USAGE: git_auto.sh \"message\""
-    echo "ABORTED."
+    echo "SYSTEM STOPPED"
     exit 1
 fi
 
-echo "STATUS: Checking repository..."
+echo ">> CHECKING FILE STATE"
 git status
-echo "OK"
+echo "   STATUS: OK"
 echo ""
 
-echo "ACTION: Staging changes..."
+echo ">> PREPARING CHANGES"
 git add .
-echo "DONE"
+echo "   RESULT: READY"
 echo ""
 
-echo "ACTION: Committing..."
+echo ">> WRITING LOG ENTRY"
 git commit -m "$1"
-echo "COMMIT SAVED"
+echo "   RESULT: STORED"
 echo ""
 
-echo "ACTION: Sending to remote..."
+echo ">> TRANSMITTING DATA"
 git push origin main
-echo "TRANSFER COMPLETE"
+echo "   RESULT: SENT"
 echo ""
 
-echo "=== OPERATION COMPLETE — SYSTEM IDLE ==="
+echo "----------------------------------------"
+echo "   OPERATION COMPLETE - RETURNING TO IDLE"
+echo "----------------------------------------"
