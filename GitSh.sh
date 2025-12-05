@@ -10,21 +10,28 @@ echo "=============================================="
 echo ""
 
 if [ -z "$1" ]; then
-    echo "Please provide a commit message!"
-    echo "Usage: ./git_auto.sh \"your message\""
+    echo "ERROR: Commit message missing."
+    echo "USAGE : git_auto.sh \"message\""
     exit 1
 fi
 
-echo "Running git status..."
+echo "[STATUS] Checking repository..."
 git status
+echo ""
 
-echo "Adding all files..."
+echo "[ACTION] Adding files..."
 git add .
+echo ""
 
-echo "Committing with message: $1"
+echo "[ACTION] Committing changes..."
+echo "MESSAGE: \"$1\""
 git commit -m "$1"
+echo ""
 
-echo "Pushing to origin main..."
+echo "[ACTION] Uploading to server (origin:main)..."
 git push origin main
+echo ""
 
-echo "Done!"
+echo "----------------------------------------"
+echo "  O P E R A T I O N   C O M P L E T E    "
+echo "----------------------------------------"
