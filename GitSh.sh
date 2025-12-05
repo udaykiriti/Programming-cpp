@@ -1,6 +1,14 @@
 #!/bin/bash
 
-# Check if commit message is provided
+echo "=============================================="
+echo "   ____ _ _      _        _         _         "
+echo "  / ___(_) |_ __| |_ __ _| |_ _   _| |__  ___ "
+echo " | |  _| | __/ _\` | '__| | __| | | | '_ \/ __|"
+echo " | |_| | | || (_| | |  | | |_| |_| | |_) \__ \\"
+echo "  \____|_|\__\__,_|_|  |_|\__|\__,_|_.__/|___/"
+echo "=============================================="
+echo ""
+
 if [ -z "$1" ]; then
     echo "Please provide a commit message!"
     echo "Usage: ./git_auto.sh \"your message\""
