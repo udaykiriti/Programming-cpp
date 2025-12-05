@@ -5,6 +5,46 @@ GREEN="\e[32m"
 RESET="\e[0m"
 BLINK="\e[5m"
 
+clear
+
+echo -e "${GREEN}RTS SYSTEM FIRMWARE v1.03  (C) 1989 REALTECH"
+echo "-----------------------------------------------"
+sleep 0.3
+echo "INITIALIZING SYSTEM..."
+sleep 0.4
+echo " "
+echo "MEMORY TEST:"
+sleep 0.4
+
+# Fake memory test animation
+for i in 16 32 64 128 256 512 1024 2048; do
+    echo -e "  ${i}KB OK"
+    sleep 0.15
+done
+
+echo "MEMORY CHECK: PASSED"
+sleep 0.3
+echo ""
+
+echo "DEVICE CHECK:"
+sleep 0.3
+echo "  KEYBOARD ............... OK"
+sleep 0.15
+echo "  DISPLAY  ............... OK"
+sleep 0.15
+echo "  STORAGE  ............... OK"
+sleep 0.15
+echo "  NETWORK  ............... OK"
+sleep 0.15
+echo ""
+
+echo "BOOT COMPLETE"
+sleep 0.3
+echo "-----------------------------------------------"
+echo ""
+
+# --- YOUR ORIGINAL RETRO TERMINAL SCRIPT BELOW ---
+
 echo -e "${GREEN}----------------------------------------"
 echo -e "   SYSTEM UTILITY v1.0  (C) 1989 RTS"
 echo -e "   MODULE: GIT OPERATION HANDLER"
