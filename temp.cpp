@@ -472,25 +472,7 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 
 void _GO() {
   // Solution Here.....
-  int_64 n,k;
-  cin >> n >> k;
-  vl v,pre(n+1);
-  FOR(i,0,n){
-    int_64 x;
-    cin >> x;
-    v.pb(x);
-  }
-  int_64 maxi(0);
-  SORT(v);
-  int_64 sum(0);
-  FOR(i,0,n){
-    sum += v[i];
-    pre[i+1] = pre[i] + v[i];
-  }
-  for(int_64 i = 0; i <= k ; i++){
-    maxi = max(maxi , pre[n-i] - pre[2 * (k-i)]);
-  }
-  cout << maxi << '\n';
+  
 }
 
 int main(/* int argc, char *argv[] */) {
