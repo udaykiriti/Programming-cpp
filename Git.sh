@@ -1,49 +1,83 @@
 #!/usr/bin/env bash
-# git_auto_nostalgia.sh — Ultra-nostalgic CRT + vintage POST + git actions
-# - Amber monochrome look
-# - Large ASCII CRT logo
-# - POST with faux floppy/modem handshake and checksum progress
-# - Optional bells (terminal BEL), optional no-push, signoff, branch, commit-all
-# Usage:
-#   NO_BELL=1 ./git_auto_nostalgia.sh "commit message"
-#   ./git_auto_nostalgia.sh -n -a --signoff -b feature/x "msg"
+# git_auto_ultra.sh — Ultra-nostalgic CRT + interactive git + dry-run + themes
+# Features:
+#   - themes: amber (default) or green
+#   - flags: --no-push, --all, --signoff, --branch BR
+#   - new: --dry-run, --interactive, --long-handshake, --theme
+# Usage examples:
+#   ./git_auto_ultra.sh "fix: small typo"
+#   ./git_auto_ultra.sh --dry-run --interactive -a "feat: WIP"
+#   THEME=green ./git_auto_ultra.sh --long-handshake "release: v1.2"
+# Notes:
+#   - set NO_BELL=1 in env to silence terminal bell
+#   - interactive mode will prompt before committing/pushing
 
 set -o errexit
 set -o nounset
 set -o pipefail
 
-# Appearance (amber / green fallback)
-AMBER="\e[33m"
-GREEN="\e[32m"
-DIM="\e[2m"
-BRIGHT="\e[1m"
-RESET="\e[0m"
-BLINK="\e[5m"
-CLS="\e[2J\e[H"
-NO_BELL="${NO_BELL:-0}"
+# ----- Configurable appearance -----
+THEME="${THEME:-amber}"   # default theme; can be overridden with --theme
+NO_BELL="${NO_BELL:-0}"   # set to 1 to silence bell
+DRY_RUN=false
+INTERACTIVE=false
+LONG_HANDSHAKE=false
 
-# Options defaults
+# ----- State defaults -----
 DO_PUSH=true
 GIT_COMMIT_ALL=false
 SIGNOFF=false
 TARGET_BRANCH=""
 COMMIT_MSG=""
 
-# helper: optionally ring system bell (if NO_BELL != 1)
+# ----- Colors (ANSI) -----
+AMP="\e[33m"  # amber
+GRN="\e[32m"
+DIM="\e[2m"
+BRIGHT="\e[1m"
+RESET="\e[0m"
+BLINK="\e[5m"
+CLS="\e[2J\e[H"
+
+# choose colors based on theme
+if [[ "$THEME" == "green" ]]; then
+  ACC="$GRN"
+else
+  ACC="$AMP"
+fi
+
+# ----- Helpers -----
 bell() {
-  if [[ "$NO_BELL" != "1" ]]; then
-    printf "\a"    # terminal bell
+  [[ "$NO_BELL" == "1" ]] && return
+  printf "\a"
+}
+
+# safe runner that respects dry-run
+safe_run() {
+  local cmd="$*"
+  echo -e "${ACC}>>> ${cmd}${RESET}"
+  if $DRY_RUN; then
+    echo -e "${ACC} (dry-run) command not executed${RESET}"
+    return 0
+  fi
+  if ! eval "${cmd}"; then
+    echo -e "${ACC}!!! ERROR running: ${cmd}${RESET}"
+    exit 1
   fi
 }
 
-# small safe runner (quiet by default)
-safe_run() {
-  local cmd="$*"
-  echo -e "${AMBER}>>> ${cmd}${RESET}"
-  if ! eval "${cmd}"; then
-    echo -e "${AMBER}!!! ERROR running: ${cmd}${RESET}"
-    exit 1
-  fi
+# prompt yes/no (returns 0 for yes)
+ask_yes_no() {
+  local prompt="$1"
+  local ans
+  while true; do
+    read -r -p "${prompt} [y/n] " ans
+    case "${ans,,}" in
+      y|yes) return 0 ;;
+      n|no) return 1 ;;
+      *) echo "Please answer y or n." ;;
+    esac
+  done
 }
 
 # Usage
@@ -51,18 +85,22 @@ usage() {
   cat <<EOF
 Usage: $0 [options] "commit message"
 Options:
-  -n | --no-push       Do not push to remote (local-only)
-  -a | --all           use 'git commit -a' (commit tracked files)
-  -s | --signoff       add --signoff to commit
-  -b | --branch BR     push to BR instead of detected branch
-  -h | --help          show help
+  -n, --no-push        Do not push to remote (local-only)
+  -a, --all            Commit tracked files (git commit -a)
+  -s, --signoff        Add --signoff to commit
+  -b, --branch BR      Push to BR instead of detected branch
+      --dry-run        Print actions but do not execute git commands
+      --interactive    Show staged diff and confirm before commit/push
+      --long-handshake Longer retro modem handshake animation
+      --theme THEME    Theme: amber (default) or green
+  -h, --help           Show this help
 Env:
-  NO_BELL=1            suppress audible bell
+  NO_BELL=1            Suppress audible bell
 EOF
   exit 1
 }
 
-# Parse args (simple)
+# ----- argument parsing -----
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -n|--no-push) DO_PUSH=false; shift ;;
@@ -71,6 +109,14 @@ while [[ $# -gt 0 ]]; do
     -b|--branch)
       if [[ -z "${2:-}" ]]; then echo "Missing branch name"; usage; fi
       TARGET_BRANCH="$2"; shift 2 ;;
+    --dry-run) DRY_RUN=true; shift ;;
+    --interactive) INTERACTIVE=true; shift ;;
+    --long-handshake) LONG_HANDSHAKE=true; shift ;;
+    --theme)
+      if [[ -z "${2:-}" ]]; then echo "Missing theme"; usage; fi
+      THEME="$2"; shift 2
+      if [[ "$THEME" == "green" ]]; then ACC="$GRN"; else ACC="$AMP"; fi
+      ;;
     -h|--help) usage ;;
     --) shift; break ;;
     -*)
@@ -85,24 +131,24 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "${COMMIT_MSG// }" ]]; then
-  echo -e "${AMBER}ERROR: missing commit message.${RESET}"
+  echo -e "${ACC}ERROR: missing commit message${RESET}"
   usage
 fi
 
-# Nostalgic visuals
-crt_logo() {
+# ----- ASCII art + small visuals -----
+big_logo() {
   cat <<'EOF'
-   ____  ____  _______  ______  ____  _____
-  / ___||  _ \|__   __||  ____|/ __ \|  __ \
- | |    | |_) |  | |   | |__  | |  | | |__) |
- | |    |  _ <   | |   |  __| | |  | |  _  /
- | |____| |_) |  | |   | |____| |__| | | \ \
-  \_____|____/   |_|   |______|\____/|_|  \_\
+██████╗ ██████╗ ████████╗████████╗
+██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝
+██████╔╝██████╔╝   ██║      ██║
+██╔═══╝ ██╔══██╗   ██║      ██║
+██║     ██║  ██║   ██║      ██║
+╚═╝     ╚═╝  ╚═╝   ╚═╝      ╚═╝
 EOF
 }
 
 type_slow() {
-  local s="$1"; local delay="${2:-0.012}"
+  local s="$1" delay="${2:-0.01}"
   local i
   for ((i=0; i<${#s}; i++)); do
     printf "%s" "${s:i:1}"
@@ -111,193 +157,173 @@ type_slow() {
   printf "\n"
 }
 
-spinner() {
-  local duration=${1:-2} # seconds
-  local end=$((SECONDS + duration))
-  local i=0
-  while [ $SECONDS -lt $end ]; do
-    printf "\r%s" "/-\|"[ $((i%4)) ]
-    i=$((i+1))
-    sleep 0.08
-  done
-  printf "\r"
-}
-
-# Fake hardware POST & vibe
-post_boot() {
-  printf "%b" "${CLS}"
-  echo -e "${AMBER}${BRIGHT}"
-  crt_logo
-  echo -e "${RESET}"
-  echo -e "${AMBER}${DIM}BIOS v2.4 - REALTECH INDUSTRIES${RESET}"
-  echo -e "${AMBER}Date: 1989-11-01    Firmware: 0xDEADBEEF${RESET}"
-  sleep 0.22; bell
-  echo ""
-  type_slow "${AMBER}POWER ON SELF TEST (POST)${RESET}" 0.009
-  sleep 0.05
-
-  # Memory test with patterns
-  echo -n "${AMBER}MEMORY TEST : "
-  for size in 16 32 64 128 256 512 1024; do
-    printf "%4sKB " "$size"
-    # pretend to run pattern checks
-    sleep 0.08
-    printf "${GREEN}OK ${RESET}"
-  done
-  echo -e "\n${AMBER}MEMORY CHECK: ${GREEN}PASSED${RESET}"
-  bell
-  sleep 0.08
-
-  # Device checks
-  type_slow "${AMBER}DEVICE CHECKS${RESET}" 0.01
-  type_slow "  [FLOPPY DRIVE] : 1.44MB - READY" 0.006
-  type_slow "  [TTY-0]        : ONLINE" 0.006
-  type_slow "  [MODEM]       : HAYES 2400bps - INITIALIZING" 0.006
-  sleep 0.06
-  # faux modem handshake (visual)
-  echo -n "  [MODEM HANDSHAKE] : "
-  for i in 1 2 3; do
-    printf "DIAL-"
-    sleep 0.09
-    printf "TONE "
-    sleep 0.09
-    printf "."
-    bell
-    sleep 0.06
-  done
-  echo " OK"
-  sleep 0.08
-  echo ""
-}
-
-checksum_progress() {
-  local len=40
-  echo -n "${AMBER}SYSTEM CHECKSUM: ["
+progress_bar() {
+  local len=${1:-36}
+  local speed=${2:-0.013}
+  printf "["
   for i in $(seq 1 $len); do
-    # fake work
-    printf "%b" "${GREEN}#${RESET}"
-    sleep 0.015
+    printf "%b" "${ACC}#${RESET}"
+    sleep "$speed"
   done
-  echo "] ${GREEN}0xC0FFEE${RESET}"
+  printf "]\n"
+}
+
+modem_handshake_short() {
+  local steps=( "DIAL" "SYN" "ACK" "CONNECT" )
+  for s in "${steps[@]}"; do
+    printf "  [MODEM] %s..." "$s"
+    sleep 0.14
+    printf " %bOK%b\n" "$ACC" "$RESET"
+  done
   bell
 }
 
-teletext_announce() {
+modem_handshake_long() {
+  echo "  [MODEM] LONG HANDSHAKE: dialing..."
+  for n in {1..6}; do
+    printf "   ~%s" "$(printf '=%.0s' $(seq 1 $n))"
+    sleep 0.12
+  done
   echo ""
-  type_slow "${AMBER}--- WELCOME TO RTS SYSTEMS - PLEASE STAND BY ---${RESET}" 0.01
-  echo ""
+  for tone in 1 2 3 4 5 6 7; do
+    printf "   TONE-%d " "$tone"
+    sleep 0.1
+    printf "%bOK%b\n" "$ACC" "$RESET"
+  done
+  bell
 }
 
-# "press any key" utility
-press_any_key() {
-  echo -n "${AMBER}Press any key to continue... ${RESET}"
-  # read -n 1 -s || true
-  # small non-blocking wait for older shells: timeout 3s if no keypress
-  if command -v read >/dev/null 2>&1; then
-    # give user up to 3 seconds to press something
-    ( read -t 3 -n 1 -s _ >/dev/null 2>&1 ) || true
-  else
-    sleep 1
-  fi
-  echo ""
-}
+# ----- start visuals -----
+printf "%b" "${CLS}"
+echo -e "${ACC}${BRIGHT}"
+big_logo
+echo -e "${RESET}"
+type_slow "${ACC}RTS SYSTEMS — GIT AUTO ULTRA${RESET}" 0.009
+sleep 0.06
 
-# error trap (nostalgic)
-on_error() {
-  echo -e "${AMBER}"
-  echo "----------------------------------------"
-  echo "  SYSTEM HALT - UNRECOVERABLE ERROR"
-  echo "----------------------------------------"
-  echo -e "${RESET}"
-}
-trap on_error ERR
+type_slow "POWER ON SELF TEST (POST) — running..." 0.007
+progress_bar 28 0.009
+sleep 0.06
+if $LONG_HANDSHAKE; then modem_handshake_long; else modem_handshake_short; fi
+type_slow "${ACC}POST COMPLETE${RESET}" 0.006
+echo ""
 
-# run the visual sequence
-post_boot
-checksum_progress
-teletext_announce
-press_any_key
-
-# Git operational logic (kept robust)
+# ----- git environment checks -----
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo -e "${AMBER}ERROR: This is not a git repository.${RESET}"
+  echo -e "${ACC}ERROR: not inside a git repository${RESET}"
   exit 1
 fi
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")"
 PUSH_BRANCH="${TARGET_BRANCH:-$CURRENT_BRANCH}"
 
-echo -e "${AMBER}${BRIGHT}>> REPOSITORY STATUS${RESET}"
+echo -e "${ACC}>> REPOSITORY STATUS${RESET}"
 safe_run "git status --short --branch"
 
 echo ""
-echo -e "${AMBER}>> STAGING CHANGES${RESET}"
+echo -e "${ACC}>> STAGING CHANGES${RESET}"
 if $GIT_COMMIT_ALL; then
-  echo -e "${AMBER}  (committing tracked files: -a)${RESET}"
+  echo -e "${ACC}  (will commit tracked files with -a)${RESET}"
 else
   safe_run "git add ."
 fi
 
-# if nothing staged and not commit-all -> exit gracefully
+# nothing to commit check
 if git diff --cached --quiet && ! $GIT_COMMIT_ALL; then
-  echo -e "${AMBER}  NO CHANGES TO COMMIT. System idle.${RESET}"
+  echo -e "${ACC}  No changes staged. System idle.${RESET}"
   exit 0
 fi
 
-COMMIT_OPTS=()
-$SIGNOFF && COMMIT_OPTS+=(--signoff)
-
-echo ""
-echo -e "${AMBER}>> WRITING LOG ENTRY${RESET}"
-if $GIT_COMMIT_ALL; then
-  safe_run "git commit -a -m \"${COMMIT_MSG//\"/\\\"}\" ${COMMIT_OPTS[*]:-}"
-else
-  if git rev-parse --verify --quiet HEAD >/dev/null 2>&1; then
-    safe_run "git commit -m \"${COMMIT_MSG//\"/\\\"}\" ${COMMIT_OPTS[*]:-}"
-  else
-    # initial commit fallback
-    safe_run "git commit --allow-empty -m \"${COMMIT_MSG//\"/\\\"}\" ${COMMIT_OPTS[*]:-}"
+# interactive preview if requested
+if $INTERACTIVE; then
+  echo -e ""
+  echo -e "${ACC}--- STAGED DIFF (preview) ---${RESET}"
+  git --no-pager diff --staged || true
+  echo -e "${ACC}-----------------------------${RESET}"
+  if ! ask_yes_no "Proceed to commit?"; then
+    echo "Aborted by user. No commit performed."
+    exit 0
   fi
 fi
 
-# show a little retro commit summary
+# prepare commit command
+COMMIT_OPTS=()
+$SIGNOFF && COMMIT_OPTS+=(--signoff)
+COMMIT_CMD=""
+if $GIT_COMMIT_ALL; then
+  COMMIT_CMD="git commit -a -m \"${COMMIT_MSG//\"/\\\"}\" ${COMMIT_OPTS[*]:-}"
+else
+  # if there's no HEAD (initial commit), allow empty or normal commit depending
+  if git rev-parse --verify --quiet HEAD >/dev/null 2>&1; then
+    COMMIT_CMD="git commit -m \"${COMMIT_MSG//\"/\\\"}\" ${COMMIT_OPTS[*]:-}"
+  else
+    COMMIT_CMD="git commit --allow-empty -m \"${COMMIT_MSG//\"/\\\"}\" ${COMMIT_OPTS[*]:-}"
+  fi
+fi
+
+# show what will happen (helpful in dry-run)
 echo ""
-echo -e "${AMBER}>> COMMIT RESULT${RESET}"
+echo -e "${ACC}>> ABOUT TO RUN${RESET}"
+echo -e "  Commit command: ${COMMIT_CMD}"
+if $DO_PUSH; then
+  echo -e "  Push target   : origin/${PUSH_BRANCH}"
+else
+  echo -e "  Push          : (skipped)"
+fi
+echo ""
+
+# final confirmation in interactive mode
+if $INTERACTIVE && ! $DRY_RUN; then
+  if ! ask_yes_no "Really run the above actions?"; then
+    echo "Cancelled by user."
+    exit 0
+  fi
+fi
+
+# execute commit
+safe_run "${COMMIT_CMD}"
+
+# commit summary (short)
+echo ""
+echo -e "${ACC}>> COMMIT SUMMARY${RESET}"
 git --no-pager log -1 --pretty=format:"%C(yellow)%h %C(green)%cr %C(reset)%s"
 echo ""
 
+# push if allowed
 if $DO_PUSH; then
   if git remote get-url origin >/dev/null 2>&1; then
-    echo -e "${AMBER}>> TRANSMITTING TO ORIGIN/${PUSH_BRANCH}${RESET}"
-    safe_run "git push origin ${PUSH_BRANCH}"
-    echo -e "${AMBER}  Transmission complete. Goodnight, and good luck.${RESET}"
+    echo -e "${ACC}>> PUSHING TO origin/${PUSH_BRANCH}${RESET}"
+    if $DRY_RUN; then
+      echo -e "${ACC}(dry-run) git push origin ${PUSH_BRANCH}${RESET}"
+    else
+      safe_run "git push origin ${PUSH_BRANCH}"
+    fi
   else
-    echo -e "${AMBER}  No 'origin' remote configured; push skipped.${RESET}"
+    echo -e "${ACC}>> No 'origin' remote configured; push skipped.${RESET}"
   fi
 else
-  echo -e "${AMBER}>> TRANSMIT SKIPPED (local-only)${RESET}"
+  echo -e "${ACC}>> Push skipped (--no-push).${RESET}"
 fi
 
-# final "idle CRT" effect: slow shimmer + optional bell
+# polished finish + final mini animation
 echo ""
-for i in 1 2 3; do
+type_slow "${ACC}TRANSACTION COMPLETE — SYSTEM IDLE${RESET}" 0.01
+progress_bar 22 0.01
+bell
+
+# small commit stats if not dry-run
+if ! $DRY_RUN; then
+  echo ""
+  echo -e "${ACC}>>> DIFFSTAT (last commit)${RESET}"
+  git --no-pager show --stat --oneline -1 || true
+fi
+
+# gentle exit sparkle
+for i in 1 3; do
   printf "%b" "${CLS}"
-  echo -e "${AMBER}${BRIGHT}"
-  crt_logo
-  echo -e "${RESET}"
-  sleep 0.14
-  bell
+  echo -e "${ACC}${BRIGHT}  * retro shimmer *${RESET}"
+  sleep 0.12
 done
 
-echo -e "${AMBER}--- OPERATION COMPLETE ---${RESET}"
-echo ""
-# tiny, elegant cursor blink for nostalgia (auto-exit after 6 blinks)
-for i in $(seq 1 6); do
-  echo -ne "${AMBER}${BLINK}_ ${RESET}"
-  sleep 0.7
-  echo -ne "\b\b  \b\b"
-  sleep 0.2
-done
-
-echo -e "${AMBER}SYSTEM IDLE${RESET}"
+echo -e "${ACC}Goodnight, and good luck.${RESET}"
 exit 0
