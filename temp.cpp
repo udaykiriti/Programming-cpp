@@ -460,9 +460,9 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 }
 */
 
-#define TIME
-#define PRAGMA
-#define ONPC
+// #define TIME
+// #define PRAGMA
+// #define ONPC
 
 #ifdef PRAGMA
 #pragma GCC optimize("O3","unroll-loops")
@@ -484,7 +484,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t(1),tcase(0); //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
