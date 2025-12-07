@@ -440,7 +440,6 @@ int mex(const vi &a){
  * Useful for connected components, tree traversal, cycle detection, etc.
  * Works on adjacency list; 'vis' tracks visited nodes.
 **/
-/* 
 void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
     int n = sz(adj);
     parent.assign(n, -1);
@@ -458,7 +457,7 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
         }
     }
 }
-*/
+
 
 // #define TIME
 // #define PRAGMA
@@ -472,7 +471,6 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 
 void _GO() {
   // Solution Here.....
-  
 }
 
 int main(/* int argc, char *argv[] */) {
