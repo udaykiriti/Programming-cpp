@@ -1,7 +1,7 @@
-/******************************
- *    author:  uday           *
- *    created: 19 21:39:08    *
- ******************************/
+/*
+  author:  -----          
+  created: 07 13:33:18    
+*/
 
 // g++ -std=c++17 new.cpp -o new
 // ./new
@@ -41,6 +41,7 @@ void solve() {
 
 int main(){
     //freopen("in.txt","r",stdin);
+    //freopen("out.txt","w",stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); cin>>t;
