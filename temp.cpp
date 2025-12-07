@@ -471,6 +471,7 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 
 void _GO() {
   // Solution Here.....
+  cout << "l " << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {

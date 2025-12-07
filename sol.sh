@@ -2,10 +2,8 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# sol.sh — compile & run with retro/turbo/dos animation modes
-# Usage: ./sol.sh [-s source.cpp] [-i in.txt] [-o out.txt] [-c compiler] [-f "extra flags"] [-m mode] [-n] [source.cpp]
-# Modes: retro (default), turbo, dos
-# -n : no animation (plain output)
+# Retro compile-run script with "old compiler" animation
+# Usage: ./sol.sh [-s source.cpp] [-i in.txt] [-o out.txt] [-c compiler] [-f "extra flags"] [source.cpp]
 
 # --------- Defaults ----------
 SRC=""
@@ -14,26 +12,20 @@ OUTFILE="out.txt"
 COMPILER="g++"
 CXXFLAGS=( -std=c++20 -O2 -Wall -Wextra -DLOCAL )
 TIMESTAMP=true
-MODE="retro"
-NO_ANIM=false
 
 # --------- Colors (if tty) ----------
 if [[ -t 1 ]]; then
   RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[0;33m'
   BLUE='\033[0;34m'; MAGENTA='\033[0;35m'; CYAN='\033[0;36m'
-  BOLD='\033[1m'; UNDER='\033[4m'; NC='\033[0m'
+  BOLD='\033[1m'; NC='\033[0m'
 else
-  RED='' ; GREEN='' ; YELLOW='' ; BLUE='' ; MAGENTA='' ; CYAN='' ; BOLD='' ; UNDER='' ; NC=''
+  RED='' ; GREEN='' ; YELLOW='' ; BLUE='' ; MAGENTA='' ; CYAN='' ; BOLD='' ; NC=''
 fi
 
 usage() {
   cat <<EOF
-Usage: $0 [-s source.cpp] [-i in.txt] [-o out.txt] [-c compiler] [-f "extra flags"] [-m mode] [-n] [source.cpp]
-Modes: retro (default), turbo, dos
--n disables animation (plain / script-friendly)
-Examples:
-  $0 -m turbo solution.cpp
-  $0 -n solution.cpp
+Usage: $0 [-s source.cpp] [-i in.txt] [-o out.txt] [-c compiler] [-f "extra flags"] [source.cpp]
+Example: $0 -s solution.cpp -i sample.in -o sample.out -f "-g -O0"
 EOF
 }
 
@@ -42,19 +34,17 @@ ok()   { printf "%b\n" "${GREEN}✔${NC} $*"; }
 err()  { printf "%b\n" "${RED}✖ ${NC}$*" >&2; }
 
 # --------- Parse flags ----------
-while getopts ":s:i:o:c:f:m:tnh" opt; do
+while getopts ":s:i:o:c:f:th" opt; do
   case "$opt" in
     s) SRC="$OPTARG" ;;
     i) INFILE="$OPTARG" ;;
     o) OUTFILE="$OPTARG" ;;
     c) COMPILER="$OPTARG" ;;
-    f) # append words from quoted string
+    f) # split provided string into words and append
        # shellcheck disable=SC2206
        CXXFLAGS+=( $OPTARG )
        ;;
-    m) MODE="$OPTARG" ;;
     t) TIMESTAMP=false ;;
-    n) NO_ANIM=true ;;
     h) usage; exit 0 ;;
     \?) err "Invalid option: -$OPTARG"; exit 2 ;;
     :)  err "Option -$OPTARG requires argument"; exit 2 ;;
@@ -68,7 +58,7 @@ if [[ -n "${1:-}" ]] && [[ -z "$SRC" ]]; then
   SRC="$1"
 fi
 
-# Auto-detect .cpp if needed
+# If no source given, pick first .cpp in CWD
 if [[ -z "$SRC" ]]; then
   shopt -s nullglob
   files=( *.cpp )
@@ -86,27 +76,7 @@ fi
 
 command -v "$COMPILER" >/dev/null || { err "Compiler not found: $COMPILER"; exit 1; }
 
-# ---------------- Mode defaults ----------------
-TYPE_DELAY=0.01
-SPINNER_SPEED=0.08
-BANNER_FUNC="retro_banner"
-
-case "$MODE" in
-  retro)
-    TYPE_DELAY=0.005; SPINNER_SPEED=0.08
-    ;;
-  turbo)
-    TYPE_DELAY=0.002; SPINNER_SPEED=0.04
-    ;;
-  dos)
-    TYPE_DELAY=0.03; SPINNER_SPEED=0.12
-    ;;
-  *)
-    err "Unknown mode: $MODE. Allowed: retro,turbo,dos"; exit 2
-    ;;
-esac
-
-# ---------------- Banners ----------------
+# ---------------- Retro ASCII banner & helpers ----------------
 retro_banner() {
   cat <<'BANNER'
   ____   ____  _____  _     ___   ____  _   _ 
@@ -118,51 +88,28 @@ retro_banner() {
    Classic-Style C++ Compiler — Retro Mode
 BANNER
 }
+# Note: banner above is in a here-doc (no color codes inside), we'll color it below
 
-turbo_banner() {
-  cat <<'BANNER'
-  _______  _   _  _   _  ____   _   _  ____  
- |__   __|| \ | || \ | ||  _ \ | \ | |/ __ \ 
-    | |   |  \| ||  \| || |_) ||  \| | |  | |
-    | |   | . ` || . ` ||  _ < | . ` | |  | |
-    | |   | |\  || |\  || |_) || |\  | |__| |
-    |_|   |_| \_||_| \_||____/ |_| \_|\____/ 
-
-   TURBO MODE — FAST & LOUD
-BANNER
-}
-
-dos_banner() {
-  cat <<'BANNER'
-  _____   ____   _____ 
- |  __ \ / __ \ / ____|
- | |  | | |  | | (___  
- | |  | | |  | |\___ \ 
- | |__| | |__| |____) |
- |_____/ \____/|_____/ 
-
-   DOS-ish Legacy Mode
-BANNER
-}
-
-# ---------------- Utilities ----------------
 typewriter() {
+  # prints argument with a typewriter effect (fast)
   local text="$*"
+  local delay="${TYPE_DELAY:-0.01}"
   for ((i=0;i<${#text};i++)); do
     printf "%s" "${text:i:1}"
-    sleep "$TYPE_DELAY"
+    sleep "$delay"
   done
   printf "\n"
 }
 
 spinner_start() {
+  # start spinner in background; spinner_pid is set
   local sp='|/-\'
   printf " "
   (
     while true; do
       for ((i=0;i<${#sp};i++)); do
         printf "\b%s" "${sp:i:1}"
-        sleep "$SPINNER_SPEED"
+        sleep 0.08
       done
     done
   ) &
@@ -175,49 +122,37 @@ spinner_stop() {
     kill "$spinner_pid" >/dev/null 2>&1 || true
     wait "$spinner_pid" 2>/dev/null || true
     unset spinner_pid
-    printf "\b"
+    printf "\b"  # remove spinner char
   fi
 }
 
-cleanup() { spinner_stop; }
+# Clean up on exit
+cleanup() {
+  spinner_stop
+}
 trap cleanup EXIT
 
-# ---------------- If no animation, do plain flow ----------------
-if $NO_ANIM; then
-  log "Compiling $SRC -> $BIN"
-  log "Flags: ${CXXFLAGS[*]}"
-  if ! "$COMPILER" "${CXXFLAGS[@]}" "$SRC" -o "$BIN"; then
-    err "Compilation failed."
-    exit 1
-  fi
-  ok "Compiled."
-  if [[ -f "$INFILE" ]]; then
-    log "Running ./$BIN < $INFILE > $OUTFILE"
-    ./"$BIN" < "$INFILE" > "$OUTFILE"
-  else
-    log "Running ./$BIN > $OUTFILE"
-    ./"$BIN" > "$OUTFILE"
-  fi
-  ok "Output written to $OUTFILE"
-  exit 0
-fi
+# ---------------- Show banner & messages ----------------
+printf "%b" "$CYAN"
+retro_banner
+printf "%b\n" "$NC"
 
-# ---------------- Show banner per mode ----------------
-case "$MODE" in
-  retro) printf "%b" "$CYAN"; retro_banner; printf "%b\n" "$NC" ;;
-  turbo) printf "%b" "$YELLOW"; turbo_banner; printf "%b\n" "$NC" ;;
-  dos)   printf "%b" "$MAGENTA"; dos_banner; printf "%b\n" "$NC" ;;
-esac
+TYPE_DELAY=0.005
+printf "%b" "${MAGENTA}"
+typewriter "Initializing compiler environment..."
+printf "%b" "$NC"
 
-# show compile command
+# show compile command (typewriter)
 printf "%b" "${YELLOW}"
 typewriter "Command: $COMPILER ${CXXFLAGS[*]} $SRC -o $BIN"
 printf "%b" "$NC"
 
-# ---------------- Compile with spinner ----------------
-printf "%b" "${BOLD}${BLUE}Compiling${NC} "
+# ---------------- Compile with spinner animation ----------------
+echo -n "${BOLD}${BLUE}Compiling${NC} "
 spinner_start
 
+# Run compiler in background, capture exit code properly
+# We run compiler and redirect its stderr/stdout to temporary files so the animation is clean.
 tmp_out="$(mktemp)"
 tmp_err="$(mktemp)"
 set +e
@@ -241,34 +176,36 @@ fi
 echo -e " ${GREEN}${BOLD}OK${NC}"
 rm -f "$tmp_out" "$tmp_err"
 
-# small link effect
-case "$MODE" in
-  turbo) typewriter "Linking..."; sleep 0.06 ;;
-  retro) typewriter "Linking objects..."; sleep 0.15 ;;
-  dos)   typewriter "Linking..."; sleep 0.25 ;;
-esac
+# ---------------- Link animation (tiny) ----------------
+printf "%b" "${BLUE}"
+typewriter "Linking objects..."
+sleep 0.15
+printf "%b" "$NC"
 
 # ---------------- Run program ----------------
 if [[ -f "$INFILE" ]]; then
   log "Running program: ./${BIN} < ${INFILE} > ${OUTFILE}"
+  # small retro "running" effect
+  printf "%b" "${MAGENTA}"
   typewriter "Running..."
+  printf "%b" "$NC"
   ./"$BIN" < "$INFILE" > "$OUTFILE"
 else
   log "Running program: ./${BIN} > ${OUTFILE}"
+  printf "%b" "${MAGENTA}"
   typewriter "Running (no input file)..."
+  printf "%b" "$NC"
   ./"$BIN" > "$OUTFILE"
 fi
 
-# ---------------- Completion ----------------
-case "$MODE" in
-  turbo) typewriter "Done — blazing fast." ;;
-  retro) typewriter "Execution finished." ;;
-  dos)   typewriter "Execution finished. Press any key to continue..." ;;
-esac
+# ---------------- Completion animation ----------------
+printf "%b" "${GREEN}"
+typewriter "Execution finished."
+printf "%b" "$NC"
 
 ok "Output written to ${OUTFILE}"
 
-# print a small preview of output
+# optional: print first few lines of output with a retro "screen"
 if [[ -s "$OUTFILE" ]]; then
   echo
   printf "%b" "${CYAN}${BOLD}--- program output (first 20 lines) ---${NC}\n"

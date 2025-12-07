@@ -24,7 +24,7 @@ SIGNOFF=false
 TARGET_BRANCH=""
 COMMIT_MSG=""
 
-# ANSI sequences
+# ----------------- ANSI sequences -----------------
 AMP="\e[33m"
 GRN="\e[32m"
 DIM="\e[2m"
@@ -34,10 +34,18 @@ BLINK="\e[5m"
 CLS="\e[2J\e[H"
 
 # Accent color chosen from theme
-if [[ "$THEME" == "green" ]]; then ACC="$GRN"; else ACC="$AMP"; fi
+if [[ "$THEME" == "green" ]]; then
+  ACC="$GRN"
+else
+  ACC="$AMP"
+fi
 
 # ----------------- Helpers -----------------
-bell() { [[ "$NO_BELL" == "1" ]] && return; printf "\a"; }
+bell() {
+  [[ "$NO_BELL" == "1" ]] && return
+  printf "\a"
+}
+
 safe_run() {
   local cmd="$*"
   echo -e "${ACC}>>> ${cmd}${RESET}"
@@ -50,6 +58,7 @@ safe_run() {
     exit 1
   fi
 }
+
 ask_yes_no() {
   local prompt="$1" ans
   while true; do
@@ -74,10 +83,11 @@ type_slow() {
 
 # tiny progress bar
 progress_bar() {
-  local width=${1:-36} speed=${2:-0.01}
+  local width=${1:-30} speed=${2:-0.015}
   printf "["
-  for i in $(seq 1 $width); do
-    printf "%b" "${ACC}#${RESET}"
+  local i
+  for i in $(seq 1 "$width"); do
+    printf "%b#%b" "$ACC" "$RESET"
     sleep "$speed"
   done
   printf "]\n"
@@ -85,8 +95,8 @@ progress_bar() {
 
 # HDD seek LED animation (visual)
 hdd_seek() {
-  local times=${1:-12} i j
-  for i in $(seq 1 $times); do
+  local times=${1:-14} i j
+  for i in $(seq 1 "$times"); do
     printf "  HDD: ["
     for j in 1 2 3 4; do
       if (( (i + j) % 4 == 0 )); then
@@ -103,14 +113,57 @@ hdd_seek() {
 
 # floppy animation: "reading"
 floppy_activity() {
-  local n=${1:-20}
-  for i in $(seq 1 $n); do
+  local n=${1:-18} i j
+  for i in $(seq 1 "$n"); do
     printf "  FLOPPY: ["
-    for j in $(seq 1 20); do
-      if (( (i + j) % 6 == 0 )); then printf "%b*%b" "$ACC" "$RESET"; else printf "."; fi
+    for j in $(seq 1 18); do
+      if (( (i + j) % 5 == 0 )); then
+        printf "%b*%b" "$ACC" "$RESET"
+      else
+        printf "."
+      fi
     done
     printf "]\r"
     sleep 0.05
+  done
+  echo ""
+}
+
+# Screen "CRT warmup" flicker
+crt_warmup() {
+  local frames=3
+  local i
+  for i in $(seq 1 "$frames"); do
+    printf "%b" "$CLS"
+    echo -e "${ACC}${DIM}BOOTING...${RESET}"
+    sleep 0.05
+    printf "%b" "$CLS"
+    sleep 0.05
+  done
+}
+
+# CRT shutdown "collapse" animation
+crt_shutdown() {
+  local i
+  for i in 3 2 1; do
+    printf "%b" "$CLS"
+    echo -e "${ACC}${BRIGHT}POWERING DOWN IN: ${i}${RESET}"
+    bell
+    sleep 0.7
+  done
+  printf "%b" "$CLS"
+  echo -e "${ACC}${BRIGHT}SYSTEM HALT. GOODNIGHT.${RESET}"
+}
+
+# blinking cursor
+blink_cursor_line() {
+  local text="$1" cycles="${2:-6}"
+  local i
+  for i in $(seq 1 "$cycles"); do
+    printf "\r%s%s_" "$text" "$ACC"
+    sleep 0.2
+    printf "\r%s " "$text"
+    sleep 0.2
   done
   echo ""
 }
@@ -119,6 +172,7 @@ floppy_activity() {
 usage() {
   cat <<EOF
 Usage: $0 [options] "commit message"
+
 Options:
   -n, --no-push        Do not push to remote (local-only)
   -a, --all            Commit tracked files (git commit -a)
@@ -129,8 +183,10 @@ Options:
       --long-handshake Dramatic modem / floppy animations
       --theme THEME    Theme: amber (default) or green
   -h, --help           Show this help
+
 Env:
   NO_BELL=1            Mute terminal bell
+  THEME=green          Green phosphor style
 EOF
   exit 1
 }
@@ -138,25 +194,64 @@ EOF
 # ----------------- Arg parsing -----------------
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -n|--no-push) DO_PUSH=false; shift ;;
-    -a|--all) GIT_COMMIT_ALL=true; shift ;;
-    -s|--signoff) SIGNOFF=true; shift ;;
-    -b|--branch)
-      if [[ -z "${2:-}" ]]; then echo "Missing branch name"; usage; fi
-      TARGET_BRANCH="$2"; shift 2 ;;
-    --dry-run) DRY_RUN=true; shift ;;
-    --interactive) INTERACTIVE=true; shift ;;
-    --long-handshake) LONG_HANDSHAKE=true; shift ;;
-    --theme)
-      if [[ -z "${2:-}" ]]; then echo "Missing theme"; usage; fi
-      THEME="$2"; shift 2
-      if [[ "$THEME" == "green" ]]; then ACC="$GRN"; else ACC="$AMP"; fi
+    -n|--no-push)
+      DO_PUSH=false
+      shift
       ;;
-    -h|--help) usage ;;
-    --) shift; break ;;
+    -a|--all)
+      GIT_COMMIT_ALL=true
+      shift
+      ;;
+    -s|--signoff)
+      SIGNOFF=true
+      shift
+      ;;
+    -b|--branch)
+      if [[ -z "${2:-}" ]]; then
+        echo "Missing branch name"
+        usage
+      fi
+      TARGET_BRANCH="$2"
+      shift 2
+      ;;
+    --dry-run)
+      DRY_RUN=true
+      shift
+      ;;
+    --interactive)
+      INTERACTIVE=true
+      shift
+      ;;
+    --long-handshake)
+      LONG_HANDSHAKE=true
+      shift
+      ;;
+    --theme)
+      if [[ -z "${2:-}" ]]; then
+        echo "Missing theme"
+        usage
+      fi
+      THEME="$2"
+      shift 2
+      if [[ "$THEME" == "green" ]]; then
+        ACC="$GRN"
+      else
+        ACC="$AMP"
+      fi
+      ;;
+    -h|--help)
+      usage
+      ;;
+    --)
+      shift
+      break
+      ;;
     -*)
-      echo "Unknown option: $1"; usage ;;
+      echo "Unknown option: $1"
+      usage
+      ;;
     *)
+      # everything else = commit message
       COMMIT_MSG="$*"
       break
       ;;
@@ -183,15 +278,20 @@ EOF
 }
 
 boot_post() {
-  printf "%b" "${CLS}"
+  crt_warmup
+  printf "%b" "$CLS"
   echo -e "${ACC}${BRIGHT}"
   pc_ascii
   echo -e "${RESET}"
   sleep 0.12
+
   type_slow "${ACC}IBM PC/XT BIOS v4.10  1986 (C) REALTECH${RESET}" 0.008
   bell; sleep 0.08
   type_slow "Performing QUICK POWER-ON SELF TEST (POST)..." 0.006
-  # CPU check
+
+  # fake POST progress
+  progress_bar 28 0.012
+
   type_slow "  CPU: 80286 (simulated) ................ OK" 0.004; sleep 0.06
   type_slow "  FPU: none .............................. OK" 0.004; sleep 0.04
   type_slow "  RAM: 512KB base + 512KB extended ........ OK" 0.004; sleep 0.05
@@ -205,7 +305,7 @@ boot_post() {
 chk_dsk_sim() {
   type_slow "${ACC}Starting CHKDSK (simulated) - scanning file allocation table...${RESET}" 0.006
   local total=120 files=0 i
-  for i in $(seq 1 $total); do
+  for i in $(seq 1 "$total"); do
     files=$((files + (RANDOM % 3)))
     printf "\r  Scanning: %3d%%   Files: %5d" $((i * 100 / total)) "$files"
     sleep 0.03
@@ -223,10 +323,11 @@ autoexec_sequence() {
   sleep 0.06
   type_slow "Loading AUTOEXEC.BAT ... [OK]" 0.004
   sleep 0.05
+
   if $LONG_HANDSHAKE; then
     floppy_activity 30
   else
-    floppy_activity 14
+    floppy_activity 16
   fi
   echo ""
   hdd_seek 18
@@ -264,15 +365,12 @@ fi
 # nothing to commit?
 if git diff --cached --quiet && ! $GIT_COMMIT_ALL; then
   echo -e "${ACC}  No changes staged. System idle.${RESET}"
-  # show BASIC prompt and exit
-  : basic_prompt
   echo ""
   echo -e "${ACC}C:\\> BASIC READY.${RESET}"
   echo -e "${ACC}10 PRINT \"NO CHANGES TO COMMIT\"${RESET}"
   echo -e "${ACC}20 GOTO 10${RESET}"
   sleep 0.3
-  echo -e "${ACC}Press any key to exit...${RESET}"
-  ( read -t 3 -n 1 -s ) || true
+  blink_cursor_line "${ACC}RUN${RESET}" 4
   exit 0
 fi
 
@@ -290,6 +388,7 @@ fi
 # prepare commit
 COMMIT_OPTS=()
 $SIGNOFF && COMMIT_OPTS+=(--signoff)
+
 if $GIT_COMMIT_ALL; then
   COMMIT_CMD="git commit -a -m \"${COMMIT_MSG//\"/\\\"}\" ${COMMIT_OPTS[*]:-}"
 else
@@ -304,7 +403,11 @@ fi
 echo ""
 echo -e "${ACC}PLANNED ACTIONS:${RESET}"
 echo -e "  Commit command: ${COMMIT_CMD}"
-if $DO_PUSH; then echo -e "  Push target: origin/${PUSH_BRANCH}"; else echo -e "  Push: (skipped)"; fi
+if $DO_PUSH; then
+  echo -e "  Push target: origin/${PUSH_BRANCH}"
+else
+  echo -e "  Push: (skipped)"
+fi
 echo ""
 
 # confirm in interactive mode
@@ -360,12 +463,5 @@ fi
 
 # final "power-down" animation
 echo ""
-for i in 3 2 1; do
-  printf "%b" "${CLS}"
-  echo -e "${ACC}${BRIGHT}POWERING DOWN IN: ${i}${RESET}"
-  bell
-  sleep 0.8
-done
-printf "%b" "${CLS}"
-echo -e "${ACC}SYSTEM HALT. GOODNIGHT.${RESET}"
+crt_shutdown
 exit 0
