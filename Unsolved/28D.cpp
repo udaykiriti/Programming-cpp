@@ -47,6 +47,8 @@ using namespace std;
 #define debug(...) 42
 #endif
 
+#define int_64 long long
+
 
 struct Truck {
     int v;
@@ -74,7 +76,7 @@ void solve(){
     }
 
     vector<int> best_seq;
-    long long best_val = 0;
+    int_64 best_val(0);
 
     for (auto& p : groups) {
         int S = p.first;
@@ -83,7 +85,7 @@ void solve(){
             return a.idx < b.idx;
         });
 
-        map<int, long long> dp_val;
+        map<int, int_64> dp_val;
         map<int, int> prev_state;
         map<int, int> last_truck_id;
 
@@ -92,7 +94,7 @@ void solve(){
         for (auto& t : group) {
             if (dp_val.find(t.l) != dp_val.end()) {
                 int x = t.l + t.c;
-                long long candidate = dp_val[t.l] + t.v;
+                int_64 candidate = dp_val[t.l] + t.v;
                 if (dp_val.find(x) == dp_val.end() || candidate > dp_val[x]) {
                     dp_val[x] = candidate;
                     prev_state[x] = t.l;
@@ -116,7 +118,7 @@ void solve(){
         }
     }
 
-    cout << best_seq.size() << endl;
+    cout << best_seq.size() << '\n';
     if (best_seq.size() > 0) {
         for (int i = 0; i < best_seq.size(); i++) {
             if (i > 0) cout << " ";
@@ -127,7 +129,10 @@ void solve(){
 }
 
 int main(){
-    //freopen("in.txt","r",stdin);
+    /*
+    freopen("in.txt","r",stdin);
+    freopen("out.txt","w",stdout);
+    */
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); //cin>>t;
