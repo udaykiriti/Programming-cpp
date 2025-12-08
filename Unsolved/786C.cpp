@@ -121,8 +121,10 @@ void solve() {
         ll l = k, r = n + 1;
         while (r - l > 1) {
             ll m = (l + r) / 2;
-            if (obtain(m) == x) l = m;
-            else r = m;
+            if (obtain(m) == x)
+              l = m;
+            else
+              r = m;
         }
         for (ll j = k; j < r; j++) {
             cout << x << ' ';
@@ -135,7 +137,7 @@ void solve() {
 int main() {
     ios_base::sync_with_stdio(false); 
     cin.tie(0); cout.tie(0);
-    int tcs(0),t(1);// cin >> tst;
-    while (++tcs,t--) solve();
+    int tcase(0),t(1);// cin >> tst;
+    while (++tcase,t--) solve();
     return 0;
 }

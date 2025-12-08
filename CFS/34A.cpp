@@ -2,8 +2,7 @@
 using namespace std;
 #define endl '\n'
 
-int main()
-{
+int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL); cout.tie(NULL);
   int n; cin >> n;
@@ -25,4 +24,4 @@ int main()
   }
   cout << idx1 << " " << idx2 << endl;
   return 0;
-} 
+}
