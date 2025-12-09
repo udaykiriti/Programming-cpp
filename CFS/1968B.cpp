@@ -31,8 +31,9 @@
 
 /*
   author:  -----          
-  created: 08 20:39:16    
+  created: 03 08:27:32    
 */
+
 
 /*
 g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p 
@@ -470,17 +471,15 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 
 void _GO() {
   // Solution Here.....
-  int n;
-  cin >> n;
-  vi vec(3,0);
-  FOR(i,0,n){
-    int x;
-    cin >> x;
-    vec[i % 3] += x;
+  int n,m;
+  cin >> n >> m;
+  str a,b;
+  cin >> a >> b;
+  int j(0);
+  for(int i = 0 ; i < m and j < n ; i++){
+    if(b[i] == a[j]) j++;
   }
-  if(vec[0] > vec[1] && vec[0] > vec[2]) cout << "chest" << '\n';
-  else if(vec[1] > vec[0] && vec[1] > vec[2]) cout << "biceps" << '\n';
-  else cout << "back" << '\n';
+  cout << j << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -492,7 +491,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); //cin >> t; 
+    int t(1),tcase(0); cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
