@@ -468,10 +468,41 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
+using i128 = __int128_t;
+vl fact, invfact;
+
+int64_t perm(int n, int r) {
+    if (r < 0 || r > n) return 0;
+    return fact[n] * invfact[n - r] % MOD;
+}
 
 void _GO() {
   // Solution Here.....
-  cout << "l " << '\n';
+  int N, K;
+  cin >> N >> K;
+  vl S(N + 1, 0);
+
+    for (int d = 1; d <= N; ++d) {
+        if (d > K) {
+            S[d] = 0;
+        } else {
+            int64_t Pk = perm(K, d);
+            int64_t base = K - (d - 1);
+            int64_t pw = (N - d >= 0) ? powerMod(base, N - d, MOD) : 0;
+            S[d] = Pk * pw % MOD;
+        }
+    }
+
+    int64_t sumS(0);
+    for (int d = 1; d <= N - 1; ++d){
+        sumS = (sumS + S[d]) % MOD;
+    }
+
+    int64_t SN = S[N];
+    int64_t ans = (sumS - ( (int64_t)(N - 1) % MOD ) * (S[N] % MOD) ) % MOD;
+    if (ans < 0) ans += MOD;
+
+    cout << ans << "\n";
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -483,7 +514,17 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); //cin >> t; 
+    fact.assign(MX + 1, 1);
+    invfact.assign(MX+1,1);
+    for(int i =1 ;i <= MX ;i++){
+        fact[i] = fact[i-1] * i % MOD;
+    }
+    invfact[MX] = powerMod(fact[MX], MOD - 2, MOD);
+    for (int i = MX; i > 0; i--){
+        invfact[i - 1] = invfact[i] * i % MOD;
+    }
+
+    int t(1),tcase(0); cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
