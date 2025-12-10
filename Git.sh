@@ -452,15 +452,6 @@ type_slow "${ACC}READY.${RESET}" 0.005
 echo -e "${ACC}10 PRINT \"COMMIT: ${COMMIT_HASH} - ${COMMIT_SUBJECT}\"${RESET}"
 echo -e "${ACC}20 END${RESET}"
 echo ""
-
-# offer to drop to an interactive shell for real commands
-if ! $DRY_RUN; then
-  if ask_yes_no "Drop to a real shell now? (you can inspect files / run more git commands)"; then
-    echo -e "${ACC}Entering real shell. Type 'exit' to return.${RESET}"
-    bash --login
-  fi
-fi
-
 # final "power-down" animation
 echo ""
 crt_shutdown
