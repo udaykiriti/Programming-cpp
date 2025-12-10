@@ -469,40 +469,41 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 #endif
 
 using i128 = __int128_t;
-vl fact, invfact;
-
-int64_t perm(int n, int r) {
+/* int_64 perm(int n, int r) {
     if (r < 0 || r > n) return 0;
     return fact[n] * invfact[n - r] % MOD;
-}
+} */
 
 void _GO() {
   // Solution Here.....
-  int N, K;
-  cin >> N >> K;
-  vl S(N + 1, 0);
+  int n;
+  cin >> n;
+  vl vec(n);
+  int_64 t0T(0);
+  FOR(i,0,n){
+    cin >> vec[i];
+    t0T += vec[i];
+  }
 
-    for (int d = 1; d <= N; ++d) {
-        if (d > K) {
-            S[d] = 0;
-        } else {
-            int64_t Pk = perm(K, d);
-            int64_t base = K - (d - 1);
-            int64_t pw = (N - d >= 0) ? powerMod(base, N - d, MOD) : 0;
-            S[d] = Pk * pw % MOD;
-        }
+  int low(0),hii = n;
+  while(low < hii){
+    int mid = (low + hii + 1)/2;
+    int_64 req = mid * mid * 1LL;
+    int_64 sm(0);
+    FOR(i,0,n){
+        sm += min<int_64>(vec[i],mid);
+        if(sm >= req) break;
     }
-
-    int64_t sumS(0);
-    for (int d = 1; d <= N - 1; ++d){
-        sumS = (sumS + S[d]) % MOD;
+    if (sm >= req)
+    {
+        low = mid;
     }
-
-    int64_t SN = S[N];
-    int64_t ans = (sumS - ( (int64_t)(N - 1) % MOD ) * (S[N] % MOD) ) % MOD;
-    if (ans < 0) ans += MOD;
-
-    cout << ans << "\n";
+    else
+    {
+        hii = mid -1;
+    }
+  }
+  cout << low << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -514,16 +515,6 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    fact.assign(MX + 1, 1);
-    invfact.assign(MX+1,1);
-    for(int i =1 ;i <= MX ;i++){
-        fact[i] = fact[i-1] * i % MOD;
-    }
-    invfact[MX] = powerMod(fact[MX], MOD - 2, MOD);
-    for (int i = MX; i > 0; i--){
-        invfact[i - 1] = invfact[i] * i % MOD;
-    }
-
     int t(1),tcase(0); cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
