@@ -11,9 +11,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-# ----------------- Config / Options -----------------
-THEME="${THEME:-amber}"   # amber or green
-NO_BELL="${NO_BELL:-0}"   # set to 1 to mute bells
+THEME="${THEME:-amber}"
+NO_BELL="${NO_BELL:-0}"
 DRY_RUN=false
 INTERACTIVE=false
 LONG_HANDSHAKE=false
@@ -24,7 +23,6 @@ SIGNOFF=false
 TARGET_BRANCH=""
 COMMIT_MSG=""
 
-# ----------------- ANSI sequences -----------------
 AMP="\e[33m"
 GRN="\e[32m"
 DIM="\e[2m"
@@ -33,14 +31,12 @@ RESET="\e[0m"
 BLINK="\e[5m"
 CLS="\e[2J\e[H"
 
-# Accent color chosen from theme
 if [[ "$THEME" == "green" ]]; then
   ACC="$GRN"
 else
   ACC="$AMP"
 fi
 
-# ----------------- Helpers -----------------
 bell() {
   [[ "$NO_BELL" == "1" ]] && return
   printf "\a"
@@ -71,7 +67,6 @@ ask_yes_no() {
   done
 }
 
-# print with slow typing
 type_slow() {
   local s="$1" delay="${2:-0.009}" i
   for ((i=0; i<${#s}; i++)); do
@@ -93,7 +88,6 @@ progress_bar() {
   printf "]\n"
 }
 
-# HDD seek LED animation (visual)
 hdd_seek() {
   local times=${1:-14} i j
   for i in $(seq 1 "$times"); do
@@ -111,7 +105,6 @@ hdd_seek() {
   echo ""
 }
 
-# floppy animation: "reading"
 floppy_activity() {
   local n=${1:-18} i j
   for i in $(seq 1 "$n"); do
@@ -129,7 +122,6 @@ floppy_activity() {
   echo ""
 }
 
-# Screen "CRT warmup" flicker
 crt_warmup() {
   local frames=3
   local i
@@ -142,7 +134,6 @@ crt_warmup() {
   done
 }
 
-# CRT shutdown "collapse" animation
 crt_shutdown() {
   local i
   for i in 3 2 1; do
@@ -155,7 +146,6 @@ crt_shutdown() {
   echo -e "${ACC}${BRIGHT}SYSTEM HALT. GOODNIGHT.${RESET}"
 }
 
-# blinking cursor
 blink_cursor_line() {
   local text="$1" cycles="${2:-6}"
   local i
@@ -168,7 +158,6 @@ blink_cursor_line() {
   echo ""
 }
 
-# ----------------- Usage -----------------
 usage() {
   cat <<EOF
 Usage: $0 [options] "commit message"
@@ -191,7 +180,6 @@ EOF
   exit 1
 }
 
-# ----------------- Arg parsing -----------------
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -n|--no-push)
@@ -362,7 +350,6 @@ else
   safe_run "git add ."
 fi
 
-# nothing to commit?
 if git diff --cached --quiet && ! $GIT_COMMIT_ALL; then
   echo -e "${ACC}  No changes staged. System idle.${RESET}"
   echo ""
@@ -374,7 +361,6 @@ if git diff --cached --quiet && ! $GIT_COMMIT_ALL; then
   exit 0
 fi
 
-# interactive preview of diff
 if $INTERACTIVE; then
   echo -e "${ACC}--- STAGED DIFF PREVIEW ---${RESET}"
   git --no-pager diff --staged || true
@@ -385,7 +371,6 @@ if $INTERACTIVE; then
   fi
 fi
 
-# prepare commit
 COMMIT_OPTS=()
 $SIGNOFF && COMMIT_OPTS+=(--signoff)
 
@@ -399,7 +384,6 @@ else
   fi
 fi
 
-# show summary of planned actions
 echo ""
 echo -e "${ACC}PLANNED ACTIONS:${RESET}"
 echo -e "  Commit command: ${COMMIT_CMD}"
@@ -410,7 +394,6 @@ else
 fi
 echo ""
 
-# confirm in interactive mode
 if $INTERACTIVE && ! $DRY_RUN; then
   if ! ask_yes_no "Really execute these actions?"; then
     echo "Cancelled."
@@ -420,8 +403,6 @@ fi
 
 # run commit
 safe_run "${COMMIT_CMD}"
-
-# small retro commit summary: show hash and message as BASIC output
 COMMIT_HASH="$(git rev-parse --short HEAD 2>/dev/null || echo 'none')"
 COMMIT_SUBJECT="$(git log -1 --pretty=format:%s 2>/dev/null || echo '')"
 
@@ -443,7 +424,6 @@ else
   echo -e "${ACC}Push skipped (--no-push).${RESET}"
 fi
 
-# fancy final BASIC-like prompt (brief, then optionally drop to shell)
 echo ""
 echo -e "${ACC}----------------------------------------${RESET}"
 echo -e "${ACC}     MS-DOS / BASIC EMULATOR MODE      ${RESET}"
@@ -452,7 +432,6 @@ type_slow "${ACC}READY.${RESET}" 0.005
 echo -e "${ACC}10 PRINT \"COMMIT: ${COMMIT_HASH} - ${COMMIT_SUBJECT}\"${RESET}"
 echo -e "${ACC}20 END${RESET}"
 echo ""
-# final "power-down" animation
 echo ""
 crt_shutdown
 exit 0
