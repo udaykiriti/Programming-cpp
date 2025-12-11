@@ -75,8 +75,6 @@ type_slow() {
   done
   printf "\n"
 }
-
-# tiny progress bar
 progress_bar() {
   local width=${1:-30} speed=${2:-0.015}
   printf "["
@@ -223,7 +221,7 @@ while [[ $# -gt 0 ]]; do
       shift 2
       if [[ "$THEME" == "green" ]]; then
         ACC="$GRN"
-      else
+        else:
         ACC="$AMP"
       fi
       ;;
