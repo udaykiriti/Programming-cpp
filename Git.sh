@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# git_auto_retro_pc.sh — Retro PC (IBM/XT/386) boot experience + git automation
 
 set -o errexit
 set -o nounset
@@ -17,7 +16,6 @@ SIGNOFF=false
 TARGET_BRANCH=""
 COMMIT_MSG=""
 
-# ANSI / terminal control sequences (no spaces around =)
 AMP=$'\033[33m'
 GRN=$'\033[32m'
 DIM=$'\033[2m'
@@ -26,7 +24,6 @@ RESET=$'\033[0m'
 BLINK=$'\033[5m'
 CLS=$'\033[2J\033[H'
 
-# default accent based on theme
 if [[ "$THEME" == "green" ]]; then
   ACC="$GRN"
 else
@@ -232,9 +229,9 @@ boot_post() {
 
   progress_bar 28 0.012
 
-  type_slow "  CPU: 80286 (simulated) ................ OK" 0.004; sleep 0.06
-  type_slow "  FPU: none .............................. OK" 0.004; sleep 0.04
-  type_slow "  RAM: 512KB base + 512KB extended ........ OK" 0.004; sleep 0.05
+  type_slow "  CPU: 80286 (simulated) ................ OK" 0.004; sleep 0.03
+  type_slow "  FPU: none .............................. OK" 0.004; sleep 0.03
+  type_slow "  RAM: 512KB base + 512KB extended ........ OK" 0.004; sleep 0.03
   bell
   type_slow "  VIDEO: MDA/CGA compatible ................ OK" 0.004; sleep 0.04
   type_slow "  FLOPPY CONTROLLER ....................... OK" 0.004; sleep 0.04
