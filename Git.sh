@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 # git_auto_retro_pc.sh — Retro PC (IBM/XT/386) boot experience + git automation
-# Drop-in nostalgia: POST, CHKDSK, floppy prompts, HDD seek LEDs, AUTOEXEC, BASIC prompt
-# Keeps robust git ops: --dry-run, --interactive, --no-push, --all, --signoff, --branch, --theme
-# Usage examples:
-#   ./git_auto_retro_pc.sh "fix: tiny bug"
-#   ./git_auto_retro_pc.sh --dry-run --interactive -a "wip: test"
-#   THEME=green ./git_auto_retro_pc.sh --long-handshake "release candidate"
 
 set -o errexit
 set -o nounset
@@ -23,14 +17,16 @@ SIGNOFF=false
 TARGET_BRANCH=""
 COMMIT_MSG=""
 
-AMP="\e[33m"
-GRN="\e[32m"
-DIM="\e[2m"
-BRIGHT="\e[1m"
-RESET="\e[0m"
-BLINK="\e[5m"
-CLS="\e[2J\e[H"
+# ANSI / terminal control sequences (no spaces around =)
+AMP=$'\033[33m'
+GRN=$'\033[32m'
+DIM=$'\033[2m'
+BRIGHT=$'\033[1m'
+RESET=$'\033[0m'
+BLINK=$'\033[5m'
+CLS=$'\033[2J\033[H'
 
+# default accent based on theme
 if [[ "$THEME" == "green" ]]; then
   ACC="$GRN"
 else
@@ -44,13 +40,13 @@ bell() {
 
 safe_run() {
   local cmd="$*"
-  echo -e "${ACC}>>> ${cmd}${RESET}"
+  printf "%b>>> %s%b\n" "$ACC" "$cmd" "$RESET"
   if $DRY_RUN; then
-    echo -e "${ACC}(dry-run) not executed${RESET}"
+    printf "%b(dry-run) not executed%b\n" "$ACC" "$RESET"
     return 0
   fi
   if ! eval "${cmd}"; then
-    echo -e "${ACC}!!! ERROR running: ${cmd}${RESET}"
+    printf "%b!!! ERROR running: %s%b\n" "$ACC" "$cmd" "$RESET"
     exit 1
   fi
 }
@@ -75,6 +71,7 @@ type_slow() {
   done
   printf "\n"
 }
+
 progress_bar() {
   local width=${1:-30} speed=${2:-0.015}
   printf "["
@@ -100,7 +97,7 @@ hdd_seek() {
     printf "]\r"
     sleep 0.08
   done
-  echo ""
+  printf "\n"
 }
 
 floppy_activity() {
@@ -117,15 +114,15 @@ floppy_activity() {
     printf "]\r"
     sleep 0.05
   done
-  echo ""
+  printf "\n"
 }
 
 crt_warmup() {
-  local frames=3
-  local i
+  local frames=3 i
   for i in $(seq 1 "$frames"); do
     printf "%b" "$CLS"
-    echo -e "${ACC}${DIM}BOOTING...${RESET}"
+    # correct use: combine DIM and text, not a single unknown var
+    type_slow "${ACC}${DIM}BOOTING...${RESET}" 0.006
     sleep 0.05
     printf "%b" "$CLS"
     sleep 0.05
@@ -153,7 +150,7 @@ blink_cursor_line() {
     printf "\r%s " "$text"
     sleep 0.2
   done
-  echo ""
+  printf "\n"
 }
 
 usage() {
@@ -178,78 +175,36 @@ EOF
   exit 1
 }
 
+# --- parse args ---
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -n|--no-push)
-      DO_PUSH=false
-      shift
-      ;;
-    -a|--all)
-      GIT_COMMIT_ALL=true
-      shift
-      ;;
-    -s|--signoff)
-      SIGNOFF=true
-      shift
-      ;;
+    -n|--no-push) DO_PUSH=false; shift ;;
+    -a|--all) GIT_COMMIT_ALL=true; shift ;;
+    -s|--signoff) SIGNOFF=true; shift ;;
     -b|--branch)
-      if [[ -z "${2:-}" ]]; then
-        echo "Missing branch name"
-        usage
-      fi
-      TARGET_BRANCH="$2"
-      shift 2
+      if [[ -z "${2:-}" ]]; then echo "Missing branch name"; usage; fi
+      TARGET_BRANCH="$2"; shift 2
       ;;
-    --dry-run)
-      DRY_RUN=true
-      shift
-      ;;
-    --interactive)
-      INTERACTIVE=true
-      shift
-      ;;
-    --long-handshake)
-      LONG_HANDSHAKE=true
-      shift
-      ;;
+    --dry-run) DRY_RUN=true; shift ;;
+    --interactive) INTERACTIVE=true; shift ;;
+    --long-handshake) LONG_HANDSHAKE=true; shift ;;
     --theme)
-      if [[ -z "${2:-}" ]]; then
-        echo "Missing theme"
-        usage
-      fi
-      THEME="$2"
-      shift 2
-      if [[ "$THEME" == "green" ]]; then
-        ACC="$GRN"
-        else:
-        ACC="$AMP"
-      fi
+      if [[ -z "${2:-}" ]]; then echo "Missing theme"; usage; fi
+      THEME="$2"; shift 2
+      if [[ "$THEME" == "green" ]]; then ACC="$GRN"; else ACC="$AMP"; fi
       ;;
-    -h|--help)
-      usage
-      ;;
-    --)
-      shift
-      break
-      ;;
-    -*)
-      echo "Unknown option: $1"
-      usage
-      ;;
-    *)
-      # everything else = commit message
-      COMMIT_MSG="$*"
-      break
-      ;;
+    -h|--help) usage ;;
+    --) shift; break ;;
+    -*) echo "Unknown option: $1"; usage ;;
+    *) COMMIT_MSG="$*"; break ;;
   esac
 done
 
 if [[ -z "${COMMIT_MSG// }" ]]; then
-  echo -e "${ACC}ERROR: missing commit message${RESET}"
+  printf "%bERROR: missing commit message%b\n" "$ACC" "$RESET"
   usage
 fi
 
-# ----------------- Retro PC visuals -----------------
 pc_ascii() {
   cat <<'EOF'
       .----------------------------------------------.
@@ -266,16 +221,15 @@ EOF
 boot_post() {
   crt_warmup
   printf "%b" "$CLS"
-  echo -e "${ACC}${BRIGHT}"
+  printf "%b" "${ACC}${BRIGHT}"
   pc_ascii
-  echo -e "${RESET}"
+  printf "%b\n" "${RESET}"
   sleep 0.12
 
   type_slow "${ACC}IBM PC/XT BIOS v4.10  1986 (C) REALTECH${RESET}" 0.008
   bell; sleep 0.08
   type_slow "Performing QUICK POWER-ON SELF TEST (POST)..." 0.006
 
-  # fake POST progress
   progress_bar 28 0.012
 
   type_slow "  CPU: 80286 (simulated) ................ OK" 0.004; sleep 0.06
@@ -285,7 +239,7 @@ boot_post() {
   type_slow "  VIDEO: MDA/CGA compatible ................ OK" 0.004; sleep 0.04
   type_slow "  FLOPPY CONTROLLER ....................... OK" 0.004; sleep 0.04
   type_slow "  HARD DISK CONTROLLER .................... OK" 0.004; sleep 0.04
-  echo ""
+  printf "\n"
 }
 
 chk_dsk_sim() {
@@ -296,12 +250,12 @@ chk_dsk_sim() {
     printf "\r  Scanning: %3d%%   Files: %5d" $((i * 100 / total)) "$files"
     sleep 0.03
   done
-  echo ""
+  printf "\n"
   sleep 0.06
   type_slow "CHKDSK: 0 KB in bad sectors." 0.004
   type_slow "CHKDSK: 0 lost clusters found." 0.004
   bell
-  echo ""
+  printf "\n"
 }
 
 autoexec_sequence() {
@@ -310,25 +264,21 @@ autoexec_sequence() {
   type_slow "Loading AUTOEXEC.BAT ... [OK]" 0.004
   sleep 0.05
 
-  if $LONG_HANDSHAKE; then
-    floppy_activity 30
-  else
-    floppy_activity 16
-  fi
-  echo ""
+  if $LONG_HANDSHAKE; then floppy_activity 30; else floppy_activity 16; fi
+  printf "\n"
   hdd_seek 18
-  echo ""
+  printf "\n"
   type_slow "${ACC}BOOT: MS-DOS style shell ready.${RESET}" 0.006
   bell
-  echo ""
+  printf "\n"
 }
 
-# ----------------- Run retro boot visuals -----------------
+# run visuals
 boot_post
 chk_dsk_sim
 autoexec_sequence
 
-# ----------------- Git logic (keeps safety) -----------------
+# git logic (unchanged)
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo -e "${ACC}ERROR: not inside a git repository${RESET}"
   exit 1
@@ -340,7 +290,7 @@ PUSH_BRANCH="${TARGET_BRANCH:-$CURRENT_BRANCH}"
 echo -e "${ACC}A:> DIR /W /P${RESET}"
 safe_run "git status --short --branch"
 
-echo ""
+printf "\n"
 echo -e "${ACC}A:> STAGE ALL CHANGES${RESET}"
 if $GIT_COMMIT_ALL; then
   echo -e "${ACC}  (will commit tracked changes with -a)${RESET}"
@@ -350,7 +300,7 @@ fi
 
 if git diff --cached --quiet && ! $GIT_COMMIT_ALL; then
   echo -e "${ACC}  No changes staged. System idle.${RESET}"
-  echo ""
+  printf "\n"
   echo -e "${ACC}C:\\> BASIC READY.${RESET}"
   echo -e "${ACC}10 PRINT \"NO CHANGES TO COMMIT\"${RESET}"
   echo -e "${ACC}20 GOTO 10${RESET}"
@@ -382,7 +332,7 @@ else
   fi
 fi
 
-echo ""
+printf "\n"
 echo -e "${ACC}PLANNED ACTIONS:${RESET}"
 echo -e "  Commit command: ${COMMIT_CMD}"
 if $DO_PUSH; then
@@ -390,7 +340,7 @@ if $DO_PUSH; then
 else
   echo -e "  Push: (skipped)"
 fi
-echo ""
+printf "\n"
 
 if $INTERACTIVE && ! $DRY_RUN; then
   if ! ask_yes_no "Really execute these actions?"; then
@@ -399,17 +349,15 @@ if $INTERACTIVE && ! $DRY_RUN; then
   fi
 fi
 
-# run commit
 safe_run "${COMMIT_CMD}"
 COMMIT_HASH="$(git rev-parse --short HEAD 2>/dev/null || echo 'none')"
 COMMIT_SUBJECT="$(git log -1 --pretty=format:%s 2>/dev/null || echo '')"
 
-echo ""
+printf "\n"
 echo -e "${ACC}A:> TYPE COMMIT.LOG${RESET}"
 type_slow "${ACC}Last commit: ${COMMIT_HASH} - ${COMMIT_SUBJECT}${RESET}" 0.006
-echo ""
+printf "\n"
 
-# push if configured
 if $DO_PUSH; then
   if git remote get-url origin >/dev/null 2>&1; then
     echo -e "${ACC}A:> PUSHDATA TO origin/${PUSH_BRANCH}${RESET}"
@@ -422,14 +370,13 @@ else
   echo -e "${ACC}Push skipped (--no-push).${RESET}"
 fi
 
-echo ""
+printf "\n"
 echo -e "${ACC}----------------------------------------${RESET}"
 echo -e "${ACC}     MS-DOS / BASIC EMULATOR MODE      ${RESET}"
 echo -e "${ACC}----------------------------------------${RESET}"
 type_slow "${ACC}READY.${RESET}" 0.005
 echo -e "${ACC}10 PRINT \"COMMIT: ${COMMIT_HASH} - ${COMMIT_SUBJECT}\"${RESET}"
 echo -e "${ACC}20 END${RESET}"
-echo ""
-echo ""
+printf "\n\n"
 crt_shutdown
 exit 0
