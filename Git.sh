@@ -270,19 +270,17 @@ autoexec_sequence() {
   printf "\n"
 }
 
-# run visuals
 boot_post
 chk_dsk_sim
 autoexec_sequence
 
-# git logic (unchanged)
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo -e "${ACC}ERROR: not inside a git repository${RESET}"
   exit 1
 fi
 
-CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")"
-PUSH_BRANCH="${TARGET_BRANCH:-$CURRENT_BRANCH}"
+CURRENTBRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")"
+PUSH_BRANCH="${TARGET_BRANCH:-$CURRENTBRANCH}"
 
 echo -e "${ACC}A:> DIR /W /P${RESET}"
 safe_run "git status --short --branch"
