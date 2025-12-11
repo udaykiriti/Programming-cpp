@@ -573,3 +573,11 @@ int main(/* int argc, char *argv[] */) {
  * WRITE STUFF DOWN
  * DON'T GET STUCK ON ONE APPROACH
  */
+
+
+/*
+ * Wrong Tcase
+ * may be approach is wrong or typecasting
+ * Fix it
+ *
+ */
