@@ -476,34 +476,6 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  int n;
-  cin >> n;
-  vl vec(n);
-  int_64 t0T(0);
-  FOR(i,0,n){
-    cin >> vec[i];
-    t0T += vec[i];
-  }
-
-  int low(0),hii = n;
-  while(low < hii){
-    int mid = (low + hii + 1)/2;
-    int_64 req = mid * mid * 1LL;
-    int_64 sm(0);
-    FOR(i,0,n){
-        sm += min<int_64>(vec[i],mid);
-        if(sm >= req) break;
-    }
-    if (sm >= req)
-    {
-        low = mid;
-    }
-    else
-    {
-        hii = mid -1;
-    }
-  }
-  cout << low << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {

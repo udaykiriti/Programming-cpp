@@ -32,7 +32,7 @@ GDB NOTES (TEXT VERSION)
    step     [go to piece of line even may be like (Increment of program counter)pc + 1][if function present it go to it]
    next     [Executes && go to piece of line like pc + 1][skips functions]
    finish   [completes the debugging]
-   si       [next instruction not code or any line][like low level]
+   si       [next instruction not code or any line][like Assembler]
 
 5. Print variables:
    print x     [value of variable]
