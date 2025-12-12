@@ -29,7 +29,7 @@ GDB NOTES (TEXT VERSION)
 
 4. Execution:
    continue [resumes and go and stops until the next Breakpoint]
-   step     [go to piece of line even may be  like pc + 1][if function present it go to it]
+   step     [go to piece of line even may be like (Increment of program counter)pc + 1][if function present it go to it]
    next     [Executes && go to piece of line like pc + 1][skips functions]
    finish   [completes the debugging]
    si       [next instruction not code or any line][like low level]
@@ -51,7 +51,7 @@ GDB NOTES (TEXT VERSION)
    jump 60 [move execution to that line {skips b/w lines}]
 
 8. Memory:
-   x/20xb &arr [examine 20 bytes of memory at &arr in hex (x = hex, b = byte)]
+   x/20xb &arr [examine 20 bytes of memory at &arr in hex {x = hex, b = byte}]
    x/5i $pc    [show the next 5 assembly instructions starting at the current program counter ($pc)]
 
 9. Segfault debugging:
