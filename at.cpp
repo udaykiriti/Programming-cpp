@@ -510,7 +510,7 @@ void _GO() {
         dp.swap(ndp);
     }
 
-    int_64 ans = 0;
+    int_64 ans(0);
     FOR(r,0,a) {
         if (r > M) continue;
         int_64 cnt = (M - r) / a + 1;
