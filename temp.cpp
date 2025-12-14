@@ -171,7 +171,7 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
+/* Complex to expand compared to normal ones, but looks cool*/
 #define tcT template <class T
 #define tcTU tcT, class U
 // ^ lol this makes everything look weird but I'll try it
@@ -201,13 +201,6 @@ using vpd = V<pdb>;
 */
 
 #define FIXED(x) cout << fixed << setprecision(x)
-
-/* 
-#define debug(x) cout << (x) << endl
-#define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " "; cout << endl; } while(0)
-#define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
-#define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
-*/
 
 const int MOD = 998244353;  // 1e9+7;
 double PI = 3.14159265358979323846;
