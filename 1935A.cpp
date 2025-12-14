@@ -476,27 +476,16 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  int n;
-  int_64 k;
-  cin >> n >> k;
-  vl a(n),b(n);
-  FOR(i,0,n) cin >> a[i];
-  FOR(i,0,n) cin >> b[i];
-  vector<pair<int_64,int_64>> vec;
-
-  FOR(i,0,n){
-    vec.pb({a[i],b[i]});
-  }
-  SORT(vec);
-  for (auto &p : vec) {
-    if (p.first <= k) {
-        k += p.second;
-    } else {
-        break;
-    }
-  }
-
-  cout << k << '\n';
+  int_64 n;
+  str s;
+  cin >> n >> s;
+  str rev = s;
+  reverse(rev.begin(),rev.end());
+  str bst = min(s,rev);
+  str cnd = bst;
+  reverse(bst.begin(),bst.end());
+  cnd += bst;
+  cout << min(s,cnd) << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
