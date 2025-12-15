@@ -448,13 +448,24 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
+  int n;
+  cin >> n;
+  vi vec(n);
+  int ones(0), big(0);
+  FOR(i,0,n) {
+    int h;
+    cin >> h;
+    (h == 1 ? ones++ : big++);
+  }
+  int ans = big + (ones + 1) / 2;
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     //cin.tie(0)->ios::sync_with_stdio(0);
-    cout.tie(0);
+    //cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
