@@ -274,13 +274,26 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define isOdd(x)             (0 != (x) % 2)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-void __print(T x) { cout << x; }
+#define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
 
-void __print(char x) { cout << x; }
-void __print(const char* x) { cout << x; }
-void __print(const string& x) { cout << x; }
-void __print(bool x) { cout << (x ? "Yes" : "No") << '\n'; }
+
+template <typename T>
+using is_arithmetic_t = enable_if_t<is_arithmetic_v<T>, int>;
+
+template <typename T, is_arithmetic_t<T> = 0>
+void __print(T x) { cout << x; }
+void __print(const string& s) { cout << '"' << s << '"'; }
+void __print(const char* s) { cout << '"' << s << '"'; }
+void __print(char c) { cout << '\'' << c << '\''; }
+
+template <typename A, typename B>
+void __print(const pair<A, B>& p) {
+    cout << "(";
+    __print(p.first);
+    cout << ", ";
+    __print(p.second);
+    cout << ")";
+}
 
 template <typename T>
 void __print(const vector<T>& v) {
@@ -294,27 +307,16 @@ void __print(const vector<T>& v) {
 
 template <typename T>
 void __print(const set<T>& s) {
-    cout << "{";
-    size_t i = 0;
-    for (const auto& el : s) {
-        __print(el);
-        if (++i != s.size()) cout << ", ";
-    }
-    cout << "}";
-}
+    cout << "{"; size_t i = 0;
+    for (const auto& x : s) {
+        __print(x); if (++i != s.size()){ cout << ", ";} } cout << "}"; }
 
 template <typename K, typename V>
 void __print(const map<K, V>& m) {
-    cout << "{";
-    size_t i = 0;
-    for (const auto& [key, value] : m) {
-        __print(key);
-            cout << ": ";
-        __print(value);
-        if (++i != m.size()) cout << ", ";
-    }
-        cout << "}";
-}
+    cout << "{"; size_t i = 0;
+    for (const auto& [k, v] : m) { __print(k);
+        cout << ": "; __print(v);
+        if (++i != m.size()){ cout << ", "; } } cout << "}"; }
 
 
 /* Utility Functions */
@@ -483,43 +485,7 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  int N;
-  int_64 M;
-    cin >> N >> M;
 
-    vi A(N);
-    FOR(i,0,N) cin >> A[i];
-
-    int a = *min_element(A.begin(), A.end());
-
-    vl dp(a, 0);
-    dp[0] = 1;
-
-    FOR(i,0,N) {
-        vl ndp = dp;
-        int w = A[i] % a;
-
-        FOR(r,0,a){
-            int_64 cur = dp[r];
-            int nr = (r + w) % a;
-            while (nr != r) {
-                ndp[nr] = (ndp[nr] + cur) % MOD;
-                nr = (nr + w) % a;
-            }
-        }
-        dp.swap(ndp);
-    }
-
-    int_64 ans(0);
-    FOR(r,0,a) {
-        if (r > M) continue;
-        int_64 cnt = (M - r) / a + 1;
-        cnt %= MOD;
-        ans = (ans + dp[r] * cnt) % MOD;
-    }
-
-    cout << ans << "\n";
- 
 }
 
 int main(/* int argc, char *argv[] */) {
