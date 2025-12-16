@@ -194,9 +194,16 @@ using pdb = pair<db,db>;
 /* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
+#define tcTUV tcT, class U, class V // It doesn't make any Sense 
 // ^ lol this makes everything look weird but I'll try it
 tcT > using V = vector<T>;
+tcT > using V1 = V<T>;
+tcT > using VV = V<V<T>>;
 tcT, size_t SZ > using AR = array<T, SZ>;
+
+#define tcTP template <class... T
+#define tcTPU tcTP, class... U
+
 using vi = V<int>;
 using vb = V<bool>;
 using vl = V<int_64>;
@@ -237,7 +244,6 @@ const int MX = (int)2e5 + 5;
 const int_64 BIG = 1e18;  // not too close to LLONG_MAX
 #define MIN -1e7
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
-
 
 #define sz(x)     int(size(x))
 #define pb        push_back
