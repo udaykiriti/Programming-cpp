@@ -277,17 +277,15 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
 
 
-template <typename T>
-using is_arithmetic_t = enable_if_t<is_arithmetic_v<T>, int>;
-
-template <typename T, is_arithmetic_t<T> = 0>
+tcT, class = enable_if_t<is_arithmetic_v<T>>>
 void __print(T x) { cout << x; }
-void __print(const string& s) { cout << '"' << s << '"'; }
-void __print(const char* s) { cout << '"' << s << '"'; }
-void __print(char c) { cout << '\'' << c << '\''; }
 
-template <typename A, typename B>
-void __print(const pair<A, B>& p) {
+void __print(const string& s) { cout << '"' << s << '"'; }
+void __print(const char* s)   { cout << '"' << s << '"'; }
+void __print(char c)          { cout << '\'' << c << '\''; }
+
+tcTU>
+void __print(const pair<T, U>& p) {
     cout << "(";
     __print(p.first);
     cout << ", ";
@@ -295,28 +293,39 @@ void __print(const pair<A, B>& p) {
     cout << ")";
 }
 
-template <typename T>
-void __print(const vector<T>& v) {
+tcT>
+void __print(const V<T>& v) {
     cout << "[";
-    for (size_t i = 0; i < v.size(); ++i) {
+    for (int i = 0; i < (int)v.size(); ++i) {
         __print(v[i]);
-        if (i + 1 != v.size()) cout << ", ";
+        if (i + 1 < (int)v.size()) cout << ", ";
     }
     cout << "]";
 }
 
-template <typename T>
+tcT>
 void __print(const set<T>& s) {
-    cout << "{"; size_t i = 0;
-    for (const auto& x : s) {
-        __print(x); if (++i != s.size()){ cout << ", ";} } cout << "}"; }
+    cout << "{";
+    int i = 0;
+    for (auto& x : s) {
+        __print(x);
+        if (++i < (int)s.size()) cout << ", ";
+    }
+    cout << "}";
+}
 
-template <typename K, typename V>
-void __print(const map<K, V>& m) {
-    cout << "{"; size_t i = 0;
-    for (const auto& [k, v] : m) { __print(k);
-        cout << ": "; __print(v);
-        if (++i != m.size()){ cout << ", "; } } cout << "}"; }
+tcTU>
+void __print(const map<T, U>& m) {
+    cout << "{";
+    int i = 0;
+    for (auto& [k, v] : m) {
+        __print(k);
+        cout << ": ";
+        __print(v);
+        if (++i < (int)m.size()) cout << ", ";
+    }
+    cout << "}";
+}
 
 
 /* Utility Functions */
