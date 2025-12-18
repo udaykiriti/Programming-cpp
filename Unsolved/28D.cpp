@@ -29,12 +29,9 @@
                    buGs geT EaTeNN.
 */
 
-
 /*
-g++ -std=c++17 new.cpp -o new
-./new
-g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
-./file-name
+g++ -std=c++17 -Wall -Wextra -O2 28.cpp -o 28D
+./28D
 */
 
 #undef _GLIBCXX_DEBUG
@@ -48,7 +45,6 @@ using namespace std;
 #endif
 
 #define int_64 long long
-
 
 struct Truck {
     int v;
