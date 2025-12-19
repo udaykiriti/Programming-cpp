@@ -77,43 +77,63 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <typeinfo>
 #include <typeindex>
 #include <type_traits>
+#include <bitset>
+#include <functional>
 #include <utility>
 #include <ctime>
+#include <chrono>
 #include <cstddef>
 #include <initializer_list>
 #include <tuple>
 #include <new>
 #include <memory>
 #include <scoped_allocator>
+#include <climits>
 #include <cfloat>
 #include <cstdint>
 #include <cinttypes>
 #include <limits>
 #include <exception>
 #include <stdexcept>
+#include <cassert>
 #include <system_error>
 #include <cerrno>
 #include <cctype>
 #include <cwctype>
+#include <cstring>
 #include <cwstring>
 #include <cwchar>
 #include <cuchar>
+#include <string>
+#include <array>
+#include <vector>
 #include <deque>
 #include <list>
 #include <forward_list>
+#include <set>
+#include <map>
 #include <unordered_set>
 #include <unordered_map>
 #include <stack>
+#include <queue>
+#include <algorithm>
 #include <iterator>
+#include <cmath>
+#include <complex>
 #include <valarray>
+#include <random>
+#include <numeric>
 #include <ratio>
 #include <cfenv>
 #include <iosfwd>
 #include <ios>
 #include <istream>
 #include <ostream>
+#include <iostream>
+#include <fstream>
 #include <sstream>
 #include <strstream>
+#include <iomanip>
 #include <streambuf>
 #include <cstdio>
 #include <locale>
@@ -171,12 +191,19 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool*/
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
+#define tcTUV tcT, class U, class V // It doesn't make any Sense 
 // ^ lol this makes everything look weird but I'll try it
 tcT > using V = vector<T>;
+tcT > using V1 = V<T>;
+tcT > using VV = V<V<T>>;
 tcT, size_t SZ > using AR = array<T, SZ>;
+
+#define tcTP template <class... T
+#define tcTPU tcTP, class... U
+
 using vi = V<int>;
 using vb = V<bool>;
 using vl = V<int_64>;
@@ -202,6 +229,13 @@ using vpd = V<pdb>;
 
 #define FIXED(x) cout << fixed << setprecision(x)
 
+/* 
+#define debug(x) cout << (x) << endl
+#define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " "; cout << endl; } while(0)
+#define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
+#define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
+*/
+
 const int MOD = 998244353;  // 1e9+7;
 double PI = 3.14159265358979323846;
 int_64 INF = 1e18;
@@ -210,7 +244,6 @@ const int MX = (int)2e5 + 5;
 const int_64 BIG = 1e18;  // not too close to LLONG_MAX
 #define MIN -1e7
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
-
 
 #define sz(x)     int(size(x))
 #define pb        push_back
@@ -247,46 +280,57 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define isOdd(x)             (0 != (x) % 2)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+#define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
+
+
+tcT, class = enable_if_t<is_arithmetic_v<T>>>
 void __print(T x) { cout << x; }
 
-void __print(char x) { cout << x; }
-void __print(const char* x) { cout << x; }
-void __print(const string& x) { cout << x; }
-void __print(bool x) { cout << (x ? "Yes" : "No") << '\n'; }
+void __print(const string& s) { cout << '"' << s << '"'; }
+void __print(const char* s)   { cout << '"' << s << '"'; }
+void __print(char c)          { cout << '\'' << c << '\''; }
 
-template <typename T>
-void __print(const vector<T>& v) {
+tcTU>
+void __print(const pair<T, U>& p) {
+    cout << "(";
+    __print(p.first);
+    cout << ", ";
+    __print(p.second);
+    cout << ")";
+}
+
+tcT>
+void __print(const V<T>& v) {
     cout << "[";
-    for (size_t i = 0; i < v.size(); ++i) {
+    for (int i = 0; i < (int)v.size(); ++i) {
         __print(v[i]);
-        if (i + 1 != v.size()) cout << ", ";
+        if (i + 1 < (int)v.size()) cout << ", ";
     }
     cout << "]";
 }
 
-template <typename T>
+tcT>
 void __print(const set<T>& s) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& el : s) {
-        __print(el);
-        if (++i != s.size()) cout << ", ";
+    int i = 0;
+    for (auto& x : s) {
+        __print(x);
+        if (++i < (int)s.size()) cout << ", ";
     }
     cout << "}";
 }
 
-template <typename K, typename V>
-void __print(const map<K, V>& m) {
+tcTU>
+void __print(const map<T, U>& m) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& [key, value] : m) {
-        __print(key);
-            cout << ": ";
-        __print(value);
-        if (++i != m.size()) cout << ", ";
+    int i = 0;
+    for (auto& [k, v] : m) {
+        __print(k);
+        cout << ": ";
+        __print(v);
+        if (++i < (int)m.size()) cout << ", ";
     }
-        cout << "}";
+    cout << "}";
 }
 
 
@@ -296,6 +340,7 @@ bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;r
 bool isUp(char ch){locale loc;return isupper(ch,loc);}
 
 /* Power & Combinatorics */
+
 template <typename T>
 T binpow(T a,int_64 e , T mod){
     T r = 1; a %= mod;
@@ -333,15 +378,22 @@ void _timer_(){
 **/
 struct DSU{
     int n;
-    vi parent,size;
-    DSU(int n) : n(n),parent(n),size(n,1){
-        iota(all(parent),0);
+    vi parent, size;
+
+    DSU(int n) : n(n), parent(n), size(n,1){
+        iota(parent.begin(), parent.end(), 0);
     }
+
     int find(int v){
         if(parent[v] == v) return v;
         return parent[v] = find(parent[v]);
     }
-    bool unite(int a , int b){
+
+    int_64 size_of(int x){
+        return size[find(x)];
+    }
+
+    bool unite(int a, int b){
         a = find(a);
         b = find(b);
         if(a == b) return false;
@@ -448,13 +500,18 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
+  int l, a,b;
+  cin >>l >> a>> b;
+  int g = gcd(l, b);
+  int maxPrize = a + ((l-1- a)/g)* g;
+  cout << maxPrize << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     //cin.tie(0)->ios::sync_with_stdio(0);
-    cout.tie(0);
+   // cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
