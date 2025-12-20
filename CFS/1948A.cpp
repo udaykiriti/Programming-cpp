@@ -500,7 +500,23 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
+  int n;
+  cin >> n;
+  if (n % 2 == 1) {
+    cout << "NO" << '\n';
+    return;
+  }
+  cout << "YES" << '\n';
+  string s;
+  char ch = 'A';
+ 
+ FOR ( i, 0, n / 2) {
+    s.pb(ch);
+    s.pb(ch);
+    ch++;
+ }
 
+ cout << s << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
