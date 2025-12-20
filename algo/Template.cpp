@@ -194,9 +194,16 @@ using pdb = pair<db,db>;
 /* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
+#define tcTUV tcT, class U, class V // It doesn't make any Sense 
 // ^ lol this makes everything look weird but I'll try it
 tcT > using V = vector<T>;
+tcT > using V1 = V<T>;
+tcT > using VV = V<V<T>>;
 tcT, size_t SZ > using AR = array<T, SZ>;
+
+#define tcTP template <class... T
+#define tcTPU tcTP, class... U
+
 using vi = V<int>;
 using vb = V<bool>;
 using vl = V<int_64>;
@@ -238,7 +245,6 @@ const int_64 BIG = 1e18;  // not too close to LLONG_MAX
 #define MIN -1e7
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 
-
 #define sz(x)     int(size(x))
 #define pb        push_back
 #define eb        emplace_back
@@ -274,46 +280,57 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define isOdd(x)             (0 != (x) % 2)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+#define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
+
+
+tcT, class = enable_if_t<is_arithmetic_v<T>>>
 void __print(T x) { cout << x; }
 
-void __print(char x) { cout << x; }
-void __print(const char* x) { cout << x; }
-void __print(const string& x) { cout << x; }
-void __print(bool x) { cout << (x ? "Yes" : "No") << '\n'; }
+void __print(const string& s) { cout << '"' << s << '"'; }
+void __print(const char* s)   { cout << '"' << s << '"'; }
+void __print(char c)          { cout << '\'' << c << '\''; }
 
-template <typename T>
-void __print(const vector<T>& v) {
+tcTU>
+void __print(const pair<T, U>& p) {
+    cout << "(";
+    __print(p.first);
+    cout << ", ";
+    __print(p.second);
+    cout << ")";
+}
+
+tcT>
+void __print(const V<T>& v) {
     cout << "[";
-    for (size_t i = 0; i < v.size(); ++i) {
+    for (int i = 0; i < (int)v.size(); ++i) {
         __print(v[i]);
-        if (i + 1 != v.size()) cout << ", ";
+        if (i + 1 < (int)v.size()) cout << ", ";
     }
     cout << "]";
 }
 
-template <typename T>
+tcT>
 void __print(const set<T>& s) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& el : s) {
-        __print(el);
-        if (++i != s.size()) cout << ", ";
+    int i = 0;
+    for (auto& x : s) {
+        __print(x);
+        if (++i < (int)s.size()) cout << ", ";
     }
     cout << "}";
 }
 
-template <typename K, typename V>
-void __print(const map<K, V>& m) {
+tcTU>
+void __print(const map<T, U>& m) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& [key, value] : m) {
-        __print(key);
-            cout << ": ";
-        __print(value);
-        if (++i != m.size()) cout << ", ";
+    int i = 0;
+    for (auto& [k, v] : m) {
+        __print(k);
+        cout << ": ";
+        __print(v);
+        if (++i < (int)m.size()) cout << ", ";
     }
-        cout << "}";
+    cout << "}";
 }
 
 
@@ -361,15 +378,22 @@ void _timer_(){
 **/
 struct DSU{
     int n;
-    vi parent,size;
-    DSU(int n) : n(n),parent(n),size(n,1){
-        iota(all(parent),0);
+    vi parent, size;
+
+    DSU(int n) : n(n), parent(n), size(n,1){
+        iota(parent.begin(), parent.end(), 0);
     }
+
     int find(int v){
         if(parent[v] == v) return v;
         return parent[v] = find(parent[v]);
     }
-    bool unite(int a , int b){
+
+    int_64 size_of(int x){
+        return size[find(x)];
+    }
+
+    bool unite(int a, int b){
         a = find(a);
         b = find(b);
         if(a == b) return false;
@@ -476,18 +500,19 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
+
 }
 
 int main(/* int argc, char *argv[] */) {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     //cin.tie(0)->ios::sync_with_stdio(0);
-    cout.tie(0);
+   // cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t(1),tcase(0); //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
