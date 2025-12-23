@@ -240,7 +240,7 @@ cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
 */
 
 const int MOD = 998244353; // 1e9+7;
-double PI = 3.14159265358979323846;
+const db PI = acos(-1.0);
 int_64 INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
@@ -510,10 +510,8 @@ int mex(const vi &a) {
     if (x >= 0)
       os.ins(x);
   int curr(0);
-  while (true) {
-    if (os.find(curr) == os.end())
-      curr++;
-  }
+  while (os.count(curr))
+    curr++;
   return curr;
 }
 
