@@ -25,23 +25,22 @@
   (/-(/-\)       /   \  (/\/\)/  |    /  | /
                 (/\/\)           /   /   //
                        _________/   /    /
-                      \____________/    
+                      \____________/
                    buGs geT EaTeNN.
 */
 
 /*
-  author:  -----          
-  created: 03 08:27:32    
+  author:  -----
+  created: 03 08:27:32
 */
 
-
 /*
-g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p 
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 ./p <in.txt> out.txt
 */
 #undef _GLIBCXX_DEBUG
 
-/* 
+/*
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -64,7 +63,7 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <string>
 #include <vector>
 
-// Old Libraries 
+// Old Libraries
 // Source - https://stackoverflow.com/a/26803644
 // Posted by deW1, modified by community. See post 'Timeline' for change history
 // Retrieved 2025-12-03, License - CC BY-SA 3.0
@@ -153,7 +152,6 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 */
 
 #include <bits/stdc++.h>
-#include <chrono>
 using namespace std;
 
 #ifdef LOCAL
@@ -163,38 +161,40 @@ using namespace std;
 #endif
 
 #ifdef USE_PBDS
-  #include <ext/pb_ds/assoc_container.hpp>
-  #include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
 
-  using namespace __gnu_pbds;
+using namespace __gnu_pbds;
 
-  template <class T>
-  using ordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template <class T>
+using ordered_set = tree<T, null_type, std::less<T>, rb_tree_tag,
+                         tree_order_statistics_node_update>;
 
-  template <class K, class V>
-  using ordered_map = tree<K, V, std::less<K>, rb_tree_tag, tree_order_statistics_node_update>;
+template <class K, class V>
+using ordered_map =
+    tree<K, V, std::less<K>, rb_tree_tag, tree_order_statistics_node_update>;
 
-  template <class T>
-  using multiordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template <class T>
+using multiordered_set = tree<T, null_type, std::less<T>, rb_tree_tag,
+                              tree_order_statistics_node_update>;
 
-  // optional convenience typedefs:
-  using pii = std::pair<int,int>;
+// optional convenience typedefs:
+using pii = std::pair<int, int>;
 #endif
 
-
 using int_64 = long long;
-using db = long double;  // or double, if TL is tight
-using str = string;      // like python!
+using db = long double; // or double, if TL is tight
+using str = string;     // like python!
 
 /* Pairs */
-using pi = pair <int,int>;
+using pi = pair<int, int>;
 using pll = pair<int_64, int_64>;
-using pdb = pair<db,db>;
+using pdb = pair<db, db>;
 
 /* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
-#define tcTUV tcT, class U, class V // It doesn't make any Sense 
+#define tcTUV tcT, class U, class V // It doesn't make any Sense
 // ^ lol this makes everything look weird but I'll try it
 tcT > using V = vector<T>;
 tcT > using V1 = V<T>;
@@ -213,7 +213,8 @@ using vpi = V<pi>;
 using vpl = V<pll>;
 using vpd = V<pdb>;
 
-#define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
+#define MaT2D(name, rows, cols)                                                \
+  vector<vector<int>> name(rows, vector<int>(cols))
 
 /*
 #define os_insert(s, val) s.insert(val)
@@ -229,208 +230,268 @@ using vpd = V<pdb>;
 
 #define FIXED(x) cout << fixed << setprecision(x)
 
-/* 
+/*
 #define debug(x) cout << (x) << endl
-#define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " "; cout << endl; } while(0)
-#define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
-#define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
+#define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " ";
+cout << endl; } while(0) #define printm(m) do { cout << "[\n"; for (auto i : m)
+cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
+#define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout <<
+"}\n"; } while(0)
 */
 
-const int MOD = 998244353;  // 1e9+7;
+const int MOD = 998244353; // 1e9+7;
 double PI = 3.14159265358979323846;
 int_64 INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
-const int_64 BIG = 1e18;  // not too close to LLONG_MAX
+const int_64 BIG = 1e18; // not too close to LLONG_MAX
 #define MIN -1e7
-const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
+const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1}; // for every grid problem!!
 
-#define sz(x)     int(size(x))
-#define pb        push_back
-#define eb        emplace_back
-#define F         first
-#define S         second
-#define mp        make_pair
-#define rsz       resize
-#define ins       insert
-#define all(a)    (a).begin(), (a).end()
-#define rall(a)   (a).rbegin(), (a).rend()
-#define SORT(a)   sort(all(a))
-#define RSORT(a)  sort(rall(a))
-#define lb        lower_bound
-#define ub        upper_bound
+#define sz(x) int(size(x))
+#define pb push_back
+#define eb emplace_back
+#define F first
+#define S second
+#define mp make_pair
+#define rsz resize
+#define ins insert
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+#define SORT(a) sort(all(a))
+#define RSORT(a) sort(rall(a))
+#define lb lower_bound
+#define ub upper_bound
 tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - bg(a)); }
 tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 
-#define FOR(i, a, b)         for (int i = (a); i < (b); ++i)
-#define RFOR(i, a, b)        for (int i = (a); i >= (b); --i)
-#define FORE(i, a, b)        for (int i = (a); i <= (b); i++)
-#define FORk(i, a, b, k)     for (int i = (a); i < (b); i += k)
-#define RFORK(i, a, b, k)    for (int i = (a); i >= (b); i -= k)
-#define FORA(a)              for (auto u : a)
-#define SCANA(x)             for (auto &i : x) cin >> i
-#define lcm(a, b)            ((a) * ((b) / gcd((a), (b))))
-#define setbits(x)          __builtin_popcountll(x)
-#define ctz(x)               __builtin_ctzll(x)
-#define clz(x)               __builtin_clzll(x)
-#define parity(x)            __builtin_parityll(x)
-#define sqr(x)               ((x) * (x))
-#define cube(x)              ((x) * (x) * (x))
-#define isEven(x)            (0 == (x) % 2)
-#define isOdd(x)             (0 != (x) % 2)
-#define uceil(a, b)          ((a + b - 1) / (b))
+#define FOR(i, a, b) for (int i = (a); i < (b); ++i)
+#define RFOR(i, a, b) for (int i = (a); i >= (b); --i)
+#define FORE(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORk(i, a, b, k) for (int i = (a); i < (b); i += k)
+#define RFORK(i, a, b, k) for (int i = (a); i >= (b); i -= k)
+#define FORA(a) for (auto u : a)
+#define SCANA(x)                                                               \
+  for (auto &i : x)                                                            \
+  cin >> i
+#define lcm(a, b) ((a) * ((b) / gcd((a), (b))))
+#define setbits(x) __builtin_popcountll(x)
+#define ctz(x) __builtin_ctzll(x)
+#define clz(x) __builtin_clzll(x)
+#define parity(x) __builtin_parityll(x)
+#define sqr(x) ((x) * (x))
+#define cube(x) ((x) * (x) * (x))
+#define isEven(x) (0 == (x) % 2)
+#define isOdd(x) (0 != (x) % 2)
+#define uceil(a, b) ((a + b - 1) / (b))
 
 #define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
 
-
-tcT, class = enable_if_t<is_arithmetic_v<T>>>
-void __print(T x) { cout << x; }
-
-void __print(const string& s) { cout << '"' << s << '"'; }
-void __print(const char* s)   { cout << '"' << s << '"'; }
-void __print(char c)          { cout << '\'' << c << '\''; }
-
-tcTU>
-void __print(const pair<T, U>& p) {
-    cout << "(";
-    __print(p.first);
-    cout << ", ";
-    __print(p.second);
-    cout << ")";
+tcT, class = enable_if_t < is_arithmetic_v < T >>> void __print(T x) {
+  cout << x;
 }
 
-tcT>
-void __print(const V<T>& v) {
-    cout << "[";
-    for (int i = 0; i < (int)v.size(); ++i) {
-        __print(v[i]);
-        if (i + 1 < (int)v.size()) cout << ", ";
-    }
-    cout << "]";
+void __print(const string &s) { cout << '"' << s << '"'; }
+void __print(const char *s) { cout << '"' << s << '"'; }
+void __print(char c) { cout << '\'' << c << '\''; }
+
+tcTU > void __print(const pair<T, U> &p) {
+  cout << "(";
+  __print(p.first);
+  cout << ", ";
+  __print(p.second);
+  cout << ")";
 }
 
-tcT>
-void __print(const set<T>& s) {
-    cout << "{";
-    int i = 0;
-    for (auto& x : s) {
-        __print(x);
-        if (++i < (int)s.size()) cout << ", ";
-    }
-    cout << "}";
+tcT > void __print(const V<T> &v) {
+  cout << "[";
+  for (int i = 0; i < (int)v.size(); ++i) {
+    __print(v[i]);
+    if (i + 1 < (int)v.size())
+      cout << ", ";
+  }
+  cout << "]";
 }
 
-tcTU>
-void __print(const map<T, U>& m) {
-    cout << "{";
-    int i = 0;
-    for (auto& [k, v] : m) {
-        __print(k);
-        cout << ": ";
-        __print(v);
-        if (++i < (int)m.size()) cout << ", ";
-    }
-    cout << "}";
+tcT > void __print(const set<T> &s) {
+  cout << "{";
+  int i = 0;
+  for (auto &x : s) {
+    __print(x);
+    if (++i < (int)s.size())
+      cout << ", ";
+  }
+  cout << "}";
 }
 
+tcTU > void __print(const map<T, U> &m) {
+  cout << "{";
+  int i = 0;
+  for (auto &[k, v] : m) {
+    __print(k);
+    cout << ": ";
+    __print(v);
+    if (++i < (int)m.size())
+      cout << ", ";
+  }
+  cout << "}";
+}
 
 /* Utility Functions */
-int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
-bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
-bool isUp(char ch){locale loc;return isupper(ch,loc);}
+int_64 gcd(int_64 a, int_64 b) { return b == 0 ? a : gcd(b, a % b); }
+bool isPrime(int n) {
+  if (n <= 1)
+    return 0;
+  for (int i = 2; i * i <= n; ++i)
+    if (n % i == 0)
+      return 0;
+  return 1;
+}
+bool isUp(char ch) {
+  locale loc;
+  return isupper(ch, loc);
+}
 
 /* Power & Combinatorics */
 
-template <typename T>
-T binpow(T a,int_64 e , T mod){
-    T r = 1; a %= mod;
-    while(e > 0){
-        if(e & 1) r = (r * a) % mod;
-        a = (a * a) % mod; e >>= 1;
-    } return r;}
+template <typename T> T binpow(T a, int_64 e, T mod) {
+  T r = 1;
+  a %= mod;
+  while (e > 0) {
+    if (e & 1)
+      r = (r * a) % mod;
+    a = (a * a) % mod;
+    e >>= 1;
+  }
+  return r;
+}
 
-int_64 powerMod(int_64 a,int_64 b,int_64 m){return binpow(a,b,m);}
-int_64 factorialMod(int_64 n,int_64 m){int_64 r=1;for(int_64 i=1;i<=n;++i)r=r*i%m;return r;}
-int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
-int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
-int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
-int_64 modinv(int_64 a){ return binpow(a,(int_64)MOD-2,(int_64)MOD); }
-int_64 NcR(int_64 n,int_64 r){int_64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;int_64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
-int_64 NpR(int_64 n,int_64 r){int_64 r1=1;while(r--)r1*=n--;return r1;}
+int_64 powerMod(int_64 a, int_64 b, int_64 m) { return binpow(a, b, m); }
+int_64 factorialMod(int_64 n, int_64 m) {
+  int_64 r = 1;
+  for (int_64 i = 1; i <= n; ++i)
+    r = r * i % m;
+  return r;
+}
+int addmod(int a, int b) {
+  a += b;
+  if (a >= MOD)
+    a -= MOD;
+  return a;
+}
+int submod(int a, int b) {
+  a -= b;
+  if (a < 0)
+    a += MOD;
+  return a;
+}
+int_64 mulmod(int_64 a, int_64 b) { return (a * b) % MOD; }
+int_64 modinv(int_64 a) { return binpow(a, (int_64)MOD - 2, (int_64)MOD); }
+int_64 NcR(int_64 n, int_64 r) {
+  int_64 x = 1, y = 1;
+  if (n - r < r)
+    r = n - r;
+  while (r) {
+    x *= n;
+    y *= r;
+    int_64 g = gcd(x, y);
+    x /= g;
+    y /= g;
+    --n;
+    --r;
+  }
+  return x;
+}
+int_64 NpR(int_64 n, int_64 r) {
+  int_64 r1 = 1;
+  while (r--)
+    r1 *= n--;
+  return r1;
+}
 
 /* XOR Range Queries */
-int XOR1toN(int N){int m=N%4;if(m==0)return N;if(m==1)return 1;if(m==2)return N+1;return 0;}
-int XORLtoR(int L,int R){return XOR1toN(R)^XOR1toN(max(L-1,0));}
+int XOR1toN(int N) {
+  int m = N % 4;
+  if (m == 0)
+    return N;
+  if (m == 1)
+    return 1;
+  if (m == 2)
+    return N + 1;
+  return 0;
+}
+int XORLtoR(int L, int R) { return XOR1toN(R) ^ XOR1toN(max(L - 1, 0)); }
 /* ---------- TIMER ---------- */
-const auto start_time = chrono::high_resolution_clock::now();
-void _timer_(){
-    const auto end_time = std::chrono::high_resolution_clock::now();
-    double delta = (double) chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
-    FIXED(2);
-    cout << "[time: "<< delta <<" ms]\n";
+const auto start_time = chrono::steady_clock::now();
+void _timer_() {
+  const auto end_time = chrono::steady_clock::now();
+  chrono::duration<double, milli> delta = end_time - start_time;
+  FIXED(3);
+  cout << "[time: " << delta.count() << " ms]\n";
 }
 /**
- * Disjoint Set Union(DSU) 
+ * Disjoint Set Union(DSU)
  * Source : https://codeforces.com/blog/entry/120381
  * Time: almost constant O(alph(n))
- * It is Efficiently manages and merges disjoint sets used to track connectivity-
- * && group elements like kruskal's Algo for MST and connected compnent detection.
-**/
-struct DSU{
-    int n;
-    vi parent, size;
+ * It is Efficiently manages and merges disjoint sets used to track
+ * connectivity-
+ * && group elements like kruskal's Algo for MST and connected compnent
+ * detection.
+ **/
+struct DSU {
+  int n;
+  vi parent, size;
 
-    DSU(int n) : n(n), parent(n), size(n,1){
-        iota(parent.begin(), parent.end(), 0);
-    }
+  DSU(int n) : n(n), parent(n), size(n, 1) {
+    iota(parent.begin(), parent.end(), 0);
+  }
 
-    int find(int v){
-        if(parent[v] == v) return v;
-        return parent[v] = find(parent[v]);
-    }
+  int find(int v) {
+    if (parent[v] == v)
+      return v;
+    return parent[v] = find(parent[v]);
+  }
 
-    int_64 size_of(int x){
-        return size[find(x)];
-    }
+  int_64 size_of(int x) { return size[find(x)]; }
 
-    bool unite(int a, int b){
-        a = find(a);
-        b = find(b);
-        if(a == b) return false;
-        if(size[a] < size[b]) swap(a,b);
-        parent[b] = a;
-        size[a] += size[b];
-        return true;
-    }
+  bool unite(int a, int b) {
+    a = find(a);
+    b = find(b);
+    if (a == b)
+      return false;
+    if (size[a] < size[b])
+      swap(a, b);
+    parent[b] = a;
+    size[a] += size[b];
+    return true;
+  }
 };
 
 /**
  * Fenwik Tree (BIT)
  * Source: https://codeforces.com/blog/entry/57292
  * Time: update = O(log n), query = O(log n)
- * Description: 
+ * Description:
  * Uses binary index jumps based on lowest set bits
  * Good for range sums, inversion counting, frequncies
  * simple and faster than segment tree for point updates
-**/
-struct Fenwik{
-    int n;
-    vector<int_64> bit;
-    Fenwik(int n) : n(n),bit(n+1,0){ }
+ **/
+struct Fenwik {
+  int n;
+  vector<int_64> bit;
+  Fenwik(int n) : n(n), bit(n + 1, 0) {}
 
-    void update(int i, int_64 v){
-        for( ; i <= n ; i += i & -i)
-            bit[i] += v;
-    }
-    int_64 query(int i){
-        int_64 s(0);
-        for(; i > 0 ; i -= i & -i)
-            s += bit[i];
-        return s;
-    }
-    int_64 range(int l , int r){
-        return query(r) - query(l-1);
-    }
+  void update(int i, int_64 v) {
+    for (; i <= n; i += i & -i)
+      bit[i] += v;
+  }
+  int_64 query(int i) {
+    int_64 s(0);
+    for (; i > 0; i -= i & -i)
+      s += bit[i];
+    return s;
+  }
+  int_64 range(int l, int r) { return query(r) - query(l - 1); }
 };
 
 /**
@@ -438,22 +499,22 @@ struct Fenwik{
  * Time: O(n)
  * Description:
  * Finds the smallest non-negative integer not present in the array.
- * mex_fast uses a presence array of size n+1 -> ideal when values lie in [0..n].
- * For general arrays with negatives/large values, use mex_set.
-**/
+ * mex_fast uses a presence array of size n+1 -> ideal when values lie in
+ * [0..n]. For general arrays with negatives/large values, use mex_set.
+ **/
 
-int mex(const vi &a){
-    unordered_set<int>os;
-    os.reserve(a.size() * 2);
-    for(int x : a)
-        if(x >= 0)
-            os.ins(x);
-    int curr(0);
-    while(true){
-        if(os.find(curr) == os.end())
-            curr++;
-    }
-    return curr;
+int mex(const vi &a) {
+  unordered_set<int> os;
+  os.reserve(a.size() * 2);
+  for (int x : a)
+    if (x >= 0)
+      os.ins(x);
+  int curr(0);
+  while (true) {
+    if (os.find(curr) == os.end())
+      curr++;
+  }
+  return curr;
 }
 
 /**
@@ -463,32 +524,33 @@ int mex(const vi &a){
  * Traverses a graph by exploring as deep as possible before backtracking.
  * Useful for connected components, tree traversal, cycle detection, etc.
  * Works on adjacency list; 'vis' tracks visited nodes.
-**/
-void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
-    int n = sz(adj);
-    parent.assign(n, -1);
-    stack<int> st;
-    st.push(src);
-    while(!st.empty()){
-        int u = st.top(); st.pop();
-        if(vis[u]) continue;
-        vis[u] = 1;
-        for(int v : adj[u]){
-            if(!vis[v]){
-                parent[v] = u;
-                st.push(v);
-            }
-        }
+ **/
+void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent) {
+  int n = sz(adj);
+  parent.assign(n, -1);
+  stack<int> st;
+  st.push(src);
+  while (!st.empty()) {
+    int u = st.top();
+    st.pop();
+    if (vis[u])
+      continue;
+    vis[u] = 1;
+    for (int v : adj[u]) {
+      if (!vis[v]) {
+        parent[v] = u;
+        st.push(v);
+      }
     }
+  }
 }
-
 
 // #define TIME
 // #define PRAGMA
 // #define ONPC
 
 #ifdef PRAGMA
-#pragma GCC optimize("O3","unroll-loops")
+#pragma GCC optimize("O3", "unroll-loops")
 #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
@@ -500,30 +562,33 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-
 }
 
 int main(/* int argc, char *argv[] */) {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    //cin.tie(0)->ios::sync_with_stdio(0);
-   // cout.tie(0);
-    #ifdef ONPC
-        freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
-        cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
-    #endif
-    int t(1),tcase(0); //cin >> t; 
-    while (tcase++,t--){
-        #ifdef TIME
-            cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
-            _timer_();
-        #endif
-        _GO();
-    }
-    #ifdef TIME
-        cout << "\nExecuted in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec\n";
-    #endif
-    return 0;
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
+  // cin.tie(0)->ios::sync_with_stdio(0);
+  // cout.tie(0);
+#ifdef ONPC
+  freopen("in.txt", "r", stdin);
+  freopen("out.txt", "w", stdout);
+  cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
+#endif
+  int t(1), tcase(0); // cin >> t;
+  while (tcase++, t--) {
+#ifdef TIME
+    cout << "[ testcase: " << tcase << " ] " << "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
+    _timer_();
+#endif
+    _GO();
+  }
+#ifdef TIME
+  const auto end_main = chrono::steady_clock::now();
+  chrono::duration<double> total_delta = end_main - start_time;
+  cout << "\nExecuted in " << total_delta.count() << " sec\n";
+#endif
+  return 0;
 }
 
 /* Look for |>
