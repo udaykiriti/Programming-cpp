@@ -91,14 +91,7 @@ BANNER
 # Note: banner above is in a here-doc (no color codes inside), we'll color it below
 
 typewriter() {
-  # prints argument with a typewriter effect (fast)
-  local text="$*"
-  local delay="${TYPE_DELAY:-0.01}"
-  for ((i=0;i<${#text};i++)); do
-    printf "%s" "${text:i:1}"
-    sleep "$delay"
-  done
-  printf "\n"
+  printf "%s\n" "$*"
 }
 
 spinner_start() {
@@ -137,7 +130,6 @@ printf "%b" "$CYAN"
 retro_banner
 printf "%b\n" "$NC"
 
-TYPE_DELAY=0.005
 printf "%b" "${MAGENTA}"
 typewriter "Initializing compiler environment..."
 printf "%b" "$NC"
@@ -179,7 +171,6 @@ rm -f "$tmp_out" "$tmp_err"
 # ---------------- Link animation (tiny) ----------------
 printf "%b" "${BLUE}"
 typewriter "Linking objects..."
-sleep 0.15
 printf "%b" "$NC"
 
 # ---------------- Run program ----------------
