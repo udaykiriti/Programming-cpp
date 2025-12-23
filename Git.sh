@@ -60,94 +60,22 @@ ask_yes_no() {
   done
 }
 
+# Instant output instead of slow typing
 type_slow() {
-  local s="$1" delay="${2:-0.009}" i
-  for ((i=0; i<${#s}; i++)); do
-    printf "%s" "${s:i:1}"
-    sleep "$delay"
-  done
-  printf "\n"
+  printf "%s\n" "$1"
 }
 
-progress_bar() {
-  local width=${1:-30} speed=${2:-0.015}
-  printf "["
-  local i
-  for i in $(seq 1 "$width"); do
-    printf "%b#%b" "$ACC" "$RESET"
-    sleep "$speed"
-  done
-  printf "]\n"
-}
-
-hdd_seek() {
-  local times=${1:-14} i j
-  for i in $(seq 1 "$times"); do
-    printf "  HDD: ["
-    for j in 1 2 3 4; do
-      if (( (i + j) % 4 == 0 )); then
-        printf "%b=%b" "$ACC" "$RESET"
-      else
-        printf " "
-      fi
-    done
-    printf "]\r"
-    sleep 0.08
-  done
-  printf "\n"
-}
-
-floppy_activity() {
-  local n=${1:-18} i j
-  for i in $(seq 1 "$n"); do
-    printf "  FLOPPY: ["
-    for j in $(seq 1 18); do
-      if (( (i + j) % 5 == 0 )); then
-        printf "%b*%b" "$ACC" "$RESET"
-      else
-        printf "."
-      fi
-    done
-    printf "]\r"
-    sleep 0.05
-  done
-  printf "\n"
-}
-
-crt_warmup() {
-  local frames=3 i
-  for i in $(seq 1 "$frames"); do
-    printf "%b" "$CLS"
-    # correct use: combine DIM and text, not a single unknown var
-    type_slow "${ACC}${DIM}BOOTING...${RESET}" 0.006
-    sleep 0.05
-    printf "%b" "$CLS"
-    sleep 0.05
-  done
-}
-
+# Simplified/Removed slow functions
+progress_bar() { :; }
+hdd_seek() { :; }
+floppy_activity() { :; }
+crt_warmup() { :; }
 crt_shutdown() {
-  local i
-  for i in 3 2 1; do
-    printf "%b" "$CLS"
-    echo -e "${ACC}${BRIGHT}POWERING DOWN IN: ${i}${RESET}"
-    bell
-    sleep 0.7
-  done
-  printf "%b" "$CLS"
-  echo -e "${ACC}${BRIGHT}SYSTEM HALT. GOODNIGHT.${RESET}"
+  echo -e "${ACC}${BRIGHT}SYSTEM HALT.${RESET}"
 }
 
 blink_cursor_line() {
-  local text="$1" cycles="${2:-6}"
-  local i
-  for i in $(seq 1 "$cycles"); do
-    printf "\r%s%s_" "$text" "$ACC"
-    sleep 0.2
-    printf "\r%s " "$text"
-    sleep 0.2
-  done
-  printf "\n"
+  printf "\r%s%s_\n" "$1" "$ACC"
 }
 
 usage() {
@@ -216,58 +144,20 @@ EOF
 }
 
 boot_post() {
-  crt_warmup
   printf "%b" "$CLS"
   printf "%b" "${ACC}${BRIGHT}"
   pc_ascii
   printf "%b\n" "${RESET}"
-  sleep 0.12
-
-  type_slow "${ACC}IBM PC/XT BIOS v4.10  1986 (C) REALTECH${RESET}" 0.008
-  bell; sleep 0.08
-  type_slow "Performing QUICK POWER-ON SELF TEST (POST)..." 0.006
-
-  progress_bar 28 0.012
-
-  type_slow "  CPU: 80286 (simulated) ................ OK" 0.004; sleep 0.03
-  type_slow "  FPU: none .............................. OK" 0.004; sleep 0.03
-  type_slow "  RAM: 512KB base + 512KB extended ........ OK" 0.004; sleep 0.03
-  bell
-  type_slow "  VIDEO: MDA/CGA compatible ................ OK" 0.004; sleep 0.04
-  type_slow "  FLOPPY CONTROLLER ....................... OK" 0.004; sleep 0.04
-  type_slow "  HARD DISK CONTROLLER .................... OK" 0.004; sleep 0.04
-  printf "\n"
+  type_slow "IBM PC/XT BIOS v4.10  1986 (C) REALTECH"
+  type_slow "Performing Power-On Self Test (POST)... OK"
 }
 
-chk_dsk_sim() {
-  type_slow "${ACC}Starting CHKDSK (simulated) - scanning file allocation table...${RESET}" 0.006
-  local total=120 files=0 i
-  for i in $(seq 1 "$total"); do
-    files=$((files + (RANDOM % 3)))
-    printf "\r  Scanning: %3d%%   Files: %5d" $((i * 100 / total)) "$files"
-    sleep 0.03
-  done
-  printf "\n"
-  sleep 0.06
-  type_slow "CHKDSK: 0 KB in bad sectors." 0.004
-  type_slow "CHKDSK: 0 lost clusters found." 0.004
-  bell
-  printf "\n"
-}
+chk_dsk_sim() { :; }
 
 autoexec_sequence() {
-  type_slow "${ACC}Loading CONFIG.SYS ...[OK]${RESET}" 0.004
-  sleep 0.06
-  type_slow "Loading AUTOEXEC.BAT ... [OK]" 0.004
-  sleep 0.05
-
-  if $LONG_HANDSHAKE; then floppy_activity 30; else floppy_activity 16; fi
-  printf "\n"
-  hdd_seek 18
-  printf "\n"
-  type_slow "${ACC}BOOT: MS-DOS style shell ready.${RESET}" 0.006
-  bell
-  printf "\n"
+  type_slow "${ACC}Loading CONFIG.SYS ...[OK]${RESET}"
+  type_slow "Loading AUTOEXEC.BAT ... [OK]"
+  type_slow "${ACC}BOOT: MS-DOS style shell ready.${RESET}"
 }
 
 boot_post
@@ -299,8 +189,7 @@ if git diff --cached --quiet && ! $GIT_COMMIT_ALL; then
   echo -e "${ACC}C:\\> BASIC READY.${RESET}"
   echo -e "${ACC}10 PRINT \"NO CHANGES TO COMMIT\"${RESET}"
   echo -e "${ACC}20 GOTO 10${RESET}"
-  sleep 0.3
-  blink_cursor_line "${ACC}RUN${RESET}" 4
+  blink_cursor_line "${ACC}RUN${RESET}"
   exit 0
 fi
 
@@ -350,28 +239,23 @@ COMMIT_SUBJECT="$(git log -1 --pretty=format:%s 2>/dev/null || echo '')"
 
 printf "\n"
 echo -e "${ACC}A:> TYPE COMMIT.LOG${RESET}"
-type_slow "${ACC}Last commit: ${COMMIT_HASH} - ${COMMIT_SUBJECT}${RESET}" 0.006
-printf "\n"
+type_slow "${ACC}Last commit: ${COMMIT_HASH} - ${COMMIT_SUBJECT}${RESET}"
 
 if $DO_PUSH; then
   if git remote get-url origin >/dev/null 2>&1; then
     echo -e "${ACC}A:> PUSHDATA TO origin/${PUSH_BRANCH}${RESET}"
     safe_run "git push origin ${PUSH_BRANCH}"
-    echo -e "${ACC}Transmission OK.${RESET}"
   else
     echo -e "${ACC}No 'origin' remote detected — push skipped.${RESET}"
   fi
-else
-  echo -e "${ACC}Push skipped (--no-push).${RESET}"
 fi
 
 printf "\n"
 echo -e "${ACC}----------------------------------------${RESET}"
 echo -e "${ACC}     MS-DOS / BASIC EMULATOR MODE      ${RESET}"
 echo -e "${ACC}----------------------------------------${RESET}"
-type_slow "${ACC}READY.${RESET}" 0.005
+type_slow "${ACC}READY.${RESET}"
 echo -e "${ACC}10 PRINT \"COMMIT: ${COMMIT_HASH} - ${COMMIT_SUBJECT}\"${RESET}"
 echo -e "${ACC}20 END${RESET}"
-printf "\n\n"
 crt_shutdown
 exit 0
