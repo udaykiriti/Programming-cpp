@@ -558,8 +558,53 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+bool solve(int_64 n) {
+    return n > 0 && (n & (n - 1)) == 0;
+}
+
 void _GO() {
   // Solution Here.....
+  int_64 n;
+  if (!(cin >> n)) return;
+  if (n == 1) {
+    cout << 0 << '\n';
+    return;
+  }
+  queue<pair<int_64, int>> q;
+  q.push({n, 0});
+
+  unordered_set<int_64> vis;
+  vis.ins(n);
+
+  while (!q.empty()) {
+      pair<int_64, int> top = q.front();
+      q.pop();
+
+      int_64 curr = top.F;
+      int D = top.S;
+      int_64 tmp1 = (3 ^ curr) + 1;
+      if (1 == tmp1) {
+        cout << D + 1 << '\n';
+        return;
+      }
+      if (vis.find(tmp1) == vis.end()) {
+        vis.ins(tmp1);
+        q.push({tmp1, D + 1});
+      }
+
+      if (curr % 2 == 0) {
+          int_64 tmp = curr / 2;
+          if (tmp == 1) {
+              cout << D + 1 << '\n';
+              return;
+          }
+          if (vis.find(tmp)== vis.end()) {
+              vis.ins(tmp);
+              q.push({tmp, D + 1});
+          }
+      }
+  }
+  cout << -1 << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -573,7 +618,7 @@ int main(/* int argc, char *argv[] */) {
   freopen("out.txt", "w", stdout);
   cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
 #endif
-  int t(1), tcase(0); // cin >> t;
+  int t(1), tcase(0); cin >> t;
   while (tcase++, t--) {
 #ifdef TIME
     cout << "[ testcase: " << tcase << " ] " << "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
