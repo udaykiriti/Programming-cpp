@@ -191,7 +191,7 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.*/
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
 #define tcTUV tcT, class U, class V // It doesn't make any Sense 
@@ -498,9 +498,33 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+
+int solve(int_64 a, int_64 b, bool strt){
+    int_64 w = a, d = b;
+    int_64 lyr{1};
+    int tmp{0};
+    bool wht = strt;
+
+    while (true) {
+        if (wht) {
+            if (w < lyr) break;
+            w -= lyr;
+        } else {
+            if (d < lyr) break;
+            d -= lyr;
+        }
+        tmp++;
+        lyr <<= 1;
+        wht = !wht;
+    }
+    return tmp;
+}
+
 void _GO() {
   // Solution Here.....
-
+  int_64 x,y;
+  cin >> x >> y;
+  cout << max(solve(x,y,false),solve(x,y,true)) << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {

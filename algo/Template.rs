@@ -1,20 +1,13 @@
-// Rust Competitive Programming Template — Clean & Optimized
-// - Fast input (byte buffer parsing) with specialized methods
-// - Buffered output collected in a String and printed once
-// - Useful utilities: gcd, lcm, pow_mod, inv_mod, binary_search_first
-// - Small data structures: DSU and Fenwick (BIT) implemented and ready to use
-// - Compile with: `rustc -C opt-level=3 -O template.rs` or `cargo build --release`
-
 use std::io::{self, Read};
 use std::fmt::Write as FmtWrite;
 
 #[allow(dead_code)]
-struct FastScanner {
+struct fastio {
     buf: Vec<u8>,
     pos: usize,
 }
 
-impl FastScanner {
+impl fastio {
     #[inline]
     fn new() -> Self {
         let mut input = Vec::new();
@@ -22,9 +15,9 @@ impl FastScanner {
         Self { buf: input, pos: 0 }
     }
 
-    #[inline]
+    #[inline(always)]
     fn is_whitespace(b: u8) -> bool {
-        b == b' ' || b == b' ' || b == b' ' || b == b'	' || b == b'␌'
+        b == b' ' || b == b'\n' || b == b'\r' || b == b'\t' || b == b'\x0b' || b == b'\x0c'
     }
 
     #[inline]
@@ -65,7 +58,7 @@ impl FastScanner {
         if neg { -x } else { x }
     }
 
-    #[inline]
+    #[inline(always)]
     fn next_usize(&mut self) -> usize { self.next_u64() as usize }
 
     #[inline]
@@ -89,7 +82,6 @@ impl FastScanner {
     }
 }
 
-// ---------- Utilities ----------
 
 #[inline]
 fn gcd(mut a: i64, mut b: i64) -> i64 {
@@ -120,12 +112,11 @@ fn pow_mod(mut a: i128, mut e: i128, m: i128) -> i128 {
 
 #[inline]
 fn inv_mod(a: i128, m: i128) -> i128 {
-    // assumes m is prime or a and m are coprime; uses pow_mod(a, m-2, m) when prime
     pow_mod(a, m - 2, m)
 }
 
 #[inline]
-fn binary_search_first<F>(mut lo: i64, mut hi: i64, mut pred: F) -> i64
+fn binary_search<F>(mut lo: i64, mut hi: i64, mut pred: F) -> i64
 where F: FnMut(i64) -> bool {
     while lo < hi {
         let mid = lo + (hi - lo) / 2;
@@ -134,7 +125,6 @@ where F: FnMut(i64) -> bool {
     lo
 }
 
-// ---------- DSU (Union-Find) ----------
 #[allow(dead_code)]
 struct Dsu {
     parent: Vec<usize>,
@@ -166,7 +156,6 @@ impl Dsu {
     }
 }
 
-// ---------- Fenwick / BIT ----------
 #[allow(dead_code)]
 struct Fenwick {
     n: usize,
@@ -198,11 +187,8 @@ impl Fenwick {
     }
 }
 
-// ---------- Problem scaffold ----------
 
-fn solve_once(sc: &mut FastScanner, out: &mut String) {
-    // Example: read n, then read n integers and print their sum.
-    // Replace this with problem-specific logic.
+fn solve(sc: &mut fastio, out: &mut String) {
     let n = sc.next_usize();
     let mut s: i64 = 0;
     for _ in 0..n {
@@ -212,24 +198,9 @@ fn solve_once(sc: &mut FastScanner, out: &mut String) {
 }
 
 fn main() {
-    let mut sc = FastScanner::new();
+    let mut sc = fastio::new();
     let mut out = String::with_capacity(1 << 20);
 
-    // Common pattern: first token is number of testcases `t`. Uncomment if needed.
-    // let t = sc.next_usize();
-    // for _ in 0..t { solve_once(&mut sc, &mut out); }
-
-    // Single-run (default)
-    solve_once(&mut sc, &mut out);
-    
-    // print buffered output once
+    solve(&mut sc, &mut out); 
     print!("{}", out);
 }
-
-// ---------- Notes & Tips ----------
-// - This template favors safety and clarity while being fast for typical CP constraints.
-// - For tighter micro-optimizations (e.g., inner-most loops in heavy numeric tasks), consider
-//   using `unsafe` slices or `iter()` where appropriate, but only after profiling.
-// - Use `cargo build --release` for best results. On many judges, release mode is required.
-// - Add commonly used modules (segment tree, persistent DS, heavy-light decomposition) only
-//   when you need them to keep the template compact.

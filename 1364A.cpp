@@ -191,7 +191,7 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.*/
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
 #define tcTUV tcT, class U, class V // It doesn't make any Sense 
@@ -500,7 +500,42 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
+   int n, x;
+   cin >> n >> x;
 
+    vi a(n);
+    int_64 sum{0};
+    for (int i{0}; i < n; i++) {
+        cin >> a[i];
+        sum += a[i];
+    }
+
+    if (sum % x != 0) {
+        cout << n << '\n';
+        return;
+    }
+
+    int left = -1, right = -1;
+    for (int i = 0; i < n; i++) {
+        if (a[i] % x != 0) {
+            left = i;
+            break;
+        }
+    }
+    for (int i = n - 1; i >= 0; i--) {
+        if (a[i] % x != 0) {
+            right = i;
+            break;
+        }
+    }
+
+    if (left == -1) {
+        cout << -1 <<'\n';
+    } else {
+        int rm_pref = n -left- 1;
+        int rm_suff = right;
+        cout << max(rm_pref, rm_suff) <<'\n';
+    }
 }
 
 int main(/* int argc, char *argv[] */) {

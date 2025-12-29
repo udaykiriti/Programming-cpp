@@ -191,7 +191,7 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.*/
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
 #define tcTUV tcT, class U, class V // It doesn't make any Sense 
@@ -498,9 +498,75 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
-void _GO() {
-  // Solution Here.....
+struct Frnd{
+    int x;
+    int_64 y,z,c;
+};
 
+bool check(int X, int m, int_64 krem, const vector<int>& a, const vector<Frnd>& frnc) {
+    if (X == 0) return true;
+
+    vector<Frnd> choosen;
+    int_64 t0Tc = 0;
+    for (int i = 0; i < X; ++i) {
+        choosen.pb(frnc[i]);
+        t0Tc += frnc[i].c;
+    }
+
+    sort(choosen.begin(), choosen.end(), [](const Frnd& f1, const Frnd& f2) {
+        return f1.c > f2.c;
+    });
+
+    multiset<int> boxes;
+    for (int bb : a) boxes.ins(bb);
+
+    int_64 svngs = 0;
+    for (int i = 0; i < X; ++i) {
+        auto it = boxes.lb(choosen[i].x);
+        if (it != boxes.end()) {
+            svngs += choosen[i].c;
+            boxes.erase(it);
+        }
+    }
+    return (t0Tc - svngs) <= krem;
+}
+/* wrong on tcase 2 from that ... */
+void _GO() {
+    // Solution Here....
+    int n, m;
+    int_64 k;
+    cin >> n >> m >>k; 
+
+    vi vec(m);
+    FOR(i,0,m) cin >> vec[i];
+    sort(vec.begin(), vec.end(), greater<>{});
+
+    vector<Frnd> frnds(n);
+    int_64 t0T{0};
+    FOR ( i, 0, n) {
+        cin >> frnds[i].x >> frnds[i].y >> frnds[i].z;
+        frnds[i].c = frnds[i].z - frnds[i].y;
+        t0T += frnds[i].y;
+    }
+
+    int_64 rem = k - t0T;
+
+    vector<Frnd> frndc = frnds;
+    sort(frndc.begin(), frndc.end(), [](const Frnd& a, const Frnd& b) {
+        return a.c < b.c;
+    });
+
+    int low = 0, hgh = n, ans = 0;
+    while (low <= hgh) {
+        int mid = low + (hgh - low) / 2;
+        if (check(mid, m, rem, vec, frndc)) {
+            ans = mid;
+            low = mid + 1;
+        } else {
+            hgh = mid - 1;
+        }
+    }
+    cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {

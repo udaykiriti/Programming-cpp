@@ -191,7 +191,7 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.*/
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
 #define tcTUV tcT, class U, class V // It doesn't make any Sense 
@@ -498,9 +498,54 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+void solve(){
+    int n; 
+    str s;
+    cin >> n >> s;
+
+    cout << ((s.find("2026") != string::npos || 
+            s.find("2025") == string::npos) ? 0 : 1) << '\n';
+
+}
+
 void _GO() {
   // Solution Here.....
+   int n;
+   str s;
+   cin >> n >> s;
+   int ans = 1e9;
 
+   for (int i = 0; i + 3 < n; i++) {
+    ans = min(ans,
+            (s[i]   != '2') +
+            (s[i+1] != '0') +
+            (s[i+2] != '2') +
+            (s[i+3] != '6')
+        );
+    }
+    auto nxt = [&](int st, char c) {
+        if (st == 0) return c == '2' ? 1 : 0;
+        if (st == 1) return c == '0' ? 2 : (c == '2' ? 1 : 0);
+        if (st == 2) return c == '2' ? 3 : 0;
+        if (st == 3) return c == '5' ? 4 : (c == '2' ? 1 : 0);
+        return 4;
+    };
+    vector<vector<int>> dp(n + 1, vector<int>(5, 1e9));
+    dp[0][0] = 0;
+    string a = "0256";
+
+    for (int i = 0; i < n; i++)
+        for (int st = 0; st < 4; st++)
+            if (dp[i][st] < 1e9)
+                for (char c : a) {
+                    int ns = nxt(st, c);
+                    if (ns < 4)
+                        dp[i+1][ns] = min(dp[i+1][ns], dp[i][st] + (s[i] != c));
+                }
+        for (int st = 0; st < 4; st++) 
+            ans = min(ans, dp[n][st]);
+
+    cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {

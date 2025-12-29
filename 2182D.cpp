@@ -191,7 +191,7 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.*/
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
 #define tcTUV tcT, class U, class V // It doesn't make any Sense 
@@ -498,9 +498,60 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+int_64 nCr[55][55];
+int_64 fct[55];
+
+void solve() {
+    for (int i = 0; i <= 50; i++) {
+        nCr[i][0] = 1;
+        for (int j = 1; j <= i; j++) {
+            nCr[i][j] = (nCr[i - 1][j - 1] + nCr[i - 1][j]) % MOD;
+        }
+    }
+    fct[0] = 1;
+    for (int i = 1; i <= 50; i++) {
+        fct[i] = (fct[i - 1] * i) % MOD;
+    }
+}
+
 void _GO() {
   // Solution Here.....
+  int n;
+  cin >> n;
+  vl a(n + 1);
+  int_64 S = 0;
+  for (int i{0}; i <= n; i++){
+    cin >> a[i];
+    S += a[i];
+  }
 
+  int_64 q = S / n;
+  int r = S % n;
+  int_64 fst = a[0];
+  int_64 bse = 0;
+  int cnt{0};
+  for (int i{1}; i <= n; i++) {
+    bse += max(0LL, q - a[i]);
+    if (a[i]<= q)
+        cnt++;
+  }  
+  if (bse >fst) {
+    cout << 0 << '\n';
+    return;
+  }
+
+  int_64  xtra = fst - bse;
+  int_64 t0T = 0;
+
+  for (int i{0}; i <= min((int)r, cnt);i++) {
+    if (i <=xtra) {
+        int_64 tmp = (nCr[cnt][i] * nCr[n - cnt][r - i]) % MOD;
+        t0T = (t0T + tmp) % MOD;
+    }
+  }
+  int_64 ans = (t0T * fct[r]) % MOD;
+  ans = (ans * fct[n - r]) % MOD;
+  cout << ans<< '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -511,7 +562,8 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t(1),tcase(0); cin >> t;
+    solve();
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";

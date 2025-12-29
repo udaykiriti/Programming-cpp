@@ -191,7 +191,7 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.*/
+/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
 #define tcT template <class T
 #define tcTU tcT, class U
 #define tcTUV tcT, class U, class V // It doesn't make any Sense 
@@ -500,7 +500,39 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
+  int n;
+  cin >> n;
+  vi vec1(n),vec2(n),vec3(n);
+  for(auto &x : vec1) cin >> x;
+  for(auto &x : vec2) cin >> x;
+  for(auto &x : vec3) cin >> x;
 
+  vector<bool> v12(n, true), v23(n, true);
+
+  FOR ( i , 0, n) {
+    FOR ( j , 0, n) {
+        if (vec1[j] >= vec2[(i+j) % n]) {
+            v12[i] = false;
+            break;
+        }
+    }
+  }
+  FOR (i, 0, n) {
+        FOR (j,0, n) {
+            if (vec2[j] >= vec3[(i+j) % n]) {
+                v23[i] = false;
+                break;
+            }
+        }
+    }
+    int_64 tmp1{0}, tmp2{0};
+    FOR(i,0,n) {
+        if (v12[i]) tmp1++;
+        if (v23[i]) tmp2++;
+    }
+
+    int_64 res = 1LL * n * tmp1 * tmp2;
+    cout << res <<'\n';
 }
 
 int main(/* int argc, char *argv[] */) {
