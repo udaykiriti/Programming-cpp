@@ -494,6 +494,24 @@ struct Fenwik {
   int_64 range(int l, int r) { return query(r) - query(l - 1); }
 };
 
+struct Fenwick {
+  int n;
+  vector<int> f;
+  Fenwick(int n) : n(n), f(n+1,0) {}
+  void add(int i,int v){
+    for(;i<=n;i+=i&-i) {
+      f[i] = (f[i] + v) % MOD;
+    }
+  }
+  int sum(int i){
+    int s=0;
+    for(;i>0;i-=i&-i) {
+      s = (s + f[i]) % MOD;
+    }
+    return s;
+  }
+};
+
 /**
  * MEX (Minimum EXcluded Value)
  * Time: O(n)
@@ -562,49 +580,63 @@ bool solve(int_64 n) {
     return n > 0 && (n & (n - 1)) == 0;
 }
 
+int slv(int n) {
+  int ans{0};
+  while (n > 0) {
+    int d = n % 10;
+    ans += d * d;
+    n /= 10;
+  }
+  return ans;
+}
+
 void _GO() {
-  // Solution Here.....
-  int_64 n;
-  if (!(cin >> n)) return;
-  if (n == 1) {
-    cout << 0 << '\n';
-    return;
+   int n;
+    cin >> n;
+
+    vi p(n);
+    FOR ( i,0,n) cin >> p[i];
+
+    if (n < 3) {
+      cout << 0 << '\n';
+      return;
+    }
+
+  vl l(n), r(n);
+  {
+    Fenwik f(n);
+    FOR ( i,0,n) {
+      l[i] = f.query(p[i]);
+      f.update(p[i], 1);
+    }
   }
-  queue<pair<int_64, int>> q;
-  q.push({n, 0});
 
-  unordered_set<int_64> vis;
-  vis.ins(n);
-
-  while (!q.empty()) {
-      pair<int_64, int> top = q.front();
-      q.pop();
-
-      int_64 curr = top.F;
-      int D = top.S;
-      int_64 tmp1 = (3 ^ curr) + 1;
-      if (1 == tmp1) {
-        cout << D + 1 << '\n';
-        return;
-      }
-      if (vis.find(tmp1) == vis.end()) {
-        vis.ins(tmp1);
-        q.push({tmp1, D + 1});
-      }
-
-      if (curr % 2 == 0) {
-          int_64 tmp = curr / 2;
-          if (tmp == 1) {
-              cout << D + 1 << '\n';
-              return;
-          }
-          if (vis.find(tmp)== vis.end()) {
-              vis.ins(tmp);
-              q.push({tmp, D + 1});
-          }
-      }
+  {
+    Fenwik f(n);
+    for (int i = n - 1; i >= 0; i--) {
+      r[i] = f.query(p[i]);
+      f.update(p[i], 1);
+    }
   }
-  cout << -1 << '\n';
+  int_64 ans = 0;
+  FOR ( i,0,n)
+    ans = (ans + l[i] * r[i]) % MOD;
+
+  int_64 iv2 = modinv(2);
+  int_64 acc = 0;
+  int_64 p2 = 1;
+  int_64 ip2 = 1;
+
+  acc = (acc + l[0] * ip2) % MOD;
+  ip2 = ip2 * iv2 % MOD;
+
+  FOR ( i,0,n) {
+      ans = (ans + r[i] * p2 % MOD * acc % MOD) % MOD;
+      acc = (acc + l[i] * ip2) % MOD;
+      p2 = p2 * 2 % MOD;
+      ip2 = ip2 * iv2 % MOD;
+  }
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -618,7 +650,7 @@ int main(/* int argc, char *argv[] */) {
   freopen("out.txt", "w", stdout);
   cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
 #endif
-  int t(1), tcase(0); cin >> t;
+  int t(1), tcase(0); //cin >> t;
   while (tcase++, t--) {
 #ifdef TIME
     cout << "[ testcase: " << tcase << " ] " << "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
