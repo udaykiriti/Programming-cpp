@@ -252,7 +252,7 @@ fi
 
 printf "\n"
 echo -e "${ACC}----------------------------------------${RESET}"
-echo -e "${ACC}     MS-DOS / BASIC EMULATOR MODE      ${RESET}"
+echo -e "${ACC}      BASIC EMULATOR MODE               ${RESET}"
 echo -e "${ACC}----------------------------------------${RESET}"
 type_slow "${ACC}READY.${RESET}"
 echo -e "${ACC}10 PRINT \"COMMIT: ${COMMIT_HASH} - ${COMMIT_SUBJECT}\"${RESET}"
