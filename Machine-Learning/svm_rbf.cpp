@@ -120,7 +120,7 @@ int main() {
     svm.train(X, y);
 
     for (const auto& x : X)
-        cout << x[0] << " " << x[1] << " => " << svm.predict(x) << endl;
+        cout << x[0] << " " << x[1] << " => " << svm.predict(x) << '\n';
 
     return 0;
 }

@@ -214,6 +214,13 @@ using vpl = V<pll>;
 using vpd = V<pdb>;
 
 #define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
+template <typename T>
+using Mat = vector<vector<T>>;
+
+template <typename T>
+Mat<T> make_mat(int n, int m, T val = T()) {
+    return Mat<T>(n, vector<T>(m, val));
+}
 
 /*
 #define os_insert(s, val) s.insert(val)
@@ -227,7 +234,7 @@ using vpd = V<pdb>;
 #define oms_rank(ms, val) ms.order_of_key({val, 0})
 */
 
-#define FIXED(x) cout << fixed << setprecision(x)
+#define FIXED(x) cout << fixed << setprecision(x) << '\n';
 
 /* 
 #define debug(x) cout << (x) << endl
@@ -241,7 +248,7 @@ double PI = 3.14159265358979323846;
 int_64 INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
-const int_64 BIG = 1e18;  // not too close to LLONG_MAX
+const int_64 MAXI = 1e18;  // not too close to LLONG_MAX
 #define MIN -1e7
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 
@@ -284,7 +291,7 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 
 
 tcT, class = enable_if_t<is_arithmetic_v<T>>>
-void __print(T x) { cout << x; }
+void __print(T x) { cout << x << '\n'; }
 
 void __print(const string& s) { cout << '"' << s << '"'; }
 void __print(const char* s)   { cout << '"' << s << '"'; }
@@ -293,9 +300,9 @@ void __print(char c)          { cout << '\'' << c << '\''; }
 tcTU>
 void __print(const pair<T, U>& p) {
     cout << "(";
-    __print(p.first);
+    __print(p.F);
     cout << ", ";
-    __print(p.second);
+    __print(p.S);
     cout << ")";
 }
 
@@ -337,7 +344,7 @@ void __print(const map<T, U>& m) {
 /* Utility Functions */
 int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
 bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
-bool isUp(char ch){locale loc;return isupper(ch,loc);}
+bool isUp(char ch) { return std::isupper(static_cast<unsigned char>(ch)); }
 
 /* Power & Combinatorics */
 
@@ -408,7 +415,6 @@ struct DSU{
  * Fenwik Tree (BIT)
  * Source: https://codeforces.com/blog/entry/57292
  * Time: update = O(log n), query = O(log n)
- * Description: 
  * Uses binary index jumps based on lowest set bits
  * Good for range sums, inversion counting, frequncies
  * simple and faster than segment tree for point updates
@@ -436,7 +442,6 @@ struct Fenwik{
 /**
  * MEX (Minimum EXcluded Value)
  * Time: O(n)
- * Description:
  * Finds the smallest non-negative integer not present in the array.
  * mex_fast uses a presence array of size n+1 -> ideal when values lie in [0..n].
  * For general arrays with negatives/large values, use mex_set.
@@ -459,7 +464,6 @@ int mex(const vi &a){
 /**
  * DFS (Depth-First Search)
  * Time: O(n + m)
- * Description:
  * Traverses a graph by exploring as deep as possible before backtracking.
  * Useful for connected components, tree traversal, cycle detection, etc.
  * Works on adjacency list; 'vis' tracks visited nodes.

@@ -2,7 +2,7 @@
 using namespace std;
 
 double calculateMean(const vector<double>& values) {
-    double sum = 0.0;
+    double sum{0.0};
     for (double value : values) {
         sum += value;
     }
@@ -32,7 +32,7 @@ double predictPrice(double area, double slope, double intercept) {
 bool readCSV(const string& filename, vector<double>& x, vector<double>& y) {
     ifstream file(filename);
     if (!file.is_open()) {
-        cerr << "Error: Could not open file " << filename << endl;
+        cerr << "Error: Could not open file " << filename << '\n';
         return false;
     }
 
@@ -73,14 +73,14 @@ int main() {
 
     trainLinearRegression(areas, prices, slope, intercept);
 
-    cout << "Model trained!" << endl;
-    cout << "Price = " << slope << " * Area + " << intercept << endl << endl;
+    cout << "Model trained!" << '\n';
+    cout << "Price = " << slope << " * Area + " << intercept << '\n' << '\n';
 
     double newHouseArea = 1800;
     double predictedPrice = predictPrice(newHouseArea, slope, intercept);
 
-    cout << "Predicting price for house with area " << newHouseArea << " sqft..." << endl;
-    cout << "Estimated price: $" << predictedPrice * 1000 << endl;
+    cout << "Predicting price for house with area " << newHouseArea << " sqft..." << '\n';
+    cout << "Estimated price: $" << predictedPrice * 1000 << '\n';
 
     return 0;
 }

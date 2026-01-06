@@ -1,4 +1,3 @@
-# Step 1: Import libraries
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -9,25 +8,25 @@ import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Step 2: Load dataset
-# You can replace this with your own CSV like: pd.read_csv('your_data.csv')
+# Load dataset
+# You can replace this with your own CSV like: pd.read_csv('dataset-name.csv')
 from sklearn.datasets import load_iris
 iris = load_iris()
 df = pd.DataFrame(iris.data, columns=iris.feature_names)
 df['target'] = iris.target
 
-# Step 3: Define features and target
+# Define features and target
 X = df.drop('target', axis=1)
 y = df['target']
 
-# Step 4: Preprocessing (optional: scaling for visualization/tuning)
+# Preprocessing (optional: scaling for visualization/tuning)
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Step 5: Train/Test split
+# Train/Test split
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=42, stratify=y)
 
-# Step 6: Define Random Forest model with hyperparameter tuning
+# Define Random Forest model with hyperparameter tuning
 param_grid = {
     'n_estimators': [100, 200],
     'max_depth': [None, 5, 10],
@@ -44,11 +43,11 @@ grid_search = GridSearchCV(RandomForestClassifier(random_state=42),
 
 grid_search.fit(X_train, y_train)
 
-# Step 7: Best model
+# Best model
 best_model = grid_search.best_estimator_
 print("Best Parameters:", grid_search.best_params_)
 
-# Step 8: Evaluation
+# Evaluation
 y_pred = best_model.predict(X_test)
 
 print("\nClassification Report:")
