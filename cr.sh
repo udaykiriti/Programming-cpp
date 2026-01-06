@@ -14,7 +14,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ ! -f "$TEMPLATE" ]; then
-  echo -e "${RED}✖ Error:${NC} Template not found"
+  echo -e "${RED} Error:${NC} Template not found"
   echo -e "${BLUE}Path:${NC} $TEMPLATE"
   exit 1
 fi
@@ -26,4 +26,4 @@ if [ -f "$1" ]; then
 fi
 
 cp "$TEMPLATE" "$1" && \
-echo -e "${GREEN}✔ Created:${NC} $1 from Template.cpp"
+echo -e "${GREEN} Created:${NC} $1 from Template.cpp"
