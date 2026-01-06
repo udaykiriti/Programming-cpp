@@ -204,3 +204,18 @@ fn main() {
     solve(&mut sc, &mut out); 
     print!("{}", out);
 }
+
+/* Look for |>
+ * Non-trivial problems with simple solutions, proofs, and implementations.
+ * Check upper/lower bounds (UB/LB).
+ * Try working backward or from end cases.
+ * Do not make large assumptions without a basic proof idea.
+ * Overflow, bounds checks, and panics kill solutions—check them first.
+ * Use DP to relax constraints; store only the minimum required state.
+ * Handle special cases (n = 1?) and edge cases.
+ * Do something instead of nothing; stay organized.
+ * WRITE STUFF DOWN.
+ * Eliminate wrong ideas first.
+ * Don’t get stuck on one approach for too long.
+ * If there’s no solution within the time limit, give up.
+ */
