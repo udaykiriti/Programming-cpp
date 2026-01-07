@@ -4,7 +4,7 @@
   Problem:
   Compute C(n, r) % p efficiently when:
     - n, r are very large (up to 10^18 or more)
-    - p is a prime number
+    - p is a prime number (Must Be Prime)
 
   Key Concepts Used:
     1. Lucas Theorem
@@ -17,22 +17,21 @@
 
   Space Complexity:
     - O(p) for factorial array
-
-
+ <!----
   References / Documentation:
   
-  CP-Algorithms (Highly Recommended):
+  CP-Algorithms (Highly Recommended for clarity and conceptual understanding):
   https://cp-algorithms.com/combinatorics/binomial-coefficients.html#lucas-theorem
 
-  GeeksforGeeks:
+  GeeksforGeeks(Not that Good):
   https://www.geeksforgeeks.org/lucas-theorem/
 
-  Wikipedia:
+  Wikipedia(May Be standard But little bit complex):
   https://en.wikipedia.org/wiki/Lucas%27s_theorem
 
   Modular Inverse (Fermat):
   https://cp-algorithms.com/algebra/module-inverse.html
-
+  ----!>
 */
 
 #include <bits/stdc++.h>

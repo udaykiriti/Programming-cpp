@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX 20
-#define FOR(i,a,b) for(int i=a;i<b;i++)
-#define FORE(i,a,b) for(int i=a;i<=b;i++)
+#define FOR(i , a , b) for(int i = a ; i < b ; i++)
+#define FORE(i , a , b) for(int i = a ; i <= b ; i++)
 
 int grid[MAX][MAX] = {0};
 int color[MAX] = {0};

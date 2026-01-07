@@ -78,7 +78,7 @@ string to_string(tuple<A, B, C, D> p) {
 }
 
 void debug_out() { 
-  cerr << endl; 
+  cerr << '\n'; 
 }
 
 template <typename Head, typename... Tail>

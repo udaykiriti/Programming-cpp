@@ -40,13 +40,13 @@ void dijkstra(int graph[MAX][MAX], int v, int start) {
 
 
 int main(){
-  int i,j,v,start;
+  int i , j , v , start;
   int graph[MAX][MAX];
   printf("Enter the number of vertices: ");
   scanf("%d", &v);
   printf("Enter the weight");
-  for(i=0;i<v;i++){
-    for(j=0;j<v;j++){
+  for(i = 0 ; i < v ; i++) {
+    for(j = 0 ; j < v ; j++) {
       scanf("%d", &graph[i][j]);
     }
   }

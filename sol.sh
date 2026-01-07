@@ -53,12 +53,10 @@ done
 
 shift $((OPTIND - 1))
 
-# If positional source provided, prefer it
 if [[ -n "${1:-}" ]] && [[ -z "$SRC" ]]; then
   SRC="$1"
 fi
 
-# If no source given, pick first .cpp in CWD
 if [[ -z "$SRC" ]]; then
   shopt -s nullglob
   files=( *.cpp )
@@ -76,7 +74,6 @@ fi
 
 command -v "$COMPILER" >/dev/null || { err "Compiler not found: $COMPILER"; exit 1; }
 
-# ---------------- Retro ASCII banner & helpers ----------------
 retro_banner() {
   cat <<'BANNER'
   ____   ____  _____  _     ___   ____  _   _ 
@@ -85,17 +82,15 @@ retro_banner() {
  |  _ <  ___) |  _|  | |__| |_| | ___) | |_| |
  |_| \_\|____/|_|    |_____\___/ |____/ \___/ 
 
-   Classic-Style C++ Compiler — Retro Mode
+                C++ Compiler
 BANNER
 }
-# Note: banner above is in a here-doc (no color codes inside), we'll color it below
 
 typewriter() {
   printf "%s\n" "$*"
 }
 
 spinner_start() {
-  # start spinner in background; spinner_pid is set
   local sp='|/-\'
   printf " "
   (
@@ -115,17 +110,15 @@ spinner_stop() {
     kill "$spinner_pid" >/dev/null 2>&1 || true
     wait "$spinner_pid" 2>/dev/null || true
     unset spinner_pid
-    printf "\b"  # remove spinner char
+    printf "\b"
   fi
 }
 
-# Clean up on exit
 cleanup() {
   spinner_stop
 }
 trap cleanup EXIT
 
-# ---------------- Show banner & messages ----------------
 printf "%b" "$CYAN"
 retro_banner
 printf "%b\n" "$NC"
@@ -134,17 +127,13 @@ printf "%b" "${MAGENTA}"
 typewriter "Initializing compiler environment..."
 printf "%b" "$NC"
 
-# show compile command (typewriter)
 printf "%b" "${YELLOW}"
 typewriter "Command: $COMPILER ${CXXFLAGS[*]} $SRC -o $BIN"
 printf "%b" "$NC"
 
-# ---------------- Compile with spinner animation ----------------
 echo -n "${BOLD}${BLUE}Compiling${NC} "
 spinner_start
 
-# Run compiler in background, capture exit code properly
-# We run compiler and redirect its stderr/stdout to temporary files so the animation is clean.
 tmp_out="$(mktemp)"
 tmp_err="$(mktemp)"
 set +e
@@ -173,12 +162,11 @@ printf "%b" "${BLUE}"
 typewriter "Linking objects..."
 printf "%b" "$NC"
 
-# ---------------- Run program ----------------
+# ---------------- Main FunC ----------------
 if [[ -f "$INFILE" ]]; then
   log "Running program: ./${BIN} < ${INFILE} > ${OUTFILE}"
-  # small retro "running" effect
   printf "%b" "${MAGENTA}"
-  typewriter "Running..."
+  typewriter "Working..."
   printf "%b" "$NC"
   ./"$BIN" < "$INFILE" > "$OUTFILE"
 else
@@ -189,14 +177,12 @@ else
   ./"$BIN" > "$OUTFILE"
 fi
 
-# ---------------- Completion animation ----------------
 printf "%b" "${GREEN}"
 typewriter "Execution finished."
 printf "%b" "$NC"
 
 ok "Output written to ${OUTFILE}"
 
-# optional: print first few lines of output with a retro "screen"
 if [[ -s "$OUTFILE" ]]; then
   echo
   printf "%b" "${CYAN}${BOLD}--- program output (first 20 lines) ---${NC}\n"

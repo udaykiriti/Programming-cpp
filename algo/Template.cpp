@@ -345,7 +345,6 @@ void __print(const map<T, U>& m) {
 int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
 bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
 bool isUp(char ch) { return std::isupper(static_cast<unsigned char>(ch)); }
-
 /* Power & Combinatorics */
 
 template <typename T>
