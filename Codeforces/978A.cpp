@@ -511,13 +511,13 @@ void _GO() {
   vi res;
   for (int i = n - 1; i >= 0; i--) {
      if (!seen.count(vec[i])) {
-         seen.insert(vec[i]);
-         res.push_back(vec[i]);
+         seen.ins(vec[i]);
+         res.pb(vec[i]);
      }
   }
 
   reverse(res.begin(), res.end());
-  cout << res.size() << "\n";
+  cout << res.size() << '\n';
   for (int x : res) cout << x << " ";
 }
 
