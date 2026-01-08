@@ -209,3 +209,122 @@ Set Nano as Git editor:
     git config --global core.editor "nano"
 
 This will make Git open your preferred editor for commit messages.
+
+<!-----------------------------------------------------------!>
+GIT STASH AND CHERRY-PICK:
+
+git stash:
+1. git stash temporarily saves uncommitted changes.
+2. It is used when you want to switch branches without committing.
+3. After stashing, the working directory becomes clean.
+
+What git stash saves:
+    ->Modified tracked files
+    ->Staged files
+
+What git stash does NOT save:
+    ->Untracked files unless -u is used
+    ->Ignored files unless -a is used
+
+Basic stash command:
+    "git stash"
+    ->Saves changes and resets the working directory.
+
+Stash with message:
+    --->git stash push -m "message"<---
+    ->Saves changes with a description.
+
+Include untracked files:
+    git stash -u
+    git stash --include-untracked
+
+
+Include untracked files
+
+1. git stash -u
+2. git stash --include-untracked
+
+Include ignored files also
+
+1. git stash -a
+
+Viewing stashes
+
+1. git stash list
+
+Example output
+
+1. stash@{0}: WIP on main
+2. stash@{1}: On dev
+
+Applying stash without deleting
+
+1. git stash apply
+2. git stash apply stash@{1}
+3. Applies stash but keeps it in the stash list.
+
+Applying stash and deleting
+
+1. git stash pop
+2. Applies stash and removes it from the stash list.
+
+Difference between apply and pop
+
+1. apply applies changes and stash remains.
+2. pop applies changes and stash is removed.
+
+Deleting stashes
+
+1. git stash drop stash@{0}
+   Deletes a specific stash.
+
+2. git stash clear
+   Deletes all stashes permanently.
+
+When to use git stash
+
+1. Switching branches quickly
+2. Saving half done work
+3. Temporary experiments
+4. Keeping a clean working tree
+
+GIT CHERRY-PICK
+
+1. Cherry-pick applies specific commit or commits from another branch.
+2. It creates new commits with new commit hashes.
+3. It does not merge the entire branch.
+
+Basic usage
+
+1. git cherry-pick <commit-hash>
+   Cherry-picks a single commit.
+
+2. git cherry-pick c1 c2 c3
+   Cherry-picks multiple commits.
+
+3. git cherry-pick A..B
+   Cherry-picks commits after A up to B.
+
+Cherry-pick with conflict
+
+1. git status
+   Shows conflicting files.
+
+2. Resolve conflicts manually.
+
+3. git cherry-pick --continue {Continues after conflicts are resolved.}
+
+4. git cherry-pick --abort (Aborts the cherry-pick operation.)
+
+Cherry-pick without commit:
+
+1. git cherry-pick -n <commit>
+2. git cherry-pick --no-commit <commit>
+3. Applies changes without creating a commit immediately.
+
+When to use cherry-pick:
+
+1. Apply hotfix from another branch
+2. Backport bug fixes
+3. Select specific commits only
+4. Avoid full merge
