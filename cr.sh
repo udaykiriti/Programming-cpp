@@ -9,8 +9,15 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 if [ -z "$1" ]; then
-  echo -e "${YELLOW}Usage:${NC} cr <filename.cpp>"
+  echo -e "${YELLOW}Usage:${NC} cr <name> [-cpp]"
   exit 1
+fi
+
+FILENAME="$1"
+EXTENSION="$2"
+
+if [ "$EXTENSION" == "-cpp" ]; then
+  FILENAME="${FILENAME}.cpp"
 fi
 
 if [ ! -f "$TEMPLATE" ]; then
@@ -19,11 +26,11 @@ if [ ! -f "$TEMPLATE" ]; then
   exit 1
 fi
 
-if [ -f "$1" ]; then
-  echo -e "${YELLOW}⚠ Warning:${NC} $1 already exists"
+if [ -f "$FILENAME" ]; then
+  echo -e "${YELLOW}⚠ Warning:${NC} $FILENAME already exists"
   read -p "Overwrite? (y/n): " choice
   [[ "$choice" != "y" ]] && echo "Aborted." && exit 1
 fi
 
-cp "$TEMPLATE" "$1" && \
-echo -e "${GREEN} Created:${NC} $1 from Template.cpp"
+cp "$TEMPLATE" "$FILENAME" && \
+echo -e "${GREEN} Created:${NC} $FILENAME from Template.cpp"
