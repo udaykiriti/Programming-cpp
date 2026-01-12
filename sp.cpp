@@ -500,7 +500,7 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-
+  
 }
 
 int main(/* int argc, char *argv[] */) {
