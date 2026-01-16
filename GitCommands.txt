@@ -1,17 +1,24 @@
 
 #  Git Basics & Setup -------------------------------------------------------------------
 
-git init                                            # Initialize a new git repository locally
+git init                                            # Initialize a new git repository locally [Mandatory]
 git clone <repo-url>                                # Clone an existing remote repository
-git config --global user.name "Name"                # Set your global git username
-git config --global user.email "email@example.com"  # Set your global email
+git config --global user.name "Name"                # Set your global git {username}
+git config --global user.email "email@example.com"  # Set your global {email}
 git config --global core.editor "code --wait"       # Set VS Code as default editor
 
 #  Remote Interaction -------------------------------------------------------------------
 
-git remote -v                            # List all remotes and their URLs
+git remote -v                            # List all remotes and their URLs (mainly github repo)
 git remote add origin <repo-url>         # Add a remote repo called 'origin'
+
+<! ------------------------------------------------------------------------!>
 git fetch                                # Fetch all remote branches without merging
+git pull                                 # Pull after fetching data
+
+if we perform a fetch operation it brings data to buffer and the pull brings to current Directory..
+<! ------------------------------------------------------------------------!>
+
 git fetch --prune                        # Fetch and clean deleted remote branches locally
 git pull origin <branch>                 # Fetch and merge remote branch into current branch
 git push origin <branch>                 # Push your local branch to remote
@@ -30,7 +37,6 @@ git push origin <branch-name>            # Push current branch to remote
 git push -u origin <branch-name>         # Push and set upstream
 
 #  Branch Management-------------------------------------------------------------------
-
 
 git branch                               # List local branches
 git branch -r                            # List remote branches
@@ -68,8 +74,8 @@ git commit
 
 #  Delete Branch -------------------------------------------------------------------
 
-git branch -d <branch>                   # Delete local branch
-git push origin --delete <branch>        # Delete remote branch
+git branch -d <somebranch-name/>                   # Delete local branch
+git push origin --delete <somebranch-name/>        # Delete remote branch
 
 #  Logs and History -------------------------------------------------------------------
 
@@ -100,19 +106,19 @@ git commit -m "Your message"             # Commit staged changes
 
 git checkout main
 git pull origin main
-git checkout -b feature-xyz
+git checkout -b <somebranch-name/>
 # Make changes
 git add .
-git commit -m "Add feature xyz"
-git push origin feature-xyz
+git commit -m "Do some stuff"
+git push origin <somebranch-name/>
 # Merge later:
 git checkout main
 git pull origin main
-git merge feature-xyz
+git merge <somebranch-name/>
 git push origin main
 # Optionally delete:
-git branch -d feature-xyz
-git push origin --delete feature-xyz
+git branch -d <somebranch-name/>
+git push origin --delete <somebranch-name/>
 
 Git Merge Conflict Resolution Cheat Sheet
 ============================================
@@ -130,6 +136,11 @@ If there are conflicts, Git will show:
 
 Fixing Conflicts
 ---------------------------------------------------------
+Note : 1. Don't work on main
+       2. One patch = one feature
+       3. rebase early , rebase often
+       4. Pull before you push
+
 Open each conflicted file and resolve manually. Look for markers like:
     <<<<<<< HEAD
     // your local changes
@@ -328,3 +339,8 @@ When to use cherry-pick:
 2. Backport bug fixes
 3. Select specific commits only
 4. Avoid full merge
+
+Note: if u have changes in your branch and Modified code too and u have to test your 
+      Modified and before one u just have to switch branches.
+      And test the feature in your branch 
+      Helpful for patches....

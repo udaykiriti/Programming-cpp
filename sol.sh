@@ -2,24 +2,31 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Retro compile-run script with "old compiler" animation
-# Usage: ./sol.sh [-s source.cpp] [-i in.txt] [-o out.txt] [-c compiler] [-f "extra flags"] [source.cpp]
-
-# --------- Defaults ----------
 SRC=""
 INFILE="in.txt"
 OUTFILE="out.txt"
 COMPILER="g++"
-CXXFLAGS=( -std=c++20 -O2 -Wall -Wextra -DLOCAL )
+CXXFLAGS=(-std=c++20 -O2 -Wall -Wextra -DLOCAL)
 TIMESTAMP=true
 
-# --------- Colors (if tty) ----------
 if [[ -t 1 ]]; then
-  RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[0;33m'
-  BLUE='\033[0;34m'; MAGENTA='\033[0;35m'; CYAN='\033[0;36m'
-  BOLD='\033[1m'; NC='\033[0m'
+  RED='\033[0;31m'
+  GREEN='\033[0;32m'
+  YELLOW='\033[0;33m'
+  BLUE='\033[0;34m'
+  MAGENTA='\033[0;35m'
+  CYAN='\033[0;36m'
+  BOLD='\033[1m'
+  NC='\033[0m'
 else
-  RED='' ; GREEN='' ; YELLOW='' ; BLUE='' ; MAGENTA='' ; CYAN='' ; BOLD='' ; NC=''
+  RED=''
+  GREEN=''
+  YELLOW=''
+  BLUE=''
+  MAGENTA=''
+  CYAN=''
+  BOLD=''
+  NC=''
 fi
 
 usage() {
@@ -29,25 +36,32 @@ Example: $0 -s solution.cpp -i sample.in -o sample.out -f "-g -O0"
 EOF
 }
 
-log()  { printf "%b\n" "${BLUE}>>${NC} $*"; }
-ok()   { printf "%b\n" "${GREEN}✔${NC} $*"; }
-err()  { printf "%b\n" "${RED}✖ ${NC}$*" >&2; }
+log() { printf "%b\n" "${BLUE}>>${NC} $*"; }
+ok() { printf "%b\n" "${GREEN}✔${NC} $*"; }
+err() { printf "%b\n" "${RED}✖ ${NC}$*" >&2; }
 
-# --------- Parse flags ----------
 while getopts ":s:i:o:c:f:th" opt; do
   case "$opt" in
-    s) SRC="$OPTARG" ;;
-    i) INFILE="$OPTARG" ;;
-    o) OUTFILE="$OPTARG" ;;
-    c) COMPILER="$OPTARG" ;;
-    f) # split provided string into words and append
-       # shellcheck disable=SC2206
-       CXXFLAGS+=( $OPTARG )
-       ;;
-    t) TIMESTAMP=false ;;
-    h) usage; exit 0 ;;
-    \?) err "Invalid option: -$OPTARG"; exit 2 ;;
-    :)  err "Option -$OPTARG requires argument"; exit 2 ;;
+  s) SRC="$OPTARG" ;;
+  i) INFILE="$OPTARG" ;;
+  o) OUTFILE="$OPTARG" ;;
+  c) COMPILER="$OPTARG" ;;
+  f)
+    CXXFLAGS+=($OPTARG)
+    ;;
+  t) TIMESTAMP=false ;;
+  h)
+    usage
+    exit 0
+    ;;
+  \?)
+    err "Invalid option: -$OPTARG"
+    exit 2
+    ;;
+  :)
+    err "Option -$OPTARG requires argument"
+    exit 2
+    ;;
   esac
 done
 
@@ -59,20 +73,29 @@ fi
 
 if [[ -z "$SRC" ]]; then
   shopt -s nullglob
-  files=( *.cpp )
-  (( ${#files[@]} > 0 )) || { err "No .cpp files found in current directory."; exit 1; }
+  files=(*.cpp)
+  ((${#files[@]} > 0)) || {
+    err "No .cpp files found in current directory."
+    exit 1
+  }
   SRC="${files[0]}"
   log "No source specified — using first .cpp: ${YELLOW}${SRC}${NC}"
 fi
 
-[[ -f "$SRC" ]] || { err "Source file '$SRC' not found."; exit 1; }
+[[ -f "$SRC" ]] || {
+  err "Source file '$SRC' not found."
+  exit 1
+}
 
 BIN="${SRC%.*}"
 if [[ "${OS:-}" =~ MINGW|Windows ]] || [[ "${MSYSTEM:-}" =~ MINGW ]]; then
   BIN="${BIN}.exe"
 fi
 
-command -v "$COMPILER" >/dev/null || { err "Compiler not found: $COMPILER"; exit 1; }
+command -v "$COMPILER" >/dev/null || {
+  err "Compiler not found: $COMPILER"
+  exit 1
+}
 
 retro_banner() {
   cat <<'BANNER'
@@ -95,7 +118,7 @@ spinner_start() {
   printf " "
   (
     while true; do
-      for ((i=0;i<${#sp};i++)); do
+      for ((i = 0; i < ${#sp}; i++)); do
         printf "\b%s" "${sp:i:1}"
         sleep 0.08
       done
@@ -144,7 +167,7 @@ compile_rc=$?
 set -e
 
 spinner_stop
-if (( compile_rc != 0 )); then
+if ((compile_rc != 0)); then
   echo -e "${RED}${BOLD}\nCompilation failed.${NC}"
   echo -e "${YELLOW}--- compiler stdout ---${NC}"
   sed -n '1,200p' "$tmp_out" || true
@@ -157,24 +180,22 @@ fi
 echo -e " ${GREEN}${BOLD}OK${NC}"
 rm -f "$tmp_out" "$tmp_err"
 
-# ---------------- Link animation (tiny) ----------------
 printf "%b" "${BLUE}"
 typewriter "Linking objects..."
 printf "%b" "$NC"
 
-# ---------------- Main FunC ----------------
 if [[ -f "$INFILE" ]]; then
   log "Running program: ./${BIN} < ${INFILE} > ${OUTFILE}"
   printf "%b" "${MAGENTA}"
   typewriter "Working..."
   printf "%b" "$NC"
-  ./"$BIN" < "$INFILE" > "$OUTFILE"
+  ./"$BIN" <"$INFILE" >"$OUTFILE"
 else
   log "Running program: ./${BIN} > ${OUTFILE}"
   printf "%b" "${MAGENTA}"
   typewriter "Running (no input file)..."
   printf "%b" "$NC"
-  ./"$BIN" > "$OUTFILE"
+  ./"$BIN" >"$OUTFILE"
 fi
 
 printf "%b" "${GREEN}"

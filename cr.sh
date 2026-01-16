@@ -27,10 +27,12 @@ if [ ! -f "$TEMPLATE" ]; then
 fi
 
 if [ -f "$FILENAME" ]; then
-  echo -e "${YELLOW}⚠ Warning:${NC} $FILENAME already exists"
-  read -p "Overwrite? (y/n): " choice
-  [[ "$choice" != "y" ]] && echo "Aborted." && exit 1
+  echo "Please check once before Trying another time.."
+  echo -e "${YELLOW}Warning:${NC} $FILENAME already exists.... "
+  echo "Danger [Verify Twice and Enter "y" cuz the Data will be Destroyed"
+  read -p "Overwrite? (y/n) [Now the Danger Begins]: " choice
+  [[ "$choice" != "y" ]] && echo -e "${RED}Aborted...[I mean Operation Cancelled]" && exit 1
 fi
 
-cp "$TEMPLATE" "$FILENAME" && \
-echo -e "${GREEN} Created:${NC} $FILENAME from Template.cpp"
+cp "$TEMPLATE" "$FILENAME" &&
+  echo -e "${GREEN} Delivered:${NC} $FILENAME from Template.cpp"

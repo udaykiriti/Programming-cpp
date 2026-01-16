@@ -61,12 +61,9 @@
 */
 
 /* 
-g++ -std=c++17 new.cpp -o new
-./new
-g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name 
+g++ -std=c++17 -Wall -Wextra -O2 s.cpp -o file-name
 ./file-name
 */
-
 
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
@@ -78,17 +75,18 @@ using namespace std;
 #define debug(...) 42
 #endif
 
+#define pb push_back
+#define vi vector<int>
 
-void dfs(int u, string &s, vector<int> &ans, vector<vector<int>> a){
+void dfs(int u, string &s,vi &ans, vector<vi> a){
 
     if(a[u].size() == 0) {
         ans[u] = (s[u-1] == 'W' ? 1 : -1);
         return;
     }
 
-    int sum(0);
-
-    for(int i = 0 ; i < a[u].size() ; i++){
+    int sum{0};
+    for(int i{0} ; i < a[u].size() ; i++){
         dfs(a[u][i] , s , ans , a);
         sum += ans[a[u][i]];
     }
@@ -100,20 +98,20 @@ void solve(){
    //soLuSHoNN hErE.........
     long long n;
     cin >> n;
-    vector<vector<int>> a(n+1);
+    vector<vi> a(n+1);
 
-    for(int i = 2 ; i <= n ; i++) {
+    for(int i{2} ; i <= n ; i++) {
         int k;
         cin >> k;
-        a[k].push_back(i);
+        a[k].pb(i);
     }
     string s;
     cin >> s;
-    vector<int> ans(n+1, -1);
+    vi ans(n+1, -1);
     dfs(1 , s , ans , a);
-    int cnt = 0;
-    for(int i = 1 ; i <= n ; i++) {
-        if(ans[i] == 0)
+    int cnt{0};
+    for(int i{1} ; i <= n ; i++) {
+        if(0 == ans[i])
             cnt++;
     }
     cout << cnt << "\n";
@@ -123,6 +121,6 @@ int main(){
     //freopen("in.txt","r",stdin);
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
-    int t(1), tcase(0); cin>>t;
+    int t{1}, tcase{0}; cin>>t;
     while (++tcase, t--) solve();
 }
