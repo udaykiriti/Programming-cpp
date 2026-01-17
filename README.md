@@ -4,7 +4,9 @@ A collection of competitive programming solutions and C++ practice code.
 
 ##  Structure
 
-- **Codeforces/** - Solutions to Codeforces problems
+- **Codeforces/** - Solutions to 917 Codeforces problems, organized by contest ranges:
+  - `0-99/` to `2100-2199/` - Problems grouped by contest number
+  - `misc/` - Problems with descriptive names
 - **Atcoder.cpp** - AtCoder problem solutions
 - **Templates/** - Code templates for competitive programming
 - **Topics/** - Practice code organized by topics
