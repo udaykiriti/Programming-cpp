@@ -1,4 +1,29 @@
 
+# ===================================================================================
+#                              GIT COMMANDS CHEAT SHEET
+# ===================================================================================
+
+# TABLE OF CONTENTS
+# -----------------
+# 1. Git Basics & Setup
+# 2. Remote Interaction
+# 3. Branch Management
+# 4. Merging
+# 5. Rebasing
+# 6. Conflict Resolution
+# 7. Logs and History
+# 8. Undo & Reset
+# 9. Staging & Committing
+# 10. Tagging
+# 11. Feature Branch Workflow
+# 12. Merge Conflict Resolution Cheat Sheet
+# 13. Git Stash
+# 14. Git Cherry-Pick
+# 15. Debugging & Investigation
+# 16. Appendix: Vim Commands for Git
+
+# ===================================================================================
+
 #  Git Basics & Setup -------------------------------------------------------------------
 
 git init                                            # Initialize a new git repository locally [Mandatory]
@@ -12,12 +37,9 @@ git config --global core.editor "code --wait"       # Set VS Code as default edi
 git remote -v                            # List all remotes and their URLs (mainly github repo)
 git remote add origin <repo-url>         # Add a remote repo called 'origin'
 
-<! ------------------------------------------------------------------------!>
+# Note: fetch brings data to local repo (not working directory), pull fetches and merges to working directory
 git fetch                                # Fetch all remote branches without merging
-git pull                                 # Pull after fetching data
-
-if we perform a fetch operation it brings data to buffer and the pull brings to current Directory..
-<! ------------------------------------------------------------------------!>
+git pull                                 # Fetch and merge into current branch
 
 git fetch --prune                        # Fetch and clean deleted remote branches locally
 git pull origin <branch>                 # Fetch and merge remote branch into current branch
@@ -25,16 +47,6 @@ git push origin <branch>                 # Push your local branch to remote
 git push -u origin <branch>              # Push and set upstream tracking branch
 git push origin --delete <branch>        # Delete a remote branch
 
-
-#  Fetch & Pull -------------------------------------------------------------------
-
-git fetch                                # Fetch latest from remote (no merge)
-git pull origin <branch-name>            # Fetch and merge changes
-
-#  Push -------------------------------------------------------------------
-
-git push origin <branch-name>            # Push current branch to remote
-git push -u origin <branch-name>         # Push and set upstream
 
 #  Branch Management-------------------------------------------------------------------
 
@@ -49,22 +61,26 @@ git switch -c <new-branch>               # Create and switch (modern)
 git branch -d <branch>                   # Delete a local branch (only if merged)
 git branch -D <branch>                   # Force delete a local branch (even if unmerged)
 
-git branch                               # List local branches
-git branch -r                            # List remote branches
-git branch -a                            # List all branches
-git branch <new-branch>                  # Create new branch
-git checkout <branch>                    # Switch to branch
-git checkout -b <new-branch>             # Create and switch to new branch
-git switch <branch>                      # Modern way to switch
-git switch -c <new-branch>               # Modern way to create + switch
-git branch -d branch-name                # Delete A branch
-
 #  Merging-------------------------------------------------------------------
 
 git checkout main                        # Switch to main branch
 git merge <feature-branch>               # Merge feature into current branch
-git merge --no-commit --no-ff <branch>   # Dry run merge
+git merge --no-commit --no-ff <branch>   # Merge but stop before committing (to review changes)
 git merge --abort                        # Abort merge if conflicts
+
+#  Rebasing -------------------------------------------------------------------
+
+# Rebase replays your commits on top of another branch (cleaner history than merge)
+git rebase <branch>                      # Rebase current branch onto <branch>
+git rebase main                          # Rebase current branch onto main
+git rebase -i HEAD~3                     # Interactive rebase last 3 commits (squash, reorder, edit)
+git rebase --continue                    # Continue after resolving rebase conflicts
+git rebase --abort                       # Abort rebase and return to original state
+
+# When to use rebase vs merge:
+# - Use rebase for feature branches before merging (cleaner history)
+# - Use merge for shared branches or when you want to preserve branch history
+# - Never rebase commits that have been pushed to a shared branch
 
 #  Conflict Resolution-------------------------------------------------------------------
 
@@ -72,28 +88,26 @@ git merge --abort                        # Abort merge if conflicts
 git add <file>
 git commit
 
-#  Delete Branch -------------------------------------------------------------------
-
-git branch -d <somebranch-name/>                   # Delete local branch
-git push origin --delete <somebranch-name/>        # Delete remote branch
-
 #  Logs and History -------------------------------------------------------------------
 
 git log                                  # Full commit history
 git log --oneline --graph --all          # Visual branch graph
 git status                               # Show current changes
 git diff                                 # Show unstaged changes
+git diff --staged                        # Show staged changes (before commit)
 git show <commit-hash>                   # Show a specific commit
 
 #  Undo & Reset -------------------------------------------------------------------
 
 git reset --hard HEAD                    # Reset to last commit (dangerous)
-git checkout -- <file>                   # Discard changes to a file
 git checkout -- <file>                   # Discard changes in working directory for a file
+git restore <file>                       # Discard changes (modern alternative to checkout --)
 git reset HEAD <file>                    # Unstage a staged file (keep changes in working dir)
 git reset --soft HEAD~1                  # Undo last commit but keep changes staged
 git reset --mixed HEAD~1                 # Undo last commit and unstage changes
 git reset --hard HEAD~1                  # Undo last commit and discard all changes (dangerous!)
+git revert <commit-hash>                 # Create a new commit that undoes a previous commit (safe for pushed commits)
+git reflog                               # Show history of HEAD changes (useful for recovering lost commits)
 
 
 #  Staging & Committing -------------------------------------------------------------------
@@ -101,24 +115,39 @@ git reset --hard HEAD~1                  # Undo last commit and discard all chan
 git add .                                # Stage all files
 git add <file>                           # Stage one file
 git commit -m "Your message"             # Commit staged changes
+git commit --amend                       # Modify the last commit (message or add files)
+git commit --amend -m "New message"      # Change last commit message
+git commit --amend --no-edit             # Add staged files to last commit without changing message
+
+#  Tagging -------------------------------------------------------------------
+
+git tag                                  # List all tags
+git tag <tag-name>                       # Create a lightweight tag
+git tag -a v1.0.0 -m "Version 1.0.0"     # Create an annotated tag with message
+git tag -a v1.0.0 <commit-hash>          # Tag a specific commit
+git show <tag-name>                      # Show tag details
+git push origin <tag-name>               # Push a specific tag to remote
+git push origin --tags                   # Push all tags to remote
+git tag -d <tag-name>                    # Delete a local tag
+git push origin --delete <tag-name>      # Delete a remote tag
 
 # Feature Branch Workflow-------------------------------------------------------------------
 
 git checkout main
 git pull origin main
-git checkout -b <somebranch-name/>
+git checkout -b <feature-branch>
 # Make changes
 git add .
 git commit -m "Do some stuff"
-git push origin <somebranch-name/>
+git push origin <feature-branch>
 # Merge later:
 git checkout main
 git pull origin main
-git merge <somebranch-name/>
+git merge <feature-branch>
 git push origin main
 # Optionally delete:
-git branch -d <somebranch-name/>
-git push origin --delete <somebranch-name/>
+git branch -d <feature-branch>
+git push origin --delete <feature-branch>
 
 Git Merge Conflict Resolution Cheat Sheet
 ============================================
@@ -188,40 +217,7 @@ Example Flow
 
 Done!
 
-Saving and Exiting in Vim During Git Merge Commit
-====================================================
-
-When Git prompts for a commit message (e.g., during a merge), it often opens the default editor: Vim.
-
-What does `:wq` mean?
-----------------------------------------------
-In Vim:
-  :w  - Writes (saves) the file.
-  :q  - Quits the editor.
-
-So, `:wq` saves your commit message and exits Vim.
-
-Steps to Use `:wq` After a Merge Conflict
-----------------------------------------------
-1. Type your commit message (or leave the default one).
-2. Press `Esc` (to ensure you're not in insert mode).
-3. Type `:wq` and press `Enter`.
-
-This completes the merge and exits the editor.
-
-Alternative Editors for Git
------------------------------------------------
-To avoid Vim and use a simpler editor like VS Code or Nano:
-
-Set VS Code as Git editor:
-    git config --global core.editor "code --wait"
-
-Set Nano as Git editor:
-    git config --global core.editor "nano"
-
-This will make Git open your preferred editor for commit messages.
-
-<!-----------------------------------------------------------!>
+# ---------------------------------------------------------
 GIT STASH AND CHERRY-PICK:
 
 git stash:
@@ -249,13 +245,7 @@ Include untracked files:
     git stash -u
     git stash --include-untracked
 
-
-Include untracked files
-
-1. git stash -u
-2. git stash --include-untracked
-
-Include ignored files also
+Include ignored files also:
 
 1. git stash -a
 
@@ -340,7 +330,75 @@ When to use cherry-pick:
 3. Select specific commits only
 4. Avoid full merge
 
-Note: if u have changes in your branch and Modified code too and u have to test your 
-      Modified and before one u just have to switch branches.
-      And test the feature in your branch 
-      Helpful for patches....
+Note: If you have uncommitted changes and need to switch branches to test something,
+      use git stash to save your work, switch branches, test, then switch back and
+      use git stash pop to restore your changes. Useful for testing patches.
+
+# ---------------------------------------------------------
+GIT DEBUGGING & INVESTIGATION:
+
+git blame <file>                         # Show who changed each line and when
+git blame -L 10,20 <file>                # Blame specific lines (10-20)
+
+git bisect start                         # Start binary search for bug-introducing commit
+git bisect bad                           # Mark current commit as bad (has bug)
+git bisect good <commit>                 # Mark a known good commit
+git bisect reset                         # End bisect session
+
+# Bisect workflow:
+# 1. git bisect start
+# 2. git bisect bad (current commit has the bug)
+# 3. git bisect good v1.0 (v1.0 was working fine)
+# 4. Git checks out middle commit - test it and mark as good/bad
+# 5. Repeat until Git finds the first bad commit
+# 6. git bisect reset (when done)
+
+git reflog                               # Show all HEAD movements (useful for recovery)
+git reflog show <branch>                 # Show reflog for specific branch
+
+# Recovery example:
+# If you accidentally reset or deleted commits:
+# 1. git reflog (find the commit hash before the mistake)
+# 2. git reset --hard <commit-hash> (restore to that point)
+
+# ===================================================================================
+# APPENDIX: Vim Commands for Git
+# ===================================================================================
+
+When Git prompts for a commit message (e.g., during a merge), it often opens the default editor: Vim.
+
+What does `:wq` mean?
+----------------------------------------------
+In Vim:
+  :w  - Writes (saves) the file.
+  :q  - Quits the editor.
+
+So, `:wq` saves your commit message and exits Vim.
+
+Steps to Use `:wq` After a Merge Conflict
+----------------------------------------------
+1. Type your commit message (or leave the default one).
+2. Press `Esc` (to ensure you're not in insert mode).
+3. Type `:wq` and press `Enter`.
+
+This completes the merge and exits the editor.
+
+Other useful Vim commands:
+----------------------------------------------
+  :q!  - Quit without saving (abort the commit)
+  i    - Enter insert mode (to type)
+  Esc  - Exit insert mode
+  dd   - Delete current line
+  u    - Undo last change
+
+Alternative Editors for Git
+-----------------------------------------------
+To avoid Vim and use a simpler editor like VS Code or Nano:
+
+Set VS Code as Git editor:
+    git config --global core.editor "code --wait"
+
+Set Nano as Git editor:
+    git config --global core.editor "nano"
+
+This will make Git open your preferred editor for commit messages.

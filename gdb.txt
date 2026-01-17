@@ -1,17 +1,69 @@
-GDB NOTES (TEXT VERSION)
+GDB, VIM & EMACS CHEAT SHEET
+============================
+
+TABLE OF CONTENTS
+-----------------
+GDB:
+  1. Compilation
+  2. Starting GDB
+  3. Breakpoints
+  4. Execution
+  5. Print Variables
+  6. Backtrace
+  7. Jump
+  8. Memory
+  9. Segfault Debugging
+  10. Search/List
+  11. TUI Mode
+  12. Useful Settings
+  13. Quitting GDB
+
+VIM:
+  1. Modes
+  2. Movement
+  3. Edit/Delete
+  4. Visual Mode Actions
+  5. Search/Replace
+  6. File Operations
+  7. Indent/Format
+  8. Windows/Tabs
+  9. Multi-line Edits
+  10. Settings
+  11. Useful Tricks
+  12. Marks and Jumps
+  13. Registers
+  14. Macros
+
+EMACS:
+  1. Basic Movement
+  2. Editing
+  3. Searching
+  4. Replace
+  5. File Operations
+  6. Selecting Text
+  7. Windows (Splits)
+  8. Buffers
+  9. Indent & Code
+  10. Macros
+  11. Useful Tricks
+  12. Rectangles (Block Editing)
+
+================================================================================
+                                    GDB NOTES
+================================================================================
 
 1. Compile with debug symbols:
-   [debug(...)]
    g++ -g -O0 file.cpp -o a.out
-   [If you dont want to debug and want to use some extrnl debugs]
+
+   If you dont want to debug and want to use external debugs:
    g++ -std=c++20 -Wall -Wextra -O2 -DLOCAL name.cpp -o name
-   ./name <in.txt> out.txt
+   ./name < in.txt > out.txt
 
 
 2. Start GDB:
    gdb ./a.out
-   run         [normal run]
-   run <in.txt [with input file]
+   run           [normal run]
+   run < in.txt  [with input file]
 
 3. Breakpoints:
    [At specific line or may be functions names and you can watch vars]
@@ -31,14 +83,14 @@ GDB NOTES (TEXT VERSION)
    continue [resumes and go and stops until the next Breakpoint]
    step     [go to piece of line even may be like (Increment of program counter)pc + 1][if function present it go to it]
    next     [Executes && go to piece of line like pc + 1][skips functions]
-   finish   [completes the debugging]
+   finish   [run until current function returns]
    si       [next instruction not code or any line][like Assembler]
 
 5. Print variables:
    print x     [value of variable]
    p x         [short notation of print x]
    p arr[0]@10 [print 10 consecutive elements from arr[0]]
-   p vec       [entire arry or vector]
+   p vec       [entire array or vector]
    p *ptr      [prints the value stores in that Memory location]
    watch x     [Stops execution when the value of x changes]
 
@@ -66,15 +118,21 @@ GDB NOTES (TEXT VERSION)
 11. TUI mode:
    layout src [open TUI mode showing the source code window]
    layout asm [open TUI mode showing the assembly instructions]
-   layout regs[open TUI mode showing CPU registers]
+   layout regs [open TUI mode showing CPU registers]
 
 12. Useful settings:
    set pagination off   [disable “—More—” prompts for uninterrupted output]
    set print pretty on  [pretty-print complex structures (STL containers, structs)]
    set logging on       [start logging all GDB output to a file (gdb.txt by default)]
 
+13. Quitting GDB:
+   quit        [exit GDB]
+   q           [short for quit]
 
---------------------------------VIM COMMANDS (TEXT VERSION)---------------------------------------
+
+================================================================================
+                                  VIM COMMANDS
+================================================================================
 
 1. MODES:
 i           -> insert mode
@@ -130,8 +188,14 @@ p           -> paste
  ?text      -> search backward
  n          -> repeat search
  N          -> reverse search
- :%s/old/new/g      -> replace all
- :%s/old/new/gc     -> replace with confirm
+ *          -> search word under cursor forward
+ #          -> search word under cursor backward
+ :%s/old/new/g      -> replace all in file
+ :%s/old/new/gc     -> replace all with confirm
+ :s/old/new/g       -> replace all in current line
+ :%s/old/new/gi     -> replace all (case insensitive)
+ :5,10s/old/new/g   -> replace in lines 5-10
+ :'<,'>s/old/new/g  -> replace in visual selection
 
 6. FILE OPERATIONS:
  :w         -> save
@@ -139,7 +203,13 @@ p           -> paste
  :q!        -> quit no save
  :wq        -> save and quit
  :x         -> save and quit
+ ZZ         -> save and quit (normal mode)
+ ZQ         -> quit without saving (normal mode)
  :w new.txt -> save to new file
+ :e file    -> open file
+ :r file    -> insert file contents
+ :!command  -> run shell command
+ :r !cmd    -> insert command output
 
 7. INDENT/FORMAT:
  ==         -> auto-indent line
@@ -167,9 +237,60 @@ p           -> paste
  :set tabstop=4 shiftwidth=4 expandtab
  :set paste             -> paste mode
  :set nopaste
+ :set hlsearch          -> highlight search results
+ :set nohlsearch        -> disable highlight
+ :noh                   -> clear current highlight
+ :set ignorecase        -> case insensitive search
+ :set smartcase         -> smart case (case sensitive if uppercase used)
+ :set wrap / nowrap     -> toggle line wrapping
+ :syntax on/off         -> toggle syntax highlighting
+
+11. USEFUL TRICKS:
+ .           -> repeat last command
+ ciw         -> change inner word (delete word and enter insert mode)
+ ci"         -> change inside quotes
+ ci(         -> change inside parentheses
+ ca(         -> change around parentheses (includes brackets)
+ diw         -> delete inner word
+ di"         -> delete inside quotes
+ yiw         -> yank inner word
+ gUiw        -> uppercase word
+ guiw        -> lowercase word
+ ~           -> toggle case of character
+ J           -> join lines
+ gq          -> format text (wrap lines)
+ Ctrl+a      -> increment number
+ Ctrl+x      -> decrement number
+ :sort       -> sort lines
+ :sort u     -> sort and remove duplicates
+ :%!column -t -> align columns
+
+12. MARKS AND JUMPS:
+ ma          -> set mark 'a' at cursor
+ 'a          -> jump to mark 'a'
+ ''          -> jump to last position
+ Ctrl+o      -> jump to older position
+ Ctrl+i      -> jump to newer position
+ :marks      -> list all marks
+
+13. REGISTERS:
+ "ayy        -> yank line to register 'a'
+ "ap         -> paste from register 'a'
+ "+y         -> yank to system clipboard
+ "+p         -> paste from system clipboard
+ :reg        -> show all registers
+
+14. MACROS:
+ qa          -> start recording macro to register 'a'
+ q           -> stop recording
+ @a          -> play macro 'a'
+ @@          -> repeat last macro
+ 10@a        -> play macro 'a' 10 times
 
 
---------------------------------------EMACS COMMANDS (TEXT VERSION)---------------------------------
+================================================================================
+                                 EMACS COMMANDS
+================================================================================
 
 1. BASIC MOVEMENT:
 C-f        -> move right
@@ -197,37 +318,80 @@ C-g        -> cancel command
 C-s        -> search forward
 C-r        -> search backward
 C-s C-s    -> repeat search
+C-s C-w    -> search word at cursor
+M-%        -> query replace (find and replace with confirm)
+C-M-%      -> query replace regexp
 
-4. FILE OPERATIONS:
+4. REPLACE:
+M-%        -> query replace
+             (y = replace, n = skip, ! = replace all, q = quit)
+M-x replace-string    -> replace all without confirm
+M-x replace-regexp    -> replace using regex
+
+5. FILE OPERATIONS:
 C-x C-s    -> save file
 C-x C-f    -> open file
 C-x C-w    -> save as
 C-x C-c    -> quit emacs
+C-x C-r    -> open file read-only
+C-x i      -> insert file contents
+M-x shell  -> open shell in emacs
 
-5. SELECTING TEXT:
+6. SELECTING TEXT:
 C-space    -> set mark (begin selection)
 C-w        -> cut region
 M-w        -> copy region
 C-y        -> paste
+C-x h      -> select all
+M-h        -> select paragraph
 
-6. WINDOWS (SPLITS):
+7. WINDOWS (SPLITS):
 C-x 2      -> split horizontally
 C-x 3      -> split vertically
 C-x 0      -> close current window
 C-x 1      -> close all other windows
 C-x o      -> switch window
+C-x ^      -> increase window height
+C-x {      -> shrink window horizontally
+C-x }      -> enlarge window horizontally
 
-7. BUFFERS:
+8. BUFFERS:
 C-x b      -> switch buffer
 C-x C-b    -> list buffers
 C-x k      -> kill buffer
+C-x left   -> previous buffer
+C-x right  -> next buffer
 
-8. INDENT & CODE:
+9. INDENT & CODE:
 Tab        -> indent line
 M-;        -> comment/uncomment line
-C-M-\     -> indent region
+C-M-\      -> indent region
+C-x Tab    -> indent region rigidly
+M-q        -> fill paragraph (wrap text)
+M-u        -> uppercase word
+M-l        -> lowercase word
+M-c        -> capitalize word
 
-9. MACROS:
+10. MACROS:
 C-x (      -> start recording macro
 C-x )      -> stop recording
 C-x e      -> play macro
+C-u 10 C-x e -> play macro 10 times
+
+11. USEFUL TRICKS:
+C-l        -> center screen on cursor
+M-g g      -> go to line number
+C-x C-+    -> increase font size
+C-x C--    -> decrease font size
+M-x linum-mode     -> toggle line numbers
+M-x whitespace-mode -> show whitespace
+C-x u      -> undo tree (if available)
+C-h k      -> describe key binding
+C-h f      -> describe function
+M-x describe-bindings -> show all key bindings
+
+12. RECTANGLES (block editing):
+C-x r k    -> kill rectangle
+C-x r y    -> yank rectangle
+C-x r t    -> replace rectangle with string
+C-x r o    -> insert blank rectangle
