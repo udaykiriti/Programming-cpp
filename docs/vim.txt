@@ -1,0 +1,156 @@
+================================================================================
+                                  VIM COMMANDS
+================================================================================
+
+1. MODES:
+i           -> insert mode
+a           -> insert after cursor
+o           -> new line below and insert
+I           -> insert at start of line
+A           -> insert at end of line
+Esc         -> switch to normal mode
+v           -> visual mode
+V           -> visual line mode
+Ctrl+v      -> visual block mode
+
+2. MOVEMENT:
+h j k l     -> left, down, up, right
+w           -> next word
+b           -> previous word
+e           -> end of word
+0           -> start of line
+$           -> end of line
+gg          -> go to start of file
+G           -> go to end of file
+:number     -> go to specific line
+%           -> jump matching bracket
+f<char>     -> jump to next occurrence of char
+
+3. EDIT/DELETE:
+x           -> delete character
+dd          -> delete line
+dw          -> delete word
+d$          -> delete to end of line
+D           -> delete to end of line
+yy          -> copy line
+y6j         -> copy the curr to next num line
+yw          -> yank word
+y$          -> yank to end of line
+p           -> paste below
+P           -> paste above
+u           -> undo
+Ctrl+r      -> redo
+
+4. VISUAL MODE ACTIONS:
+v           -> visual start
+V           -> visual line
+Ctrl+v      -> block selection
+d           -> delete selection
+y           -> yank selection
+p           -> paste
+>           -> indent
+<           -> unindent
+
+5. SEARCH/REPLACE:
+ /text      -> search forward
+ ?text      -> search backward
+ n          -> repeat search
+ N          -> reverse search
+ *          -> search word under cursor forward
+ #          -> search word under cursor backward
+ :%s/old/new/g      -> replace all in file
+ :%s/old/new/gc     -> replace all with confirm
+ :s/old/new/g       -> replace all in current line
+ :%s/old/new/gi     -> replace all (case insensitive)
+ :5,10s/old/new/g   -> replace in lines 5-10
+ :'<,'>s/old/new/g  -> replace in visual selection
+
+6. FILE OPERATIONS:
+ :w         -> save
+ :q         -> quit
+ :q!        -> quit no save
+ :wq        -> save and quit
+ :x         -> save and quit
+ ZZ         -> save and quit (normal mode)
+ ZQ         -> quit without saving (normal mode)
+ :w new.txt -> save to new file
+ :e file    -> open file
+ :r file    -> insert file contents
+ :!command  -> run shell command
+ :r !cmd    -> insert command output
+
+7. INDENT/FORMAT:
+ ==         -> auto-indent line
+ gg=G       -> auto-indent file
+ >>         -> indent
+ <<         -> unindent
+
+8. WINDOWS/TABS:
+ :sp        -> horizontal split
+ :vsp       -> vertical split
+ Ctrl+w w   -> switch split
+ Ctrl+w c   -> close split
+ Ctrl+w =   -> equal size
+ :tabnew    -> new tab
+ :tabn      -> next tab
+ :tabp      -> prev tab
+
+9. MULTI-LINE EDITS:
+ 5yy        -> yank 5 lines
+ 3dd        -> delete 3 lines
+
+10. SETTINGS:
+ :set number            -> show line numbers
+ :set relativenumber    -> relative numbers
+ :set tabstop=4 shiftwidth=4 expandtab
+ :set paste             -> paste mode
+ :set nopaste
+ :set hlsearch          -> highlight search results
+ :set nohlsearch        -> disable highlight
+ :noh                   -> clear current highlight
+ :set ignorecase        -> case insensitive search
+ :set smartcase         -> smart case (case sensitive if uppercase used)
+ :set wrap / nowrap     -> toggle line wrapping
+ :syntax on/off         -> toggle syntax highlighting
+
+11. USEFUL TRICKS:
+ .           -> repeat last command
+ ciw         -> change inner word (delete word and enter insert mode)
+ ci"         -> change inside quotes
+ ci(         -> change inside parentheses
+ ca(         -> change around parentheses (includes brackets)
+ diw         -> delete inner word
+ di"         -> delete inside quotes
+ yiw         -> yank inner word
+ gUiw        -> uppercase word
+ guiw        -> lowercase word
+ ~           -> toggle case of character
+ J           -> join lines
+ gq          -> format text (wrap lines)
+ Ctrl+a      -> increment number
+ Ctrl+x      -> decrement number
+ :sort       -> sort lines
+ :sort u     -> sort and remove duplicates
+ :%!column -t -> align columns
+
+12. MARKS AND JUMPS:
+ ma          -> set mark 'a' at cursor
+ 'a          -> jump to mark 'a'
+ ''          -> jump to last position
+ Ctrl+o      -> jump to older position
+ Ctrl+i      -> jump to newer position
+ :marks      -> list all marks
+
+13. REGISTERS:
+ "ayy        -> yank line to register 'a'
+ "ap         -> paste from register 'a'
+ "+y         -> yank to system clipboard
+ "+p         -> paste from system clipboard
+ :reg        -> show all registers
+
+14. MACROS:
+ qa          -> start recording macro to register 'a'
+ q           -> stop recording
+ @a          -> play macro 'a'
+ @@          -> repeat last macro
+ 10@a        -> play macro 'a' 10 times

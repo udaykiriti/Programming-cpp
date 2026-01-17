@@ -1,0 +1,107 @@
+================================================================================
+                                 EMACS COMMANDS
+================================================================================
+
+1. BASIC MOVEMENT:
+C-f        -> move right
+C-b        -> move left
+C-n        -> next line
+C-p        -> previous line
+M-f        -> next word
+M-b        -> previous word
+C-a        -> start of line
+C-e        -> end of line
+M-<        -> start of file
+M->        -> end of file
+
+2. EDITING:
+C-d        -> delete char
+M-d        -> delete word forward
+M-Del      -> delete word backward
+C-k        -> kill to end of line
+C-y        -> yank (paste)
+M-y        -> cycle kill-ring
+C-/ or C-_ -> undo
+C-g        -> cancel command
+
+3. SEARCHING:
+C-s        -> search forward
+C-r        -> search backward
+C-s C-s    -> repeat search
+C-s C-w    -> search word at cursor
+M-%        -> query replace (find and replace with confirm)
+C-M-%      -> query replace regexp
+
+4. REPLACE:
+M-%        -> query replace
+             (y = replace, n = skip, ! = replace all, q = quit)
+M-x replace-string    -> replace all without confirm
+M-x replace-regexp    -> replace using regex
+
+5. FILE OPERATIONS:
+C-x C-s    -> save file
+C-x C-f    -> open file
+C-x C-w    -> save as
+C-x C-c    -> quit emacs
+C-x C-r    -> open file read-only
+C-x i      -> insert file contents
+M-x shell  -> open shell in emacs
+
+6. SELECTING TEXT:
+C-space    -> set mark (begin selection)
+C-w        -> cut region
+M-w        -> copy region
+C-y        -> paste
+C-x h      -> select all
+M-h        -> select paragraph
+
+7. WINDOWS (SPLITS):
+C-x 2      -> split horizontally
+C-x 3      -> split vertically
+C-x 0      -> close current window
+C-x 1      -> close all other windows
+C-x o      -> switch window
+C-x ^      -> increase window height
+C-x {      -> shrink window horizontally
+C-x }      -> enlarge window horizontally
+
+8. BUFFERS:
+C-x b      -> switch buffer
+C-x C-b    -> list buffers
+C-x k      -> kill buffer
+C-x left   -> previous buffer
+C-x right  -> next buffer
+
+9. INDENT & CODE:
+Tab        -> indent line
+M-;        -> comment/uncomment line
+C-M-\      -> indent region
+C-x Tab    -> indent region rigidly
+M-q        -> fill paragraph (wrap text)
+M-u        -> uppercase word
+M-l        -> lowercase word
+M-c        -> capitalize word
+
+10. MACROS:
+C-x (      -> start recording macro
+C-x )      -> stop recording
+C-x e      -> play macro
+C-u 10 C-x e -> play macro 10 times
+
+11. USEFUL TRICKS:
+C-l        -> center screen on cursor
+M-g g      -> go to line number
+C-x C-+    -> increase font size
+C-x C--    -> decrease font size
+M-x linum-mode     -> toggle line numbers
+M-x whitespace-mode -> show whitespace
+C-x u      -> undo tree (if available)
+C-h k      -> describe key binding
+C-h f      -> describe function
+M-x describe-bindings -> show all key bindings
+
+12. RECTANGLES (block editing):
+C-x r k    -> kill rectangle
+C-x r y    -> yank rectangle
+C-x r t    -> replace rectangle with string
+C-x r o    -> insert blank rectangle
