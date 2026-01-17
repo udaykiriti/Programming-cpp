@@ -39,7 +39,9 @@ Use the provided shell scripts to compile and run C++ programs:
 - **in.txt** - Input test cases
 - **out.txt** - Output results
 
-##  Resources
+##  Resources(docs/)
 
-- **GitCommands.txt** - Git command reference
+- **git.txt** - Git command reference
 - **gdb.txt** - GDB debugging guide
+- **vim.txt** - vim commands
+- **emacs.txt** - emacs commads
