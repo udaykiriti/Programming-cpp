@@ -104,4 +104,161 @@ M-x describe-bindings -> show all key bindings
 C-x r k    -> kill rectangle
 C-x r y    -> yank rectangle
 C-x r t    -> replace rectangle with string
-C-x r o    -> insert blank rectangle
+ C-x r o    -> insert blank rectangle
+
+13. COMPILATION & DEBUGGING:
+ M-x compile        -> compile code (runs make by default)
+ M-x gdb            -> start GDB debugger
+ M-x recompile      -> repeat last compilation
+ C-x ` (backtick)   -> jump to next error
+
+14. DIRED (File Browser):
+ C-x d              -> open dired
+ +                  -> create directory
+ g                  -> refresh buffer
+ C                  -> copy file
+ R                  -> rename/move file
+ D                  -> delete file
+ d / u              -> mark / unmark for deletion
+ x                  -> execute marked deletions
+ C-x C-q            -> toggle editable dired (rename files by editing)
+
+15. ORG MODE (Basics):
+ Tab                -> cycle subtree visibility
+ S-Tab              -> cycle global visibility
+ M-Ret              -> new heading/item
+ C-c C-t            -> toggle TODO state
+ C-c C-c            -> toggle checkbox
+
+16. ADVANCED SEARCH/REPLACE:
+ M-s o              -> occur (list all matches in new buffer)
+ C-M-s              -> incremental search regexp
+ C-M-r              -> reverse incremental search regexp
+ M-x multi-occur    -> search in multiple buffers
+ M-x rgrep          -> recursive grep in directory
+
+17. MISCELLANEOUS:
+ M-x delete-trailing-whitespace -> clean up
+ M-x untabify       -> convert tabs to spaces in region
+ M-x count-words    -> word count for buffer/region
+  M-q                -> fill paragraph (wrap long lines)
+ 
+ 18. TRAMP (Remote Editing):
+  C-x C-f /ssh:user@host:path/to/file -> edit remote file
+  C-x C-f /sudo::/etc/hosts          -> edit as root
+ 
+ 19. REGISTERS:
+  C-x r s <char>     -> save region to register <char>
+  C-x r i <char>     -> insert content of register <char>
+  C-x r space <char> -> save current point (bookmark)
+  C-x r j <char>     -> jump to point in register <char>
+ 
+ 20. HELP SYSTEM (Advanced):
+  C-h v              -> describe variable
+  C-h m              -> describe current major/minor modes
+  C-h l              -> show "lossage" (last 300 keys)
+  C-h a              -> command apropos (search commands)
+ 
+ 21. SHELLS:
+  M-x eshell         -> Emacs-native shell
+  M-x term           -> Terminal emulator
+  M-x shell          -> Standard shell buffer
+
+22. VERSION CONTROL (VC):
+ C-x v v            -> next logical VC action (commit/stage)
+ C-x v =            -> diff against repository
+ C-x v l            -> show log
+ C-x v u            -> revert change
+ C-x v g            -> annotate (blame)
+
+23. FRAMES (New OS Windows):
+ C-x 5 2            -> create new frame
+ C-x 5 o            -> switch to other frame
+ C-x 5 0            -> close current frame
+ C-x 5 f            -> open file in new frame
+
+24. NARROWING (Focus on part of file):
+ C-x n n            -> narrow to region (hide rest of file)
+ C-x n w            -> widen (show everything again)
+ C-x n p            -> narrow to page
+
+25. EVALUATION & LISP:
+ C-x C-e            -> evaluate expression before cursor
+ M-x eval-buffer    -> evaluate entire buffer
+ M-x eval-region    -> evaluate selected region
+ M-x ielm           -> interactive Emacs Lisp REPL
+ C-M-x              -> evaluate top-level form (defun)
+
+26. BOOKMARKS:
+ C-x r m            -> set bookmark at current point
+ C-x r b            -> jump to bookmark
+ C-x r l            -> list bookmarks
+ M-x bookmark-delete -> delete bookmark
+
+27. ABBREVIATIONS (Auto-expansion):
+ M-x abbrev-mode    -> toggle abbrev mode
+ C-x a g            -> add global abbrev
+ C-x a l            -> add mode-local abbrev
+ M-x edit-abbrevs   -> edit your abbreviations
+
+28. UTILITIES:
+ M-x calc           -> powerful RPN calculator
+ M-x calendar       -> show calendar
+ M-x eww            -> built-in web browser
+ M-x doctor         -> psychological help (classic easter egg)
+ M-x tetris         -> play tetris
+ M-x dunnet         -> text adventure game
+
+29. SPEEDBAR:
+ M-x speedbar       -> open separate file/symbol explorer window
+
+30. TRANSPOSITION:
+ C-t                -> transpose characters
+ M-t                -> transpose words
+ C-x C-t            -> transpose lines
+ M-x transpose-paragraphs -> transpose paragraphs
+
+31. ZAPPING & DELETING:
+ M-z <char>         -> zap to char (delete up to and including char)
+ M-x zap-up-to-char -> delete up to char (not including)
+ M-\                -> delete all spaces/tabs around point
+ M-space            -> delete all spaces except one
+
+32. REPEATING & UNDO:
+ C-x z              -> repeat last command (press 'z' again to repeat more)
+ C-x u              -> undo
+ C-/                -> undo
+ M-x revert-buffer  -> reload file from disk
+
+33. QUOTED INSERT:
+ C-q <char>         -> insert character literally (e.g., C-q Tab for real tab)
+ C-q <octal>        -> insert char by octal code
+
+34. TAGS (Etags):
+ M-! etags *.cpp *.h -> generate TAGS file
+ M-.                -> find definition
+ M-*                -> go back
+ M-x visit-tags-table -> load a TAGS file
+
+35. C++ / PROGRAMMING:
+ M-x ff-find-other-file -> switch between .cpp and .h
+ M-x man            -> read man page for symbol
+ M-x gdb            -> run debugger
+ C-c C-c            -> comment/uncomment region (C-mode)
+ C-M-h              -> select current function
+
+36. SEARCHING IN FILES:
+ M-x grep           -> run grep
+ M-x find-grep      -> find files and grep them
+ M-x occur          -> show all lines matching pattern in buffer
+
+37. CUSTOMIZATION:
+ M-x customize      -> easy interface for settings
+ M-x list-packages  -> browse and install plugins
+ (edit ~/.emacs)    -> manual configuration
+
+38. BUFFER PERMISSIONS:
+ C-x C-q            -> toggle read-only mode
+ M-x rename-buffer  -> rename current buffer
+ C-x C-v            -> find-alternate-file (reload or replace buffer)
+ 

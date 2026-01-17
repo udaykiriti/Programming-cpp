@@ -154,3 +154,159 @@ p           -> paste
  @a          -> play macro 'a'
  @@          -> repeat last macro
  10@a        -> play macro 'a' 10 times
+
+15. TEXT OBJECTS (Advanced):
+ ca{ / ci{   -> around/inside curly braces
+ ca[ / ci[   -> around/inside square brackets
+ ca< / ci<   -> around/inside angle brackets
+ ct<char>    -> change to (up to) char
+ dt<char>    -> delete to (up to) char
+
+16. NAVIGATION (Advanced):
+ H / M / L   -> Top / Middle / Bottom of screen
+ Ctrl+u / d  -> Page up / down (half page)
+ Ctrl+b / f  -> Page up / down (full page)
+ gf          -> open file name under cursor
+ gi          -> go to last insert point and enter insert mode
+ gv          -> reselect last visual selection
+ ''          -> jump to last jump point
+ Ctrl+o / i  -> back/forward in jump list
+
+17. QUICKFIX LIST:
+ :make       -> run make / compile
+ :copen      -> open quickfix window
+ :cnext      -> next error/match
+ :cprev      -> prev error/match
+ :cclose     -> close quickfix window
+
+18. EXPLORER:
+ :Ex         -> open Netrw explorer
+ :Vex        -> vertical split explorer
+ :Lexplore   -> toggle left explorer (sidebar style)
+
+19. GLOBAL COMMANDS:
+ :g/pattern/d       -> delete all lines matching pattern
+ :v/pattern/d       -> delete all lines NOT matching pattern
+ :g/pattern/cmd     -> run command on all matching lines
+
+20. SPELL CHECK:
+ :set spell         -> enable spell check
+ :set nospell       -> disable spell check
+ ]s / [s           -> next / previous misspelled word
+ z=                 -> suggest corrections
+ zg                 -> add word to dictionary
+
+21. FOLDING:
+ zf                 -> create fold from visual selection
+ za                 -> toggle (open/close) fold
+ zo / zc           -> open / close fold
+ zR / zM           -> open all / close all folds
+ zd                 -> delete fold at cursor
+
+22. DIFFING (vimdiff):
+ do                 -> diff obtain (get from other)
+ dp                 -> diff put (send to other)
+ [c / ]c           -> jump to previous / next change
+ :diffupdate        -> refresh diff highlight
+
+23. COMMAND LINE WINDOW:
+ q:                 -> open command history window
+ q/                 -> open search history window
+ Ctrl+f             -> (within cmd line) switch to window
+
+24. BUFFERS (Detailed):
+ :ls                -> list all open buffers
+ :bn / :bp          -> next / previous buffer
+ :bd                -> delete (close) current buffer
+ :b <name/number>   -> switch to specific buffer
+ :bufdo <cmd>       -> run command on all buffers
+
+25. EXTERNAL FILTERS:
+ !!<cmd>            -> replace current line with command output
+ :%!sort            -> sort entire file using shell sort
+ :%!jq .            -> format JSON (if jq installed)
+ :%!column -t       -> format text into columns
+ 
+26. COMPLETION (Insert Mode):
+ Ctrl+n / Ctrl+p    -> word completion
+ Ctrl+x Ctrl+l      -> line completion
+ Ctrl+x Ctrl+f      -> file path completion
+ Ctrl+x Ctrl+o      -> omni-completion (language specific)
+
+27. DIGRAPHS & CHARACTERS:
+ :digraphs          -> list available digraphs
+ Ctrl+k <c1><c2>    -> enter special character (e.g., Ctrl+k OK for ✓)
+ ga                 -> show ASCII/Unicode value of char under cursor
+
+28. ARGUMENT LIST:
+ :args *.cpp        -> set argument list to all .cpp files
+ :next / :prev      -> move through arg list
+ :argdo %s/a/b/g | w -> run command on all files in arg list and save
+ :all               -> open all files in arg list in windows
+
+29. SESSIONS & VIEWS:
+ :mksession s.vim   -> save current session (windows, tabs, etc.)
+ vim -S s.vim       -> restore session from terminal
+ :mkview            -> save cursor position/folds for current file
+ :loadview          -> restore view
+
+30. REMOTE EDITING (Netrw):
+ :e scp://user@host/path/to/file  -> edit via SCP
+ :e ftp://user@host/path/to/file  -> edit via FTP
+
+31. TABS (Advanced):
+ :tabdo <cmd>       -> run command in all tabs
+ :tabmove +1        -> move tab right
+ :tabclose <num>    -> close specific tab
+ :tabonly           -> close all other tabs
+
+32. SCROLLING:
+ zz                 -> center screen on cursor
+ zt                 -> put cursor at top of screen
+ zb                 -> put cursor at bottom of screen
+ Ctrl+e / Ctrl+y    -> scroll screen down / up one line
+
+33. USEFUL "g" COMMANDS:
+ gd                 -> go to local definition
+ gD                 -> go to global definition
+ gf                 -> open file under cursor
+ gx                 -> open link in browser (if supported)
+ g; / g,           -> go to older / newer change position
+ g_                 -> go to last non-blank char of line
+
+34. MAPPINGS (Basics):
+ :nmap <key> <cmd>  -> map key in normal mode
+ :imap <key> <cmd>  -> map key in insert mode
+ :vmap <key> <cmd>  -> map key in visual mode
+ :unmap <key>       -> remove mapping
+
+35. COUNTS:
+ 5iabc[Esc]         -> insert "abc" 5 times
+ 10dd               -> delete 10 lines
+ 4dw                -> delete 4 words
+
+36. TAGS (Navigating Source Code):
+ !ctags -R .        -> generate tags file (requires exuberant-ctags)
+ Ctrl-]             -> jump to definition
+ Ctrl+t             -> jump back from definition
+ g Ctrl+]           -> list multiple tag matches
+ :ts <tag>          -> search for tag
+
+37. C++ SPECIFIC:
+ :set cindent       -> enable C-style indenting
+ :!g++ % -o %<      -> compile current file
+ :make              -> runs 'make' in current dir
+ [i                 -> show definition of symbol under cursor in status line
+ [d                 -> show macro definition
+
+38. WINDOW MOVEMENT (Rearranging):
+ Ctrl+w H           -> move window to far left
+ Ctrl+w J           -> move window to bottom
+ Ctrl+w K           -> move window to top
+ Ctrl+w L           -> move window to far right
+ Ctrl+w r           -> rotate windows
+
+39. NORMAL MODE ON RANGE:
+ :%norm i//         -> comment out every line (insert // at start)
+ :5,10norm 0x       -> delete first char of lines 5-10
+ :'<,'>norm A;      -> append ; to end of every line in selection
