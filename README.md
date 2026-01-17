@@ -18,7 +18,7 @@ A collection of competitive programming solutions and C++ practice code.
 
 ##  Scripts
 
-- **cr.sh** - Compile and run script
+- **create.sh** - Create new C++ file from template
 - **sol.sh** - Solution helper script
 - **Git.sh** - Git automation script
 - **update_readme.py** - Update README automation
@@ -28,7 +28,7 @@ A collection of competitive programming solutions and C++ practice code.
 Use the provided shell scripts to compile and run C++ programs:
 
 ```bash
-./cr.sh <filename>    # Compile and run
+./create.sh <filename>    # Create from template
 ./sol.sh              # Solution workflow
 ```
 

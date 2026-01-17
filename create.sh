@@ -9,7 +9,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 if [ -z "$1" ]; then
-  echo -e "${YELLOW}Usage:${NC} cr <name> [-cpp]"
+  echo -e "${YELLOW}Usage:${NC} create <name> [-cpp]"
   exit 1
 fi
 
