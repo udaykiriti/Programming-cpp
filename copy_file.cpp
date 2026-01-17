@@ -11,13 +11,13 @@ using namespace std;
 bool copy_file(const string& source, const string& dest) {
     ifstream src(source, ios::binary);
     if (!src) {
-        cerr << "Error: Cannot open source file: " << source << endl;
+        cerr << "Error: Cannot open source file: " << source << '\n';
         return false;
     }
 
     ofstream dst(dest, ios::binary);
     if (!dst) {
-        cerr << "Error: Cannot open destination file: " << dest << endl;
+        cerr << "Error: Cannot open destination file: " << dest << '\n';
         return false;
     }
 
@@ -28,7 +28,7 @@ bool copy_file(const string& source, const string& dest) {
 
     src.close();
     dst.close();
-    cout << "Done! Copied " << source << " -> " << dest << endl;
+    cout << "Done! Copied " << source << " -> " << dest << '\n';
     return true;
 }
 
@@ -42,7 +42,7 @@ int main() {
     getline(cin, dest);
 
     bool ok = copy_file(source, dest);
-    cout << (ok ? "Completed" : "Something went wrong") << endl;
+    cout << (ok ? "Completed" : "Something went wrong") << '\n';
     
     return ok ? 0 : 1;
 }
