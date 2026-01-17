@@ -576,75 +576,53 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
-bool solve(int_64 n) {
-    return n > 0 && (n & (n - 1)) == 0;
-}
-
-int slv(int n) {
-  int ans{0};
-  while (n > 0) {
-    int d = n % 10;
-    ans += d * d;
-    n /= 10;
+struct bit {
+  int n;
+  vl f;
+  bit(int n): n(n), f(n+1,0) {}
+  void add(int i, int_64 v=1){
+  for(; i<=n; i+=i&-i) f[i]+=v;
   }
-  return ans;
-}
+  int_64 sum(int i){
+    int_64 s=0;
+    for(; i>0; i-=i&-i) s+=f[i];
+    return s;
+  }
+};
 
 void _GO() {
-   int n;
-    cin >> n;
+  //Solution Here.....
+  int n;
+  cin >> n;
+  str s;
+  cin >> s;
+  vl p(n+1,0);
 
-    vi p(n);
-    FOR ( i,0,n) cin >> p[i];
-
-    if (n < 3) {
-      cout << 0 << '\n';
-      return;
-    }
-
-  vl l(n), r(n);
-  {
-    Fenwik f(n);
-    FOR ( i,0,n) {
-      l[i] = f.query(p[i]);
-      f.update(p[i], 1);
-    }
+  FOR(i , 0 , n){
+    p[i+1]=p[i];
+    if(s[i]=='A') p[i+1]++;
+    else if(s[i]=='B') p[i+1]--;
   }
+  
+  vl v=p;
+  SORT(v);
+  v.erase(unique(v.begin(),v.end()),v.end());
+  bit fw(v.size());
 
-  {
-    Fenwik f(n);
-    for (int i = n - 1; i >= 0; i--) {
-      r[i] = f.query(p[i]);
-      f.update(p[i], 1);
-    }
-  }
-  int_64 ans = 0;
-  FOR ( i,0,n)
-    ans = (ans + l[i] * r[i]) % MOD;
+  int_64 ans{0};
 
-  int_64 iv2 = modinv(2);
-  int_64 acc = 0;
-  int_64 p2 = 1;
-  int_64 ip2 = 1;
-
-  acc = (acc + l[0] * ip2) % MOD;
-  ip2 = ip2 * iv2 % MOD;
-
-  FOR ( i,0,n) {
-      ans = (ans + r[i] * p2 % MOD * acc % MOD) % MOD;
-      acc = (acc + l[i] * ip2) % MOD;
-      p2 = p2 * 2 % MOD;
-      ip2 = ip2 * iv2 % MOD;
+  for(int_64 x : p){
+    int id = lb(v.begin(),v.end(),x)-v.begin()+1;
+    ans += fw.sum(id-1);
+    fw.add(id);
   }
   cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
   ios_base::sync_with_stdio(0);
-  cin.tie(0);
-  cout.tie(0);
+  cin.tie(0); cout.tie(0);
   // cin.tie(0)->ios::sync_with_stdio(0);
-  // cout.tie(0);
 #ifdef ONPC
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
