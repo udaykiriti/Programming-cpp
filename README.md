@@ -29,13 +29,11 @@ Use the provided shell scripts to compile and run C++ programs:
 
 ```bash
 ./create.sh <filename>    # Create from template
-./sol.sh              # Solution workflow
+./sol.sh <filename>       # Solution prints in cli && out.txt file
 ```
 
 ##  Files
 
-- **sp.cpp** - Solution program
-- **tmp.cpp** - Temporary code
 - **in.txt** - Input test cases
 - **out.txt** - Output results
 
