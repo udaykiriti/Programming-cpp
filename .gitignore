@@ -1,11 +1,23 @@
 # Prerequisites
 *.d
 
+# Editor temp/backup files
+*.swp
+*.swo
+*~
+*.bak
+\#*\#
+
+# IDE folders
+.vscode/
+.idea/
+
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
+*.~
 
 # Precompiled Headers
 *.gch
@@ -36,6 +48,13 @@
 *.exe
 *.out
 *.app
+
+# Linux executables (compiled without extension)
+a.out
+main
+sol
+solution
+test
 
 # debug information files
 *.dwo
@@ -89,3 +108,13 @@ CMakeUserPresets.json
 *.dockerignore
 docker-compose.override.yml
 .dockerignore
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
