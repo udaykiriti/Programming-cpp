@@ -4,17 +4,15 @@ A collection of competitive programming solutions and C++ practice code.
 
 ##  Structure
 
-- **Codeforces/** - Solutions to 917 Codeforces problems, organized by contest ranges:
+- **codeforces/** - Solutions to some Codeforces problems, organized by contest ranges:
   - `0-99/` to `2100-2199/` - Problems grouped by contest number
   - `misc/` - Problems with descriptive names
-- **Atcoder.cpp** - AtCoder problem solutions
+- **Atcoder.cpp** - AtCoder problem template
 - **Templates/** - Code templates for competitive programming
-- **Topics/** - Practice code organized by topics
-- **algo/** - Algorithm implementations
-- **OOP/** - Object-oriented programming examples
-- **Java/** - Java programming solutions
-- **Machine-Learning/** - Machine learning projects
-- **Unsolved/** - Problems yet to be solved
+- **practice/** - Practice code organized by topics
+- **algo/** - debugging header file
+- **resorces/** - Machine learning , Java , OOPS
+- **unsolved/** - Problems yet to be solved
 
 ##  Scripts
 
