@@ -37,8 +37,8 @@ EOF
 }
 
 log() { printf "%b\n" "${BLUE}>>${NC} $*"; }
-ok() { printf "%b\n" "${GREEN}✔${NC} $*"; }
-err() { printf "%b\n" "${RED}✖ ${NC}$*" >&2; }
+ok() { printf "%b\n" "${GREEN}${NC} $*"; }
+err() { printf "%b\n" "${RED}${NC}$*" >&2; }
 
 while getopts ":s:i:o:c:f:th" opt; do
   case "$opt" in
