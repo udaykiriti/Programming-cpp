@@ -28,11 +28,11 @@ fi
 
 if [ -f "$FILENAME" ]; then
   echo "Please check once before Trying another time.."
-  echo -e "${YELLOW}Warning:${NC} $FILENAME already exists.... "
+  echo -e "${YELLOW}Warning:${NC} $FILENAME Already exists.... "
   echo "Danger [Verify Twice and Enter "y" cuz the Data will be Destroyed"
   read -p "Overwrite? (y/n) [Now the Danger Begins]: " choice
   [[ "$choice" != "y" ]] && echo -e "${RED}Aborted...[I mean Operation Cancelled]" && exit 1
 fi
 
 cp "$TEMPLATE" "$FILENAME" &&
-  echo -e "${GREEN} Delivered:${NC} $FILENAME from Template.cpp"
+  echo -e "${GREEN} Delivered:${NC} $FILENAME from algo/Template.cpp"
