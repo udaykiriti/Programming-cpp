@@ -120,7 +120,7 @@ void solve(){
    for(ll x : t){
      cout << x << ' ';
    }
-   cout << endl;
+   cout << '\n';
 }
 
 int main(){
