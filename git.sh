@@ -22,7 +22,6 @@ setup_colors() {
     *)      main_col="214" ;;
   esac
 
-  # ANSI Escape Codes
   readonly C_MAIN="\033[38;5;${main_col}m"
   readonly C_DIM="\033[38;5;240m"
   readonly C_WHITE="\033[38;5;255m"
@@ -37,7 +36,7 @@ setup_colors
 cls() { printf "\033[2J\033[H"; }
 
 hr() {
-  printf "%b%s%b\n" "$C_DIM" "────────────────────────────────────────────────────────────" "$RESET"
+  printf "%b%s%b\n" "$C_DIM" "------------------------------------------------------" "$RESET"
 }
 
 log_info() {
@@ -154,6 +153,6 @@ fi
 
 echo
 SHORT_HASH="$(git rev-parse --short HEAD 2>/dev/null)"
-printf "  %b✔ SUCCESS%b  Hash: %b%s%b\n" "$C_OK" "$RESET" "$C_WHITE" "$SHORT_HASH" "$RESET"
+printf "  %b SUCCESS%b  Hash: %b%s%b\n" "$C_OK" "$RESET" "$C_WHITE" "$SHORT_HASH" "$RESET"
 hr
 echo
