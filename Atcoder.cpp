@@ -423,7 +423,7 @@ int XOR1toN(int N) {
 int XORLtoR(int L, int R) { return XOR1toN(R) ^ XOR1toN(max(L - 1, 0)); }
 /* ---------- TIMER ---------- */
 const auto start_time = chrono::steady_clock::now();
-void _timer_() {
+void _timer() {
   const auto end_time = chrono::steady_clock::now();
   chrono::duration<double, milli> delta = end_time - start_time;
   FIXED(3);
@@ -592,31 +592,7 @@ struct bit {
 
 void _GO() {
   //Solution Here.....
-  int n;
-  cin >> n;
-  str s;
-  cin >> s;
-  vl p(n+1,0);
 
-  FOR(i , 0 , n){
-    p[i+1]=p[i];
-    if(s[i]=='A') p[i+1]++;
-    else if(s[i]=='B') p[i+1]--;
-  }
-  
-  vl v=p;
-  SORT(v);
-  v.erase(unique(v.begin(),v.end()),v.end());
-  bit fw(v.size());
-
-  int_64 ans{0};
-
-  for(int_64 x : p){
-    int id = lb(v.begin(),v.end(),x)-v.begin()+1;
-    ans += fw.sum(id-1);
-    fw.add(id);
-  }
-  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -628,11 +604,11 @@ int main(/* int argc, char *argv[] */) {
   freopen("out.txt", "w", stdout);
   cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
 #endif
-  int t(1), tcase(0); //cin >> t;
+  int t(1), tcase(0); cin >> t;
   while (tcase++, t--) {
 #ifdef TIME
-    cout << "[ testcase: " << tcase << " ] " << "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
-    _timer_();
+    cout << "[ testcase: " << tcase << " ] " << "[[[[[[[[[[O]]]]]]]]]]" << "\n";
+    _timer();
 #endif
     _GO();
   }
