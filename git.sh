@@ -1,175 +1,192 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
+set -euo pipefail
 
-THEME="${THEME:-amber}"
-DRY_RUN=false
-INTERACTIVE=false
-DO_PUSH=true
-GIT_COMMIT_ALL=false
-SIGNOFF=false
+# CONFIGURATION / DEFAULTS
+
+COLOR_THEME="${COLOR_THEME:-amber}"
+
+FLAG_DRY_RUN=false
+FLAG_INTERACTIVE=false
+FLAG_PUSH=true
+FLAG_COMMIT_ALL=false
+FLAG_SIGNOFF=false
+
 TARGET_BRANCH=""
-COMMIT_MSG=""
+COMMIT_MESSAGE=""
 
+# COLOR HANDLING
 
-
-cls() { printf "\033[2J\033[H"; }
-
-hr() {
-  printf "%b%s%b\n" "$C_DIM" "------------------------------------------------------" "$RESET"
-}
-
-log_info() {
-  local key="$1"
-  local val="$2"
-  printf "  %b%s%b %s\n" "$C_DIM" "::" "$C_MAIN" "$key"
-  printf "     %b%s%b\n" "$C_WHITE" "$val" "$RESET"
-}
 supports_color() {
   [[ -t 1 ]] && [[ "${TERM:-}" != "dumb" ]]
 }
 
-setup_colors() {
-  local main_col
-  case "$THEME" in
-    green)  main_col="46" ;;
-    blue)   main_col="39" ;;
-    purple) main_col="135" ;;
-    *)      main_col="214" ;;
+init_colors() {
+  local primary_color
+
+  case "$COLOR_THEME" in
+    green)  primary_color="46" ;;
+    blue)   primary_color="39" ;;
+    purple) primary_color="135" ;;
+    *)      primary_color="214" ;; # amber
   esac
 
-  readonly C_MAIN="\033[38;5;${main_col}m"
-  readonly C_DIM="\033[38;5;240m"
-  readonly C_WHITE="\033[38;5;255m"
-  readonly C_ERR="\033[38;5;196m"
-  readonly C_OK="\033[38;5;154m"
-  readonly RESET="\033[0m"
-  readonly BOLD="\033[1m"
+  COLOR_PRIMARY="\033[38;5;${primary_color}m"
+  COLOR_DIM="\033[38;5;240m"
+  COLOR_TEXT="\033[38;5;255m"
+  COLOR_ERROR="\033[38;5;196m"
+  COLOR_SUCCESS="\033[38;5;154m"
+  COLOR_RESET="\033[0m"
+  COLOR_BOLD="\033[1m"
 }
 
 if supports_color; then
-  setup_colors
+  init_colors
 else
-  C_MAIN=""
-  C_DIM=""
-  C_WHITE=""
-  C_ERR=""
-  C_OK=""
-  RESET=""
-  BOLD=""
+  COLOR_PRIMARY=""
+  COLOR_DIM=""
+  COLOR_TEXT=""
+  COLOR_ERROR=""
+  COLOR_SUCCESS=""
+  COLOR_RESET=""
+  COLOR_BOLD=""
 fi
 
+# UI HELPERS
+
+clear_screen() {
+  printf "\033[2J\033[H"
+}
+
+print_divider() {
+  printf "%b%s%b\n" "$COLOR_DIM" "------------------------------------------------------" "$COLOR_RESET"
+}
+
+print_info() {
+  local label="$1"
+  local value="$2"
+
+  printf "  %b::%b %s\n" "$COLOR_DIM" "$COLOR_RESET" "$label"
+  printf "     %b%s%b\n" "$COLOR_TEXT" "$value" "$COLOR_RESET"
+}
+
+print_header() {
+  clear_screen
+  echo
+  printf "  %b%s%b\n" "$COLOR_PRIMARY$COLOR_BOLD" "GIT COMMANDER // SYSTEM v4.0" "$COLOR_RESET"
+  print_divider
+}
+
+confirm_action() {
+  echo
+  printf "  %b?%b %s %b[y/N]%b " \
+    "$COLOR_PRIMARY" "$COLOR_RESET" "$1" "$COLOR_DIM" "$COLOR_RESET"
+  read -r reply
+  [[ "${reply,,}" =~ ^(y|yes)$ ]]
+}
+
+# COMMAND EXECUTION
 
 run_step() {
-  local desc="$1"
+  local description="$1"
   shift
-  local cmd=("$@")
+  local command=("$@")
 
-  printf "  %b%s %-40s%b" "$C_MAIN" "⫸" "$desc" "$RESET"
+  printf "  %b⫸ %-40s%b" "$COLOR_PRIMARY" "$description" "$COLOR_RESET"
 
-  if [[ "$DRY_RUN" == "true" ]]; then
-    printf "%b[ DRY ]%b\n" "$C_DIM" "$RESET"
+  if $FLAG_DRY_RUN; then
+    printf "%b[ DRY ]%b\n" "$COLOR_DIM" "$COLOR_RESET"
     return 0
   fi
 
-  local output
-  if output=$("${cmd[@]}" 2>&1); then
-    printf "%b[ OK ]%b\n" "$C_OK" "$RESET"
+  if output=$("${command[@]}" 2>&1); then
+    printf "%b[ OK ]%b\n" "$COLOR_SUCCESS" "$COLOR_RESET"
   else
-    printf "%b[FAIL]%b\n" "$C_ERR" "$RESET"
-    echo
-    printf "%bError Details:%b\n%s\n" "$C_ERR" "$RESET" "$output"
+    printf "%b[FAIL]%b\n\n%bError:%b\n%s\n" \
+      "$COLOR_ERROR" "$COLOR_RESET" \
+      "$COLOR_ERROR" "$COLOR_RESET" \
+      "$output"
     exit 1
   fi
 }
 
-
-ask_confirm() {
-  echo
-  printf "  %b?%b %s %b[y/N]%b " "$C_MAIN" "$RESET" "$1" "$C_DIM" "$RESET"
-  read -r ans
-  [[ "${ans,,}" =~ ^(y|yes)$ ]]
-}
-
-header() {
-  cls
-  echo
-  printf "  %b%s%b\n" "$C_MAIN$BOLD" "GIT COMMANDER // SYSTEM v4.0" "$RESET"
-  hr
-}
+# ARGUMENT PARSING
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -n|--no-push)    DO_PUSH=false; shift ;;
-    -a|--all)        GIT_COMMIT_ALL=true; shift ;;
-    -s|--signoff)    SIGNOFF=true; shift ;;
-    -b|--branch)     TARGET_BRANCH="$2"; shift 2 ;;
-    --dry-run)       DRY_RUN=true; shift ;;
-    --interactive)   INTERACTIVE=true; shift ;;
-    --theme)         THEME="$2"; setup_colors; shift 2 ;;
-    -h|--help)       echo "Usage: $0 [options] 'message'"; exit 0 ;;
-    --)              shift; break ;;
-    -*)              echo "Unknown: $1"; exit 1 ;;
-    *)               COMMIT_MSG="$*"; break ;;
+    -n|--no-push)        FLAG_PUSH=false; shift ;;
+    -a|--all)            FLAG_COMMIT_ALL=true; shift ;;
+    -s|--signoff)        FLAG_SIGNOFF=true; shift ;;
+    -b|--branch)         TARGET_BRANCH="$2"; shift 2 ;;
+    --dry-run)           FLAG_DRY_RUN=true; shift ;;
+    --interactive)       FLAG_INTERACTIVE=true; shift ;;
+    --theme)
+      COLOR_THEME="$2"
+      supports_color && init_colors
+      shift 2
+      ;;
+    -h|--help)
+      echo "Usage: $0 [options] \"commit message\""
+      exit 0
+      ;;
+    --) shift; break ;;
+    -*) echo "Unknown option: $1"; exit 1 ;;
+    *)  COMMIT_MESSAGE="$*"; break ;;
   esac
 done
 
+# VALIDATION
 
-[[ -z "${COMMIT_MSG// }" ]] && { printf "\n%b[!] Error: Commit message empty.%b\n" "$C_ERR" "$RESET"; exit 1; }
-git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { printf "\n%b[!] Error: Not a git repo.%b\n" "$C_ERR" "$RESET"; exit 1; }
+[[ -z "${COMMIT_MESSAGE// }" ]] && {
+  printf "\n%b[!] Commit message cannot be empty.%b\n" "$COLOR_ERROR" "$COLOR_RESET"
+  exit 1
+}
 
-CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "HEAD")"
-PUSH_BRANCH="${TARGET_BRANCH:-$CURRENT_BRANCH}"
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+  printf "\n%b[!] Not inside a Git repository.%b\n" "$COLOR_ERROR" "$COLOR_RESET"
+  exit 1
+}
 
-header
-log_info "COMMIT MESSAGE" "$COMMIT_MSG"
-log_info "TARGET BRANCH"  "${C_MAIN}${CURRENT_BRANCH}${RESET} → origin/${PUSH_BRANCH}"
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+PUSH_TARGET_BRANCH="${TARGET_BRANCH:-$CURRENT_BRANCH}"
+
+# MAIN FLOW
+
+print_header
+print_info "Commit Message" "$COMMIT_MESSAGE"
+print_info "Target Branch" "${COLOR_PRIMARY}${CURRENT_BRANCH}${COLOR_RESET} → origin/${PUSH_TARGET_BRANCH}"
 echo
 
-if [[ "$GIT_COMMIT_ALL" == "true" ]]; then
-  run_step "Verifying Status" git status --short
-else
-  if git diff --cached --quiet; then
-    run_step "Staging Changes" git add .
-  else
-    run_step "Staging Changes" git add .
-  fi
-fi
+run_step "Staging Changes" git add .
 
-if ! $GIT_COMMIT_ALL && git diff --cached --quiet; then
-  printf "\n  %b[!] No changes to commit. System Idle.%b\n\n" "$C_DIM" "$RESET"
+if ! $FLAG_COMMIT_ALL && git diff --cached --quiet; then
+  printf "\n  %b[!] No staged changes. Nothing to commit.%b\n\n" "$COLOR_DIM" "$COLOR_RESET"
   exit 0
 fi
 
-if [[ "$INTERACTIVE" == "true" ]]; then
-  hr
+if $FLAG_INTERACTIVE; then
+  print_divider
   git --no-pager diff --staged --stat | sed "s/^/    /"
-  if ! ask_confirm "Proceed with commit?"; then
-    echo "  Aborted."
-    exit 0
-  fi
-  hr
+  confirm_action "Proceed with commit?" || exit 0
+  print_divider
 fi
 
-CMD_ARGS=("commit" "-m" "$COMMIT_MSG")
-[[ "$GIT_COMMIT_ALL" == "true" ]] && CMD_ARGS+=("-a")
-[[ "$SIGNOFF" == "true" ]]        && CMD_ARGS+=("--signoff")
-! git rev-parse --verify --quiet HEAD >/dev/null 2>&1 && CMD_ARGS+=("--allow-empty")
+GIT_COMMIT_ARGS=("commit" "-m" "$COMMIT_MESSAGE")
+$FLAG_COMMIT_ALL && GIT_COMMIT_ARGS+=("-a")
+$FLAG_SIGNOFF   && GIT_COMMIT_ARGS+=("--signoff")
+git rev-parse --verify --quiet HEAD >/dev/null 2>&1 || GIT_COMMIT_ARGS+=("--allow-empty")
 
-run_step "Committing Data" git "${CMD_ARGS[@]}"
+run_step "Creating Commit" git "${GIT_COMMIT_ARGS[@]}"
 
-if [[ "$DO_PUSH" == "true" ]]; then
-  if git remote get-url origin >/dev/null 2>&1; then
-    run_step "Pushing to Origin" git push origin "$PUSH_BRANCH" --quiet
-  else
-    printf "  %b!%b  No remote detected. Push skipped.\n" "$C_MAIN" "$RESET"
-  fi
+if $FLAG_PUSH && git remote get-url origin >/dev/null 2>&1; then
+  run_step "Pushing to Origin" git push origin "$PUSH_TARGET_BRANCH" --quiet
 fi
 
 echo
-SHORT_HASH="$(git rev-parse --short HEAD 2>/dev/null)"
-printf "  %b SUCCESS%b  Hash: %b%s%b\n" "$C_OK" "$RESET" "$C_WHITE" "$SHORT_HASH" "$RESET"
-hr
+SHORT_COMMIT_HASH="$(git rev-parse --short HEAD)"
+printf "  %bSUCCESS%b  Commit: %b%s%b\n" \
+  "$COLOR_SUCCESS" "$COLOR_RESET" \
+  "$COLOR_TEXT" "$SHORT_COMMIT_HASH" "$COLOR_RESET"
+
+print_divider
 echo
