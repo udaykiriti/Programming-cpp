@@ -67,7 +67,7 @@ print_info() {
   local value="$2"
 
   printf "  %b::%b %s\n" "$COLOR_DIM" "$COLOR_RESET" "$label"
-  printf "     %b%s%b\n" "$COLOR_TEXT" "$value" "$COLOR_RESET"
+  printf "     %b%b%b\n" "$COLOR_TEXT" "$value" "$COLOR_RESET"
 }
 
 print_header() {
