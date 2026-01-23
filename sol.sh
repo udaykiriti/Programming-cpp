@@ -18,6 +18,7 @@ if [[ -t 1 ]]; then
   CYAN='\033[0;36m'
   BOLD='\033[1m'
   NC='\033[0m'
+  ORANGE='\033[38;5;214m'
 else
   RED=''
   GREEN=''
@@ -36,9 +37,9 @@ Example: $0 -s solution.cpp -i sample.in -o sample.out -f "-g -O0"
 EOF
 }
 
-log() { printf "%b\n" "${BLUE}>>${NC} $*"; }
-ok() { printf "%b\n" "${GREEN}${NC} $*"; }
-err() { printf "%b\n" "${RED}${NC}$*" >&2; }
+log() { printf "%b%b%b\n" "$BLUE" ">> $*" "$NC"; }
+ok()  { printf "%b%b%b\n" "$GREEN" "$*" "$NC"; }
+err() { printf "%b%b%b\n" "$RED" "$*" "$NC" >&2; }
 
 while getopts ":s:i:o:c:f:th" opt; do
   case "$opt" in
@@ -75,11 +76,11 @@ if [[ -z "$SRC" ]]; then
   shopt -s nullglob
   files=(*.cpp)
   ((${#files[@]} > 0)) || {
-    err "No .cpp files found in current directory."
+    err "${RED}[Ohh..]No .cpp files found in current directory."
     exit 1
   }
   SRC="${files[0]}"
-  log "No source specified — using first .cpp: ${YELLOW}${SRC}${NC}"
+  log "${RED}[;-]]No source specified — using first .cpp: ${YELLOW}${SRC}${NC}"
 fi
 
 [[ -f "$SRC" ]] || {
@@ -97,23 +98,48 @@ command -v "$COMPILER" >/dev/null || {
   exit 1
 }
 
-retro_banner() {
+_banner1() {
   cat <<'BANNER'
-  ____   ____  _____  _     ___   ____  _   _ 
- |  _ \ / ___||  ___|| |   / _ \ / ___|| | | |
- | |_) |\___ \| |_   | |  | | | |\___ \| | | |
- |  _ <  ___) |  _|  | |__| |_| | ___) | |_| |
- |_| \_\|____/|_|    |_____\___/ |____/ \___/ 
+   ██████╗ ██████╗ ██████╗
+  ██╔════╝ ██╔══██╗ ██╔══██╗
+  ██║      ██████╔╝ ██████╔╝
+  ██║      ██╔═══╝  ██╔═══╝
+  ╚██████╗ ██║      ██║
+   ╚═════╝ ╚═╝      ╚═╝
 
-                C++ Compiler
+        C++ Competitive Compiler
+      Fast • Strict • Unforgiving
 BANNER
+}
+
+_banner() {
+  printf "%b" "${ORANGE}${BOLD}"
+  cat <<'BANNER'
+ ██████╗ ██████╗ ██████╗
+██╔════╝ ██╔══██╗ ██╔══██╗
+██║      ██████╔╝ ██████╔╝
+██║      ██╔═══╝  ██╔═══╝
+╚██████╗ ██║      ██║
+ ╚═════╝ ╚═╝      ╚═╝
+BANNER
+
+  printf "%b" "${NC}"
+
+  printf "%b" "${BLUE}"
+  cat <<'TAGLINE'
+       C++ BUILD SYSTEM
+   compile → link → execute
+   no mercy. no warnings.
+TAGLINE
+
+  printf "%b\n" "${NC}"
 }
 
 typewriter() {
   printf "%s\n" "$*"
 }
 
-spinner_start() {
+_spinner() {
   local sp='|/-\'
   printf " "
   (
@@ -137,16 +163,16 @@ spinner_stop() {
   fi
 }
 
-cleanup() {
+clean() {
   spinner_stop
 }
-trap cleanup EXIT
+trap clean EXIT
 
 printf "%b" "$CYAN"
-retro_banner
+_banner
 printf "%b\n" "$NC"
 
-printf "%b" "${MAGENTA}"
+printf "%b" "${GREEN}"
 typewriter "Initializing compiler environment..."
 printf "%b" "$NC"
 
@@ -154,8 +180,8 @@ printf "%b" "${YELLOW}"
 typewriter "Command: $COMPILER ${CXXFLAGS[*]} $SRC -o $BIN"
 printf "%b" "$NC"
 
-echo -n "${BOLD}${BLUE}Compiling${NC} "
-spinner_start
+printf "%b" "${BOLD}${BLUE}Compiling${NC} "
+_spinner
 
 tmp_out="$(mktemp)"
 tmp_err="$(mktemp)"
@@ -181,28 +207,28 @@ echo -e " ${GREEN}${BOLD}OK${NC}"
 rm -f "$tmp_out" "$tmp_err"
 
 printf "%b" "${BLUE}"
-typewriter "Linking objects..."
+typewriter "[Working]: Linking objects..."
 printf "%b" "$NC"
 
 if [[ -f "$INFILE" ]]; then
-  log "Running program: ./${BIN} < ${INFILE} > ${OUTFILE}"
+  log "[Hold]: Running: ./${BIN} < ${INFILE} > ${OUTFILE}"
   printf "%b" "${MAGENTA}"
-  typewriter "Working..."
+  typewriter "[Wait]: Working..."
   printf "%b" "$NC"
   ./"$BIN" <"$INFILE" >"$OUTFILE"
 else
-  log "Running program: ./${BIN} > ${OUTFILE}"
+  log "[Hold]: Running program: ./${BIN} > ${OUTFILE}"
   printf "%b" "${MAGENTA}"
-  typewriter "Running (no input file)..."
+  typewriter "[Almost]: Running (no input file)..."
   printf "%b" "$NC"
   ./"$BIN" >"$OUTFILE"
 fi
 
 printf "%b" "${GREEN}"
-typewriter "Execution finished."
+typewriter "[Done]: Execution finished."
 printf "%b" "$NC"
 
-ok "Output written to ${OUTFILE}"
+ok "[Write]: Output written to ${OUTFILE}"
 
 if [[ -s "$OUTFILE" ]]; then
   echo
