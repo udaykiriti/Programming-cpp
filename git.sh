@@ -31,7 +31,18 @@ setup_colors() {
   readonly BOLD="\033[1m"
 }
 
-setup_colors
+if supports_color; then
+  setup_colors
+else
+  C_MAIN=""
+  C_DIM=""
+  C_WHITE=""
+  C_ERR=""
+  C_OK=""
+  RESET=""
+  BOLD=""
+fi
+
 
 cls() { printf "\033[2J\033[H"; }
 
@@ -67,6 +78,10 @@ run_step() {
     printf "%bError Details:%b\n%s\n" "$C_ERR" "$RESET" "$output"
     exit 1
   fi
+}
+
+supports_color() {
+  [[ -t 1 ]] && [[ "${TERM:-}" != "dumb" ]]
 }
 
 ask_confirm() {
