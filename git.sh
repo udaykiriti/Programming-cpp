@@ -13,6 +13,24 @@ SIGNOFF=false
 TARGET_BRANCH=""
 COMMIT_MSG=""
 
+
+
+cls() { printf "\033[2J\033[H"; }
+
+hr() {
+  printf "%b%s%b\n" "$C_DIM" "------------------------------------------------------" "$RESET"
+}
+
+log_info() {
+  local key="$1"
+  local val="$2"
+  printf "  %b%s%b %s\n" "$C_DIM" "::" "$C_MAIN" "$key"
+  printf "     %b%s%b\n" "$C_WHITE" "$val" "$RESET"
+}
+supports_color() {
+  [[ -t 1 ]] && [[ "${TERM:-}" != "dumb" ]]
+}
+
 setup_colors() {
   local main_col
   case "$THEME" in
@@ -44,19 +62,6 @@ else
 fi
 
 
-cls() { printf "\033[2J\033[H"; }
-
-hr() {
-  printf "%b%s%b\n" "$C_DIM" "------------------------------------------------------" "$RESET"
-}
-
-log_info() {
-  local key="$1"
-  local val="$2"
-  printf "  %b%s%b %s\n" "$C_DIM" "::" "$C_MAIN" "$key"
-  printf "     %b%s%b\n" "$C_WHITE" "$val" "$RESET"
-}
-
 run_step() {
   local desc="$1"
   shift
@@ -80,9 +85,6 @@ run_step() {
   fi
 }
 
-supports_color() {
-  [[ -t 1 ]] && [[ "${TERM:-}" != "dumb" ]]
-}
 
 ask_confirm() {
   echo
