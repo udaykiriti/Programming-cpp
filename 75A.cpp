@@ -501,23 +501,25 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+int_64 removezeros(int_64 x){
+  str s = to_string(x);
+  str t = "";
+  for (char c : s) {
+      if (c != '0') t += c;
+  }
+  if (t.empty()) return 0;
+  return stoll(t);
+}
+/*Done mistakes for this like always
+  Need to Improve a lot
+*/
 void _GO() {
   // Solution Here.....
-  int n;
-  cin >> n;
-  FOR ( i , 0 , n ) {
-      int x;
-      cin >> x;
-  }
+  int_64 a, b;
+  cin >> a >> b;
 
-  int allowed = 10 - n;
-
-  int_64 ans{0};
-  if (allowed >= 2) {
-      ans = 1LL * allowed * (allowed - 1) / 2 * 6;
-  }
-
-  cout << ans << '\n';
+  int_64 c = a + b;
+  cout << ((removezeros(a) + removezeros(b) == removezeros(c)) ? "YES" : "NO") << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -528,7 +530,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t;
+    int t{1},tcase{0}; //cin >> t;
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
