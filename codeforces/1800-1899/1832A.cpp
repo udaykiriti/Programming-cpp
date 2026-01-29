@@ -503,29 +503,18 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  int n;
-  cin >> n;
+  str s;
+  cin >> s;
 
-  vi vec1(n),vec2(n);
-  FOR ( i , 0 , n) cin >> vec1[i];
-  FOR ( i , 0 , n) cin >> vec2[i];
+  int freq[26] = {0};
+  for (char c : s) freq[c - 'a']++;
 
-  int curr{0};
-  FOR ( i , 0 , n) {
-      if (vec1[i] > vec2[i]) {
-          cout << "No" << '\n';
-          return;
-      }
-
-      if (vec1[i] < vec2[i]) {
-          if (curr >= vec1[i]) {
-              cout << "No" << "\n";
-              return;
-          }
-      }
-      if (vec1[i] > curr) curr = vec1[i];
+  int pairs{0};
+  FOR ( i , 0 , 26) {
+      if (freq[i] >= 2) pairs++;
   }
-  cout << "Yes" << '\n';
+
+  cout << (pairs >= 2 ? "YES" : "NO") << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
