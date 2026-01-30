@@ -184,7 +184,7 @@ fi
 
 echo
 SHORT_COMMIT_HASH="$(git rev-parse --short HEAD)"
-printf "  %bSUCCESS%b  Commit: %b%s%b\n" \
+printf "  %bDONE%b  Commit: %b%s%b\n" \
   "$COLOR_SUCCESS" "$COLOR_RESET" \
   "$COLOR_TEXT" "$SHORT_COMMIT_HASH" "$COLOR_RESET"
 
