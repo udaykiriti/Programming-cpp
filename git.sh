@@ -176,10 +176,10 @@ $FLAG_COMMIT_ALL && GIT_COMMIT_ARGS+=("-a")
 $FLAG_SIGNOFF   && GIT_COMMIT_ARGS+=("--signoff")
 git rev-parse --verify --quiet HEAD >/dev/null 2>&1 || GIT_COMMIT_ARGS+=("--allow-empty")
 
-run_step "Creating Commit" git "${GIT_COMMIT_ARGS[@]}"
+run_step "[Hold]: Creating Commit" git "${GIT_COMMIT_ARGS[@]}"
 
 if $FLAG_PUSH && git remote get-url origin >/dev/null 2>&1; then
-  run_step "Pushing to Origin" git push origin "$PUSH_TARGET_BRANCH" --quiet
+  run_step "[Wait]: Pushing to Origin" git push origin "$PUSH_TARGET_BRANCH" --quiet
 fi
 
 echo
