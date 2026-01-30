@@ -56,7 +56,7 @@ while getopts ":s:i:o:c:f:th" opt; do
     exit 0
     ;;
   \?)
-    err "Invalid option: -$OPTARG"
+    err "[Ohhh]: Invalid option: -$OPTARG"
     exit 2
     ;;
   :)
@@ -94,7 +94,7 @@ if [[ "${OS:-}" =~ MINGW|Windows ]] || [[ "${MSYSTEM:-}" =~ MINGW ]]; then
 fi
 
 command -v "$COMPILER" >/dev/null || {
-  err "Compiler not found: $COMPILER"
+  err "[Error]: Compiler not found: $COMPILER"
   exit 1
 }
 
@@ -173,14 +173,14 @@ _banner
 printf "%b\n" "$NC"
 
 printf "%b" "${GREEN}"
-typewriter "Initializing compiler environment..."
+typewriter "[ON the waY]: Initializing compiler environment..."
 printf "%b" "$NC"
 
 printf "%b" "${YELLOW}"
 typewriter "Command: $COMPILER ${CXXFLAGS[*]} $SRC -o $BIN"
 printf "%b" "$NC"
 
-printf "%b" "${BOLD}${BLUE}Compiling${NC} "
+printf "%b" "${BOLD}${BLUE}[Wait]: Compiling${NC} "
 _spinner
 
 tmp_out="$(mktemp)"

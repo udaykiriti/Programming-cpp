@@ -153,7 +153,7 @@ PUSH_TARGET_BRANCH="${TARGET_BRANCH:-$CURRENT_BRANCH}"
 # MAIN FLOW
 
 print_header
-print_info "Commit Message" "$COMMIT_MESSAGE"
+print_info "[Commit]: Message" "$COMMIT_MESSAGE"
 print_info "Target Branch" "${COLOR_PRIMARY}${CURRENT_BRANCH}${COLOR_RESET} → origin/${PUSH_TARGET_BRANCH}"
 echo
 
