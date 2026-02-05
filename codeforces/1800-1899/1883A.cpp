@@ -503,20 +503,20 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  int n;
-  cin >> n;
-  vi freq(101, 0);
-  int maxi{0};
+  str pin;
+  cin >> pin;
 
-  FOR (i , 0 , n) {
-      int x;
-      cin >> x;
-      freq[x]++;
+  int curr{1},t0T{0};
 
-      if (freq[x] > maxi)
-          maxi = freq[x];
+  for (char c : pin) {
+      int digit = c - '0';
+      int trgt;
+
+      trgt = (digit == 0) ? 10 : digit;
+      t0T += abs(trgt - curr) +1;
+      curr = trgt;
   }
-  cout << maxi << '\n';
+  cout << t0T << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -527,7 +527,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; //cin >> t;
+    int t{1},tcase{0}; cin >> t;
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
