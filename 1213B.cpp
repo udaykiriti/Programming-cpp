@@ -519,8 +519,7 @@ void _GO() {
         }
         mini = min(mini, prices[i]);
     }
-
-    cout << cnt << "\n";
+    cout << cnt << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
