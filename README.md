@@ -26,8 +26,8 @@ A collection of competitive programming solutions and C++ practice code.
 Use the provided shell scripts to compile and run C++ programs:
 
 ```bash
-./create.sh <filename>    # Create from template
-./sol.sh <filename>       # Solution prints in cli && out.txt file
+./create.sh <filename>    # Create from algo/template
+./sol.sh <filename>       # prints output in cli && out.txt file
 ```
 
 ##  Files
@@ -37,7 +37,7 @@ Use the provided shell scripts to compile and run C++ programs:
 
 ##  Resources(docs/)
 
-- **git.txt** - Git command reference
+- **git.txt** - Git commands reference
 - **gdb.txt** - GDB debugging guide
-- **vim.txt** - vim commands
-- **emacs.txt** - emacs commads
+- **vim.txt** - vim commands guide
+- **emacs.txt** - emacs commads guide
