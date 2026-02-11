@@ -25,23 +25,23 @@
   (/-(/-\)       /   \  (/\/\)/  |    /  | /
                 (/\/\)           /   /   //
                        _________/   /    /
-                      \____________/
+                      \____________/    
                    buGs geT EaTeNN.
 */
 
 /*
-  author:  -----
-  created: 03 08:27:32
+  author:  -----          
+  created: 03 08:27:32    
 */
 
 
 /*
-g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p 
 ./p <in.txt> out.txt
 */
 #undef _GLIBCXX_DEBUG
 
-/*
+/* 
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -64,7 +64,7 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <string>
 #include <vector>
 
-// Old Libraries
+// Old Libraries 
 // Source - https://stackoverflow.com/a/26803644
 // Posted by deW1, modified by community. See post 'Timeline' for change history
 // Retrieved 2025-12-03, License - CC BY-SA 3.0
@@ -194,7 +194,7 @@ using pdb = pair<db,db>;
 /* Complex to expand compared to normal ones, but looks cool.*/
 #define tcT template <class T
 #define tcTU tcT, class U
-#define tcTUV tcT, class U, class V // It doesn't make any Sense
+#define tcTUV tcT, class U, class V // It doesn't make any Sense 
 // ^ lol this makes everything look weird but I'll try it
 tcT > using V = vector<T>;
 tcT > using V1 = V<T>;
@@ -236,7 +236,7 @@ Mat<T> make_mat(int n, int m, T val = T()) {
 
 #define FIXED(x) cout << fixed << setprecision(x) << '\n';
 
-/*
+/* 
 #define debug(x) cout << (x) << endl
 #define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " "; cout << endl; } while(0)
 #define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
@@ -376,7 +376,7 @@ void _timer_(){
     cout << "[time: "<< delta <<" ms]\n";
 }
 /**
- * Disjoint Set Union(DSU)
+ * Disjoint Set Union(DSU) 
  * Source : https://codeforces.com/blog/entry/120381
  * Time: almost constant O(alph(n))
  * It is Efficiently manages and merges disjoint sets used to track connectivity-
@@ -501,23 +501,24 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+int_64 d(int_64 n) {
+    int_64 s{0};
+    while (n) {
+        s += n % 10;
+        n /= 10;
+    }
+    return s;
+}
+
 void _GO() {
   // Solution Here.....
-    int n; 
-    cin >> n;
-    vi a(n);
-    for(int &x : a) cin >> x;
-    
-    bool possible = false;
-    FOR( i , 0 , n) {
-        bool ok = true;
-
-        FOR( j , 0 , n) {
-            if(i != j&& a[j]!= (j <i ? -a[i] :a[i])) ok =false;
-        }
-        possible |= ok;
+    int_64 x;
+    cin >> x;
+    int c{0};
+    for (int_64 y = x; y <= x + 200; ++y) {
+        if (y - d(y) == x) c++;
     }
-    cout << (possible ? "Yes" : "No") << '\n' ;
+    cout << c << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -528,7 +529,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t;
+    int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
@@ -549,6 +550,7 @@ int main(/* int argc, char *argv[] */) {
  * Do not make large assumptions without a basic proof idea.
  * Overflow, bounds, and segfaults kill solutions;check them first.
  * Use DP to relax constraints; store only the minimum required state.
+ * Always carefull with Base conditions.
  * special cases (n=1?) ,Edge cases.
  * do smth instead of nothing; stay organized.
  * WRITE STUFF DOWN.
