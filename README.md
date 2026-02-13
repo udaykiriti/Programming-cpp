@@ -26,8 +26,8 @@ A collection of competitive programming solutions and C++ practice code.
 Use the provided shell scripts to compile and run C++ programs:
 
 ```bash
-./create.sh <filename>    # Create from algo/template
-./sol.sh <filename>       # prints output in cli && out.txt file
+./create.sh <filename>    # Create from algo/Template
+./sol.sh <filename>       # output in cli && out.txt file
 ```
 
 ##  Files

@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-# CONFIGURATION / DEFAULTS
-
 COLOR_THEME="${COLOR_THEME:-amber}"
 
 FLAG_DRY_RUN=false
@@ -14,8 +12,6 @@ FLAG_SIGNOFF=false
 
 TARGET_BRANCH=""
 COMMIT_MESSAGE=""
-
-# COLOR HANDLING
 
 supports_color() {
   [[ -t 1 ]] && [[ "${TERM:-}" != "dumb" ]]
@@ -28,7 +24,7 @@ init_colors() {
     green)  primary_color="46" ;;
     blue)   primary_color="39" ;;
     purple) primary_color="135" ;;
-    *)      primary_color="214" ;; # amber
+    *)      primary_color="214" ;; 
   esac
 
   COLOR_PRIMARY="\033[38;5;${primary_color}m"
@@ -51,8 +47,6 @@ else
   COLOR_RESET=""
   COLOR_BOLD=""
 fi
-
-# UI HELPERS
 
 clear_screen() {
   printf "\033[2J\033[H"
@@ -85,8 +79,6 @@ confirm_action() {
   [[ "${reply,,}" =~ ^(y|yes)$ ]]
 }
 
-# COMMAND EXECUTION
-
 run_step() {
   local description="$1"
   shift
@@ -109,8 +101,6 @@ run_step() {
     exit 1
   fi
 }
-
-# ARGUMENT PARSING
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -135,8 +125,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# VALIDATION
-
 [[ -z "${COMMIT_MESSAGE// }" ]] && {
   printf "\n%b[!] Commit message cannot be empty.%b\n" "$COLOR_ERROR" "$COLOR_RESET"
   exit 1
@@ -149,8 +137,6 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 PUSH_TARGET_BRANCH="${TARGET_BRANCH:-$CURRENT_BRANCH}"
-
-# MAIN FLOW
 
 print_header
 print_info "[Commit]: Message" "$COMMIT_MESSAGE"
