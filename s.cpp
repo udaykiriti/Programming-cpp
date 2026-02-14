@@ -140,7 +140,7 @@ void delete_(Node*& head) {
     delete temp->next;
     temp->next = nullptr;
 }
-
+    
 void printlist(Node* head){
     Node* tmp = head;
     /*

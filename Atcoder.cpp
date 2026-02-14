@@ -603,34 +603,7 @@ bool cmp(const pair<P, int>& a, const pair<P, int>& b) {
 
 void _GO() {
   //Solution Here.....
-  int N, Q;
-  cin >> N >> Q;
-  vector<pair<P, int>> m(N);
-  for(int i = 0; i < N; i++) {
-      int_64 x, y;
-      cin >> x >> y;
-      int_64 g = gcd(abs(x), abs(y));
-      m[i] = {{x/g, y/g}, i+1};
-  }
-  sort(m.begin(), m.end(), cmp);
-  vi grp(N+1), cnt;
-  FOR( i , 0 , N) {
-      if(i == 0 || m[i].F.x != m[i-1].F.x || m[i].F.y != m[i-1].F.y)
-          cnt.pb(0);
-      grp[m[i].S] = cnt.size() - 1;
-      cnt.back()++;
-  }
-  int K = cnt.size();
-  vi s(K+1, 0);
-  FOR( i , 0 , K) s[i+1] = s[i] + cnt[i];
-  while(Q--) {
-      int a, b;
-      cin >> a >> b;
-      int u = grp[a], v = grp[b];
-      if(u == v) cout << cnt[u] << '\n';
-      else if(u > v) cout << s[u+1] - s[v] << '\n';
-      else cout << s[u+1] + (s[K] - s[v]) << '\n';
-  }
+  
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -653,7 +626,7 @@ int main(/* int argc, char *argv[] */) {
 #ifdef TIME
   const auto end_main = chrono::steady_clock::now();
   chrono::duration<double> total_delta = end_main - start_time;
-  cout << "\nExecuted in " << total_delta.count() << " sec\n";
+  cout << "\nExecuted in " << total_delta.count() << " sec" << '\n' ;
 #endif
   return 0;
 }

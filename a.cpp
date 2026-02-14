@@ -503,7 +503,12 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  
+    int N;
+    cin >> N;
+    vi A(N + 1), ans(N + 1);
+    for (int i = 1; i <= N; ++i) cin >> A[i];
+    for (int i = N; i >= 1; --i) ans[i] = (A[i] == i) ? i : ans[A[i]];
+    for (int i = 1; i <= N; ++i) cout << ans[i] << (i == N ? "" : " ");
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -514,7 +519,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t; 
+    int t{1},tcase{0}; //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
