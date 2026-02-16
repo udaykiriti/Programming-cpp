@@ -503,56 +503,22 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-   int n,k1,k2;
-   cin >> n >> k1 >> k2;
-   int k = k1+k2;
-    
-   vi a(n),b(n);
+  int_64 w , h , ans{0};
+  cin >> w >> h;
 
-   for(int &x: a) cin >> x;
-   for(int &x: b) cin >> x;
+  FOR(i , 0 , 4){
+    int k;
+    cin >> k;
+    vl vec(k);
 
-   multiset<int> s;
-   int cnt{0};
+    FOR(j , 0 , k){
+      cin >> vec[j];
+    }
 
-   FOR( i , 0 , n){
-
-       int p = abs(a[i] - b[i]);
-       if(0 != p) s.ins(p);
-       cnt += p;
-   }
-
-   if(k >= cnt){
-      if(k%2 == cnt % 2) cout << "0" << '\n';
-      else cout << "1" << '\n' ;
-      return;
-   }
-   while( !s.empty() && k>0){
-       auto z = s.rbegin();
-       int val = *z;
-       auto it = s.find(val);
-       s.erase(it);
-       val--;
-       k--;
-       if(val > 1) s.ins(val);
-   }
-   int_64 ans{0};
-
-   while(k > 0){
-       auto it = s.end();
-       --it;
-       int val = *it;
-       s.erase(it);
-       
-       val = abs(val - 1);
-       s.ins(val);
-       k--;
-   }
-
-   for(int t: s){
-       ans += (int_64)t*t;
-   }
-   cout << ans << '\n' ;
+    int_64 base = vec.back() - vec.front();
+    ans = max(ans , (i < 2 ? base * h : base * w));
+  }
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -563,7 +529,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; //cin >> t; 
+    int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";

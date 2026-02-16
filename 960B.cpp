@@ -501,6 +501,7 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+/*Wrong on tcase 77*/
 void _GO() {
   // Solution Here.....
    int n,k1,k2;
@@ -537,7 +538,7 @@ void _GO() {
        if(val > 1) s.ins(val);
    }
    int_64 ans{0};
-
+   /*Without this rev thing getting wrong on tcase 9*/
    while(k > 0){
        auto it = s.end();
        --it;
