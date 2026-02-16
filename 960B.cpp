@@ -501,59 +501,36 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
-/*Wrong on tcase 77*/
 void _GO() {
-  // Solution Here.....
-   int n,k1,k2;
-   cin >> n >> k1 >> k2;
-   int k = k1+k2;
-    
-   vi a(n),b(n);
+    // Solution Here....
+    int n, k1, k2;
+    cin >> n >> k1 >> k2;
 
-   for(int &x: a) cin >> x;
-   for(int &x: b) cin >> x;
+    int_64 k = (int_64)k1 + k2;
+    vl a(n), b(n);
+    for (auto &x : a) cin >> x;
+    for (auto &x : b) cin >> x;
 
-   multiset<int> s;
-   int cnt{0};
+    priority_queue<int_64> pq;
 
-   FOR( i , 0 , n){
+    FOR ( i , 0 , n) {
+        pq.push(abs(a[i] - b[i]));
+    }
 
-       int p = abs(a[i] - b[i]);
-       if(0 != p) s.ins(p);
-       cnt += p;
-   }
+    while (k--) {
+        int_64 v = pq.top();
+        pq.pop();
 
-   if(k >= cnt){
-      if(k%2 == cnt % 2) cout << "0" << '\n';
-      else cout << "1" << '\n' ;
-      return;
-   }
-   while( !s.empty() && k>0){
-       auto z = s.rbegin();
-       int val = *z;
-       auto it = s.find(val);
-       s.erase(it);
-       val--;
-       k--;
-       if(val > 1) s.ins(val);
-   }
-   int_64 ans{0};
-   /*Without this rev thing getting wrong on tcase 9*/
-   while(k > 0){
-       auto it = s.end();
-       --it;
-       int val = *it;
-       s.erase(it);
-       
-       val = abs(val - 1);
-       s.ins(val);
-       k--;
-   }
+        pq.push(abs(v - 1));
+    }
 
-   for(int t: s){
-       ans += (int_64)t*t;
-   }
-   cout << ans << '\n' ;
+    int_64 ans{0};
+    while (!pq.empty()) {
+        int_64 v = pq.top();
+        pq.pop();
+        ans += v * v;
+    }
+    cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
