@@ -113,7 +113,7 @@ int main(){
            }
            // cout<< b[i][j] << " ";
        }
-       // cout<< "\n";
+       // cout<< '\n';
    }
  */
     while(q--){
