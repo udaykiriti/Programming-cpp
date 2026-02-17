@@ -31,12 +31,18 @@
 
 /*
   author:  -----          
-  created: 29 20:21:33    
+  created: 03 08:27:32    
 */
 
 
+/*
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p 
+./p <in.txt> out.txt
+*/
 #undef _GLIBCXX_DEBUG
-/* #include <algorithm>
+
+/* 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cassert>
@@ -45,7 +51,9 @@
 #include <cmath>
 #include <complex>
 #include <cstring>
+#include <containers>
 #include <functional>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -53,7 +61,97 @@
 #include <queue>
 #include <random>
 #include <set>
-#include <vector> */
+#include <string>
+#include <vector>
+
+// Old Libraries 
+// Source - https://stackoverflow.com/a/26803644
+// Posted by deW1, modified by community. See post 'Timeline' for change history
+// Retrieved 2025-12-03, License - CC BY-SA 3.0
+
+// C++ Full Standard Header Include
+#include <cstdlib>
+#include <csignal>
+#include <csetjmp>
+#include <cstdarg>
+#include <typeinfo>
+#include <typeindex>
+#include <type_traits>
+#include <bitset>
+#include <functional>
+#include <utility>
+#include <ctime>
+#include <chrono>
+#include <cstddef>
+#include <initializer_list>
+#include <tuple>
+#include <new>
+#include <memory>
+#include <scoped_allocator>
+#include <climits>
+#include <cfloat>
+#include <cstdint>
+#include <cinttypes>
+#include <limits>
+#include <exception>
+#include <stdexcept>
+#include <cassert>
+#include <system_error>
+#include <cerrno>
+#include <cctype>
+#include <cwctype>
+#include <cstring>
+#include <cwstring>
+#include <cwchar>
+#include <cuchar>
+#include <string>
+#include <array>
+#include <vector>
+#include <deque>
+#include <list>
+#include <forward_list>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include <stack>
+#include <queue>
+#include <algorithm>
+#include <iterator>
+#include <cmath>
+#include <complex>
+#include <valarray>
+#include <random>
+#include <numeric>
+#include <ratio>
+#include <cfenv>
+#include <iosfwd>
+#include <ios>
+#include <istream>
+#include <ostream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <strstream>
+#include <iomanip>
+#include <streambuf>
+#include <cstdio>
+#include <locale>
+#include <clocale>
+#include <codecvt>
+#include <regex>
+#include <atomic>
+#include <thread>
+#include <mutex>
+#include <future>
+#include <condition_variable>
+#include <ciso646>
+#include <ccomplex>
+#include <ctgmath>
+#include <cstdalign>
+#include <cstdbool>
+*/
+
 #include <bits/stdc++.h>
 #include <chrono>
 using namespace std;
@@ -93,12 +191,19 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
+/* Complex to expand compared to normal ones, but looks cool.*/
 #define tcT template <class T
 #define tcTU tcT, class U
+#define tcTUV tcT, class U, class V // It doesn't make any Sense 
 // ^ lol this makes everything look weird but I'll try it
 tcT > using V = vector<T>;
+tcT > using V1 = V<T>;
+tcT > using VV = V<V<T>>;
 tcT, size_t SZ > using AR = array<T, SZ>;
+
+#define tcTP template <class... T
+#define tcTPU tcTP, class... U
+
 using vi = V<int>;
 using vb = V<bool>;
 using vl = V<int_64>;
@@ -109,6 +214,13 @@ using vpl = V<pll>;
 using vpd = V<pdb>;
 
 #define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
+template <typename T>
+using Mat = vector<vector<T>>;
+
+template <typename T>
+Mat<T> make_mat(int n, int m, T val = T()) {
+    return Mat<T>(n, vector<T>(m, val));
+}
 
 /*
 #define os_insert(s, val) s.insert(val)
@@ -122,7 +234,7 @@ using vpd = V<pdb>;
 #define oms_rank(ms, val) ms.order_of_key({val, 0})
 */
 
-#define FIXED(x) cout << fixed << setprecision(x)
+#define FIXED(x) cout << fixed << setprecision(x) << '\n';
 
 /* 
 #define debug(x) cout << (x) << endl
@@ -133,13 +245,12 @@ using vpd = V<pdb>;
 
 const int MOD = 998244353;  // 1e9+7;
 double PI = 3.14159265358979323846;
-int_64 INF = 1000000000000000000LL;
+int_64 INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
-const int_64 BIG = 1e18;  // not too close to LLONG_MAX
-#define MIN -10000000
+const int_64 MAXI = 1e18;  // not too close to LLONG_MAX
+#define MIN -1e7
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
-
 
 #define sz(x)     int(size(x))
 #define pb        push_back
@@ -176,54 +287,64 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define isOdd(x)             (0 != (x) % 2)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-void __print(T x) { cout << x; }
+#define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
 
-void __print(char x) { cout << x; }
-void __print(const char* x) { cout << x; }
-void __print(const string& x) { cout << x; }
-void __print(bool x) { cout << (x ? "Yes" : "No") << '\n'; }
 
-template <typename T>
-void __print(const vector<T>& v) {
+tcT, class = enable_if_t<is_arithmetic_v<T>>>
+void __print(T x) { cout << x << '\n'; }
+
+void __print(const string& s) { cout << '"' << s << '"'; }
+void __print(const char* s)   { cout << '"' << s << '"'; }
+void __print(char c)          { cout << '\'' << c << '\''; }
+
+tcTU>
+void __print(const pair<T, U>& p) {
+    cout << "(";
+    __print(p.F);
+    cout << ", ";
+    __print(p.S);
+    cout << ")";
+}
+
+tcT>
+void __print(const V<T>& v) {
     cout << "[";
-    for (size_t i = 0; i < v.size(); ++i) {
+    for (int i = 0; i < (int)v.size(); ++i) {
         __print(v[i]);
-        if (i + 1 != v.size()) cout << ", ";
+        if (i + 1 < (int)v.size()) cout << ", ";
     }
     cout << "]";
 }
 
-template <typename T>
+tcT>
 void __print(const set<T>& s) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& el : s) {
-        __print(el);
-        if (++i != s.size()) cout << ", ";
+    int i = 0;
+    for (auto& x : s) {
+        __print(x);
+        if (++i < (int)s.size()) cout << ", ";
     }
     cout << "}";
 }
 
-template <typename K, typename V>
-void __print(const map<K, V>& m) {
+tcTU>
+void __print(const map<T, U>& m) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& [key, value] : m) {
-        __print(key);
-            cout << ": ";
-        __print(value);
-        if (++i != m.size()) cout << ", ";
+    int i = 0;
+    for (auto& [k, v] : m) {
+        __print(k);
+        cout << ": ";
+        __print(v);
+        if (++i < (int)m.size()) cout << ", ";
     }
-        cout << "}";
+    cout << "}";
 }
 
 
 /* Utility Functions */
 int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
 bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
-bool isUp(char ch){locale loc;return isupper(ch,loc);}
-
+bool isUp(char ch) { return std::isupper(static_cast<unsigned char>(ch)); }
 /* Power & Combinatorics */
 
 template <typename T>
@@ -239,6 +360,7 @@ int_64 factorialMod(int_64 n,int_64 m){int_64 r=1;for(int_64 i=1;i<=n;++i)r=r*i%
 int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
 int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
 int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
+int_64 modinv(int_64 a){ return binpow(a,(int_64)MOD-2,(int_64)MOD); }
 int_64 NcR(int_64 n,int_64 r){int_64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;int_64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
 int_64 NpR(int_64 n,int_64 r){int_64 r1=1;while(r--)r1*=n--;return r1;}
 
@@ -262,15 +384,22 @@ void _timer_(){
 **/
 struct DSU{
     int n;
-    vi parent,size;
-    DSU(int n) : n(n),parent(n),size(n,1){
-        iota(all(parent),0);
+    vi parent, size;
+
+    DSU(int n) : n(n), parent(n), size(n,1){
+        iota(parent.begin(), parent.end(), 0);
     }
+
     int find(int v){
         if(parent[v] == v) return v;
         return parent[v] = find(parent[v]);
     }
-    bool unite(int a , int b){
+
+    int_64 size_of(int x){
+        return size[find(x)];
+    }
+
+    bool unite(int a, int b){
         a = find(a);
         b = find(b);
         if(a == b) return false;
@@ -285,7 +414,6 @@ struct DSU{
  * Fenwik Tree (BIT)
  * Source: https://codeforces.com/blog/entry/57292
  * Time: update = O(log n), query = O(log n)
- * Description: 
  * Uses binary index jumps based on lowest set bits
  * Good for range sums, inversion counting, frequncies
  * simple and faster than segment tree for point updates
@@ -310,57 +438,142 @@ struct Fenwik{
     }
 };
 
-//#define TIME
-//#define PRAGMA
-//#define ONPC
+/**
+ * MEX (Minimum EXcluded Value)
+ * Time: O(n)
+ * Finds the smallest non-negative integer not present in the array.
+ * mex_fast uses a presence array of size n+1 -> ideal when values lie in [0..n].
+ * For general arrays with negatives/large values, use mex_set.
+**/
+
+int mex(const vi &a){
+    unordered_set<int>os;
+    os.reserve(a.size() * 2);
+    for(int x : a)
+        if(x >= 0)
+            os.ins(x);
+    int curr(0);
+    while(true){
+        if(os.find(curr) == os.end())
+            curr++;
+    }
+    return curr;
+}
+
+/**
+ * DFS (Depth-First Search)
+ * Time: O(n + m)
+ * Traverses a graph by exploring as deep as possible before backtracking.
+ * Useful for connected components, tree traversal, cycle detection, etc.
+ * Works on adjacency list; 'vis' tracks visited nodes.
+**/
+void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
+    int n = sz(adj);
+    parent.assign(n, -1);
+    stack<int> st;
+    st.push(src);
+    while(!st.empty()){
+        int u = st.top(); st.pop();
+        if(vis[u]) continue;
+        vis[u] = 1;
+        for(int v : adj[u]){
+            if(!vis[v]){
+                parent[v] = u;
+                st.push(v);
+            }
+        }
+    }
+}
+
+
+// #define TIME
+// #define PRAGMA
+// #define ONPC
 
 #ifdef PRAGMA
-#pragma GCC optimize("O3")
-#pragma GCC target("avx,avx2,fma")
-#pragma GCC optimize("unroll-loops")
-#pragma optimize("gt",on)
+#pragma GCC optimize("O3","unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
+using i128 = __int128_t;
+/* int_64 perm(int n, int r) {
+    if (r < 0 || r > n) return 0;
+    return fact[n] * invfact[n - r] % MOD;
+} */
+
 void _GO() {
-  // Solution Here.....
-  int n;
-  cin >> n;
-  vl vec(n);
-  FOR(i,0,n){
-    cin >> vec[i];
-  }
-  int l(-1),r(-1);
-  FOR(i,0,n){
-    if(0 != vec[i]){
-        if(-1 == l) 
-            l = i;
-        r = i;
+    // Solution Here....
+    int n;
+    cin >> n;
+    string s, t;
+    cin >> s >> t;
+
+    if (s == t) {
+        cout << 0 << '\n';
+        return;
     }
-  }
-  if(-1 == l){
-    cout << 0 << '\n';
-    return ;
-  }
-  bool ok(false);
-  for(int i = l; i<= r;i++){
-    if(0 == vec[i]){
-        ok = true;
-        break;
+
+    queue<string> q;
+    q.push(s);
+    map<string, pair<string, pi>> p;
+    p[s] = {"", {-1, -1}};
+
+    bool ok = false;
+    while (!q.empty()) {
+        string u = q.front();
+        q.pop();
+
+        if (u == t) {
+            ok = true;
+            break;
+        }
+
+        FOR(l, 0, n) {
+            for (int r = l + 1; r < n; r++) {
+                bool pal = true;
+                for (int i = 0; i <= (r - l) / 2; i++) {
+                    if (u[l + i] != u[r - i]) {
+                        pal = false;
+                        break;
+                    }
+                }
+
+                if (pal) {
+                    string v = u;
+                    for (int i = l; i <= r; i++) v[i] = (v[i] == '0' ? '1' : '0');
+                    if (p.find(v) == p.end()) {
+                        p[v] = {u, {l + 1, r + 1}};
+                        q.push(v);
+                    }
+                }
+            }
+        }
     }
-  }
-  cout << (ok ? 2 : 1) << '\n';
+
+    if (!ok) {
+        cout << -1 << '\n';
+    } else {
+        vector<pi> res;
+        string c = t;
+        while (p[c].S.F != -1) {
+            res.pb(p[c].S);
+            c = p[c].F;
+        }
+        reverse(res.begin(), res.end());
+        cout << res.size() << '\n';
+        for (auto &x : res) cout << x.F << " " << x.S << '\n';
+    }
 }
 
 int main(/* int argc, char *argv[] */) {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     //cin.tie(0)->ios::sync_with_stdio(0);
-    cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
@@ -375,9 +588,17 @@ int main(/* int argc, char *argv[] */) {
 }
 
 /* Look for |>
- * int overflow, array bounds , segmentation Faults
- * special cases (n=1?) ,Edge cases
- * do smth instead of nothing and stay organized
- * WRITE STUFF DOWN
- * DON'T GET STUCK ON ONE APPROACH
+ * Non-trivial problems with simple solutions, proofs, and implementations.
+ * check for ub/lb.
+ * Try working from backward or endcases.
+ * Do not make large assumptions without a basic proof idea.
+ * Overflow, bounds, and segfaults kill solutions;check them first.
+ * Use DP to relax constraints; store only the minimum required state.
+ * Always carefull with Base conditions.
+ * special cases (n=1?) ,Edge cases.
+ * do smth instead of nothing; stay organized.
+ * WRITE STUFF DOWN.
+ * Eliminate Wrong Ideas First.
+ * DON'T GET STUCK ON ONE APPROACH FOR TOO LONG.
+ * If you dont get solution within time Just GIve Upp..
  */
