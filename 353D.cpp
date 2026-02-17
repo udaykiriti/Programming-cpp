@@ -191,12 +191,19 @@ using pi = pair <int,int>;
 using pll = pair<int_64, int_64>;
 using pdb = pair<db,db>;
 
-/* Complex to expand compared to normal ones, but looks cool.(Benq)*/
+/* Complex to expand compared to normal ones, but looks cool.*/
 #define tcT template <class T
 #define tcTU tcT, class U
+#define tcTUV tcT, class U, class V // It doesn't make any Sense 
 // ^ lol this makes everything look weird but I'll try it
 tcT > using V = vector<T>;
+tcT > using V1 = V<T>;
+tcT > using VV = V<V<T>>;
 tcT, size_t SZ > using AR = array<T, SZ>;
+
+#define tcTP template <class... T
+#define tcTPU tcTP, class... U
+
 using vi = V<int>;
 using vb = V<bool>;
 using vl = V<int_64>;
@@ -207,6 +214,13 @@ using vpl = V<pll>;
 using vpd = V<pdb>;
 
 #define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
+template <typename T>
+using Mat = vector<vector<T>>;
+
+template <typename T>
+Mat<T> make_mat(int n, int m, T val = T()) {
+    return Mat<T>(n, vector<T>(m, val));
+}
 
 /*
 #define os_insert(s, val) s.insert(val)
@@ -220,7 +234,7 @@ using vpd = V<pdb>;
 #define oms_rank(ms, val) ms.order_of_key({val, 0})
 */
 
-#define FIXED(x) cout << fixed << setprecision(x)
+#define FIXED(x) cout << fixed << setprecision(x) << '\n';
 
 /* 
 #define debug(x) cout << (x) << endl
@@ -229,15 +243,14 @@ using vpd = V<pdb>;
 #define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
 */
 
-const int_64 MOD = 998345353LL;  // 1e9+7; //998244353
+const int MOD = 998244353;  // 1e9+7;
 double PI = 3.14159265358979323846;
 int_64 INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
-const int_64 BIG = 1e18;  // not too close to LLONG_MAX
+const int_64 MAXI = 1e18;  // not too close to LLONG_MAX
 #define MIN -1e7
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
-
 
 #define sz(x)     int(size(x))
 #define pb        push_back
@@ -274,54 +287,64 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define isOdd(x)             (0 != (x) % 2)
 #define uceil(a, b)          ((a + b - 1) / (b))
 
-template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-void __print(T x) { cout << x; }
+#define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
 
-void __print(char x) { cout << x; }
-void __print(const char* x) { cout << x; }
-void __print(const string& x) { cout << x; }
-void __print(bool x) { cout << (x ? "Yes" : "No") << '\n'; }
 
-template <typename T>
-void __print(const vector<T>& v) {
+tcT, class = enable_if_t<is_arithmetic_v<T>>>
+void __print(T x) { cout << x << '\n'; }
+
+void __print(const string& s) { cout << '"' << s << '"'; }
+void __print(const char* s)   { cout << '"' << s << '"'; }
+void __print(char c)          { cout << '\'' << c << '\''; }
+
+tcTU>
+void __print(const pair<T, U>& p) {
+    cout << "(";
+    __print(p.F);
+    cout << ", ";
+    __print(p.S);
+    cout << ")";
+}
+
+tcT>
+void __print(const V<T>& v) {
     cout << "[";
-    for (size_t i = 0; i < v.size(); ++i) {
+    for (int i = 0; i < (int)v.size(); ++i) {
         __print(v[i]);
-        if (i + 1 != v.size()) cout << ", ";
+        if (i + 1 < (int)v.size()) cout << ", ";
     }
     cout << "]";
 }
 
-template <typename T>
+tcT>
 void __print(const set<T>& s) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& el : s) {
-        __print(el);
-        if (++i != s.size()) cout << ", ";
+    int i = 0;
+    for (auto& x : s) {
+        __print(x);
+        if (++i < (int)s.size()) cout << ", ";
     }
     cout << "}";
 }
 
-template <typename K, typename V>
-void __print(const map<K, V>& m) {
+tcTU>
+void __print(const map<T, U>& m) {
     cout << "{";
-    size_t i = 0;
-    for (const auto& [key, value] : m) {
-        __print(key);
-            cout << ": ";
-        __print(value);
-        if (++i != m.size()) cout << ", ";
+    int i = 0;
+    for (auto& [k, v] : m) {
+        __print(k);
+        cout << ": ";
+        __print(v);
+        if (++i < (int)m.size()) cout << ", ";
     }
-        cout << "}";
+    cout << "}";
 }
 
 
 /* Utility Functions */
 int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
 bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
-bool isUp(char ch){locale loc;return isupper(ch,loc);}
-
+bool isUp(char ch) { return std::isupper(static_cast<unsigned char>(ch)); }
 /* Power & Combinatorics */
 
 template <typename T>
@@ -361,15 +384,22 @@ void _timer_(){
 **/
 struct DSU{
     int n;
-    vi parent,size;
-    DSU(int n) : n(n),parent(n),size(n,1){
-        iota(all(parent),0);
+    vi parent, size;
+
+    DSU(int n) : n(n), parent(n), size(n,1){
+        iota(parent.begin(), parent.end(), 0);
     }
+
     int find(int v){
         if(parent[v] == v) return v;
         return parent[v] = find(parent[v]);
     }
-    bool unite(int a , int b){
+
+    int_64 size_of(int x){
+        return size[find(x)];
+    }
+
+    bool unite(int a, int b){
         a = find(a);
         b = find(b);
         if(a == b) return false;
@@ -384,7 +414,6 @@ struct DSU{
  * Fenwik Tree (BIT)
  * Source: https://codeforces.com/blog/entry/57292
  * Time: update = O(log n), query = O(log n)
- * Description: 
  * Uses binary index jumps based on lowest set bits
  * Good for range sums, inversion counting, frequncies
  * simple and faster than segment tree for point updates
@@ -412,7 +441,6 @@ struct Fenwik{
 /**
  * MEX (Minimum EXcluded Value)
  * Time: O(n)
- * Description:
  * Finds the smallest non-negative integer not present in the array.
  * mex_fast uses a presence array of size n+1 -> ideal when values lie in [0..n].
  * For general arrays with negatives/large values, use mex_set.
@@ -435,7 +463,6 @@ int mex(const vi &a){
 /**
  * DFS (Depth-First Search)
  * Time: O(n + m)
- * Description:
  * Traverses a graph by exploring as deep as possible before backtracking.
  * Useful for connected components, tree traversal, cycle detection, etc.
  * Works on adjacency list; 'vis' tracks visited nodes.
@@ -473,86 +500,58 @@ using i128 = __int128_t;
     if (r < 0 || r > n) return 0;
     return fact[n] * invfact[n - r] % MOD;
 } */
-int n,m;
-vl vec;
-vector<vi> nr;
-vector<char> vis;
-int_64 res;
-
-vector<unordered_map<int_64, vi>> omp;
-
-void DFS1(int prev, int curr) {
-    i128 sum = (i128)vec[prev] + (i128)vec[curr];
-    if (sum > (i128)INF) return;
-    int_64 req = (int_64) sum;
-
-    auto it = omp[curr].find(req);
-    if (it == omp[curr].end()) return;
-
-    for (int w : it->second) 
-    {
-        if (!vis[w]) {
-            vis[w] = 1;
-            res++;
-            if (res >= MOD) res -= MOD;
-            DFS1(curr, w);
-            vis[w] = 0;
-        }
-    }
-}
 
 void _GO() {
   // Solution Here.....
-  cin >> n >> m;
-  vec.assign(n+1 , 0);
-  for(int i = 1; i <= n ; i++)
-  {
-    cin >> vec[i];
-  }
-  nr.assign(n+1,{});
-  FOR(i,0,m)
-  {
-    int u,v;
-    cin >> u >> v;
-    nr[u].pb(v);
-  }
-  omp.clear();
-  omp.resize(n + 1);
-  for (int u = 1; u <= n; u++) {
-    for (int v : nr[u])
-    {
-       omp[u][vec[v]].pb(v);
-    }
+  str s;
+  cin >> s;
+  int n = s.length();
+  vi pos;
+
+  FOR ( i , 0 , n ) {
+    if ('F'== s[i])
+        pos.pb(i);
   }
 
-  vis.assign(n+1,0);
-  res = 0;
+  int k = pos.size();
+  
+  if (k == 0) {
+    cout << 0 << '\n' ;
+    return;
+  }
+  bool done = true;
 
-  for(int i = 1 ; i <= n ;i++)
-  {
-    for(int v : nr[i])
-    {
-        res++;
-        if(res >= MOD)
-            res -= MOD;
-        vis[i] = 1,vis[v] = 1;
-        DFS1(i,v);
-        vis[i]=0,vis[v]=0;
+  FOR ( i , 0 , k ) {
+    if (pos[i] != i) {
+        done = false;
+        break;
     }
   }
-  cout << res % MOD << '\n';
+  if (done) {
+    cout << 0 << '\n';
+    return;
+  }
+    
+  vi dp(k);
+  dp[0] = pos[0] - 0;
+
+  FOR ( i , 1 , k ) {
+    dp[i] = max(dp[i - 1] + 1, pos[i] - i);
+  }
+
+  cout << dp[k - 1] << '\n' ;
+  return;
 }
 
 int main(/* int argc, char *argv[] */) {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     //cin.tie(0)->ios::sync_with_stdio(0);
-    cout.tie(0);
     #ifdef ONPC
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t(1),tcase(0); cin >> t; 
+    int t{1},tcase{0}; //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
@@ -567,17 +566,17 @@ int main(/* int argc, char *argv[] */) {
 }
 
 /* Look for |>
- * int overflow, array bounds , segmentation Faults
- * special cases (n=1?) ,Edge cases
- * do smth instead of nothing and stay organized
- * WRITE STUFF DOWN
- * DON'T GET STUCK ON ONE APPROACH
- */
-
-
-/*
- * Wrong Tcase
- * may be approach is wrong or typecasting
- * Fix it
- *
+ * Non-trivial problems with simple solutions, proofs, and implementations.
+ * check for ub/lb.
+ * Try working from backward or endcases.
+ * Do not make large assumptions without a basic proof idea.
+ * Overflow, bounds, and segfaults kill solutions;check them first.
+ * Use DP to relax constraints; store only the minimum required state.
+ * Always carefull with Base conditions.
+ * special cases (n=1?) ,Edge cases.
+ * do smth instead of nothing; stay organized.
+ * WRITE STUFF DOWN.
+ * Eliminate Wrong Ideas First.
+ * DON'T GET STUCK ON ONE APPROACH FOR TOO LONG.
+ * If you dont get solution within time Just GIve Upp..
  */
