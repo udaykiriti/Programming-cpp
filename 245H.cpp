@@ -73,6 +73,7 @@ int main(){
 //            }
 //        }
 //    }
+    
     for(int i = 1; i <= n; i++){
         for(int j = 1; j <= n; j++){
             c[i][j]+=c[i-1][j];
@@ -117,13 +118,13 @@ int main(){
    }
  */
     while(q--){
-        ll uandale_dingle = 0;
+        ll ud = 0;
         int l, r; cin>> l >> r;
         //cout<< format("a[{}][{}]: {} ;\n",i,j,a[i][j]);
-        uandale_dingle = c[r][r] - c[l-1][r] - c[r][l-1] + c[l-1][l-1];
+        ud = c[r][r] - c[l-1][r] - c[r][l-1] + c[l-1][l-1];
         /// query = bottom right corner - top right corner -
         /// bottom left corner + top left corner.
-        cout<< uandale_dingle << "\n";
+        cout<< ud << '\n' ;
     }
     return 0;
 }
