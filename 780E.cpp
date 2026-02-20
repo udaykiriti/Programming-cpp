@@ -95,11 +95,16 @@ int main() {
     vector < vector < int > > res(k, vector < int > (0));
     dfs(1);
     
-    int curr = 1;
+    int curr{1};
 
     for (int i = 0; i < k; i ++) {
         while (res[i].size() < lmt and curr <= cnt) 
             res[i].pb(a[curr ++]);
+        // why??????
+        // Always...
+        if (res[i].empty()) {
+            res[i].pb(1);
+        }
     }
 
     for (int i = 0; i < k; i ++) {
