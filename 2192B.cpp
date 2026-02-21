@@ -503,7 +503,34 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  
+  int n;
+  str s;
+  cin >> n >> s;
+
+  vi ones, zeros;
+
+  FOR ( i , 0 , n ) {
+    (s[i] == '1' ? ones : zeros).pb(i + 1);
+  }
+
+
+  bool uones = (ones.size() % 2 == 0);
+  bool uzeros = (zeros.size() % 2 != 0);
+
+  if (!uones && !uzeros) {
+    cout << "-1" << '\n';
+    return;
+  }
+
+  const vi& res = uones ? ones : zeros;
+    
+  cout << res.size() << '\n' ;
+
+  for (int i = 0; i < res.size(); i++){
+    cout << res[i] << (i == res.size() - 1 ? "" : " ");
+  }
+
+  cout << '\n' ;
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -517,7 +544,7 @@ int main(/* int argc, char *argv[] */) {
     int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
-            cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
+            cout << "[ testcase: " << tcase << " ] "<< "@@@@@@@@@@@@@@@@@@@@" << "\n";
             _timer_();
         #endif
         _GO();

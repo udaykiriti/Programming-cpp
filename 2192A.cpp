@@ -503,7 +503,18 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-  
+  int n;
+  cin >> n;
+  str s;
+  cin >> s;
+
+  int cnt{0};
+  FOR(i , 0 , n ){
+    if(s[i] != s[(i + 1) % n])
+        cnt++;
+  }
+
+  cout << (cnt == n ? n : cnt + 1) << '\n' ;
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -517,7 +528,7 @@ int main(/* int argc, char *argv[] */) {
     int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
-            cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
+            cout << "[ testcase: " << tcase << " ] "<< "@@@@@@@@@@@@@@@@@@@@" << "\n";
             _timer_();
         #endif
         _GO();

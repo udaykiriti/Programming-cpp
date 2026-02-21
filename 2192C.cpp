@@ -501,9 +501,41 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+/*Wrong on tcase 5*/
 void _GO() {
   // Solution Here.....
-  
+  int_64 n, h, k, s = 0;
+  cin >> n >> h >> k;
+
+  vl a(n + 1), p(n + 1, 0), mini(n + 1, 2e18), maxi(n + 2, 0), b(n + 1, 0);
+
+  for (int i = 1; i <= n; i++) {
+    cin >> a[i];
+    s += a[i];
+    p[i] = p[i-1] + a[i];
+    mini[i] = min(mini[i-1], a[i]);
+  }
+  for (int i = n; i >= 1; i--) maxi[i] = max(maxi[i+1], a[i]);
+
+  for (int i = 1; i <= n; i++) {
+    b[i] = p[i];
+    if (i < n) b[i] = max(b[i], p[i] - mini[i] + maxi[i+1]);
+  }
+
+  int_64 l = 1, r = 2e18, ans = r;
+
+  while (l <= r) {
+
+    int_64 m = l + (r - l) / 2;
+    int_64 c = m / (n + k);
+    int_64 t = m % (n + k);
+
+    if (c * s + b[min(t, n)] >= h) {
+        ans = m;
+        r = m - 1;
+    } else l = m + 1;
+  }
+  cout << ans << '\n' ;
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -517,7 +549,7 @@ int main(/* int argc, char *argv[] */) {
     int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
-            cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
+            cout << "[ testcase: " << tcase << " ] "<< "@@@@@@@@@@@@@@@@@@@@" << "\n";
             _timer_();
         #endif
         _GO();
