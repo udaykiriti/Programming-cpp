@@ -110,6 +110,7 @@ ll obtain(ll x) {
 void solve() {
     //soLuSHoNN hErE.........
     cin >> n;
+
     for (ll i = 1; i <= n; i++)
         cin >> a[i];
 

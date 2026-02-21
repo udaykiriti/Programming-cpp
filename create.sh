@@ -29,9 +29,9 @@ fi
 
 if [ -f "$FILENAME" ]; then
   echo -e "${ORANGE}[Ohhh..]: Please check once before Trying another time..${NC}"
-  echo -e "${ORANGE}[Warning] :${NC} $FILENAME Already exists....${NC} "
-  echo -e "${RED}[Danger]: Verify Twice and Enter "y" cuz the Data will be Destroyed${NC}"
-  read -rp "[R u Sure..]: Overwrite? (y/n) [Now the Danger Begins]: " choice
+  echo -e "${ORANGE}[Warning!!!] :${NC} $FILENAME Already exists....${NC} "
+  echo -e "${RED}[Danger...]: Verify Twice and Enter "y" cuz the Data will be Destroyed${NC}"
+  read -rp "[r u Sure...]: Overwrite? (y/n) [Now the Danger Begins]: " choice
   [[ "$choice" != "y" ]] && echo -e "${RED}Aborted...[I mean Operation Cancelled]" && exit 1
 fi
 

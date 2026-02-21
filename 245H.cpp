@@ -76,9 +76,9 @@ int main(){
     
     for(int i = 1; i <= n; i++){
         for(int j = 1; j <= n; j++){
-            c[i][j]+=c[i-1][j];
-            c[i][j]+=c[i][j-1];
-            c[i][j]-=c[i-1][j-1];
+            c[i][j] += c[i-1][j];
+            c[i][j] += c[i][j-1];
+            c[i][j] -= c[i-1][j-1];
         }
     }
 /*    for(int i = 1; i <= n; i++){

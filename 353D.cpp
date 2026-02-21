@@ -519,6 +519,7 @@ void _GO() {
     cout << 0 << '\n' ;
     return;
   }
+
   bool done = true;
 
   FOR ( i , 0 , k ) {
