@@ -518,7 +518,7 @@ struct Fenwick {
  * Description:
  * Finds the smallest non-negative integer not present in the array.
  * mex_fast uses a presence array of size n+1 -> ideal when values lie in
- * [0..n]. For general arrays with negatives/large values, use mex_set.
+ * [0...n]. For general arrays with negatives/large values, use mex_set.
  **/
 
 int mex(const vi &a) {
