@@ -503,14 +503,25 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here....
-  int n, a, ans = 0;
-  cin >> n;
-  map<int, int> dp;
-  while (n--) {
-     cin >> a;
-     ans = max(ans, dp[a] = dp[a - 1] + 1);
+  int n , k ;
+  cin >> n >> k;
+  vi vec(n);
+
+  FOR(i,0,n) cin >> vec[i];
+  str s;
+  cin >> s;
+  vi avbl;
+  FOR(i,0,n){
+    if('0' == s[i]) avbl.pb(vec[i]);
   }
-  cout << ans << '\n';
+  if(avbl.size() < k){
+    cout << "-1" << '\n';
+    return;
+  }
+  SORT(avbl);
+  int_64 t0T{0};
+  FOR(i,0,k) t0T += avbl[i];
+  cout << t0T << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -521,7 +532,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; //cin >> t; 
+    int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
