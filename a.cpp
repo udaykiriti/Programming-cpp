@@ -503,25 +503,15 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here....
-  int n , k ;
-  cin >> n >> k;
-  vi vec(n);
-
-  FOR(i,0,n) cin >> vec[i];
-  str s;
-  cin >> s;
-  vi avbl;
-  FOR(i,0,n){
-    if('0' == s[i]) avbl.pb(vec[i]);
+  int_64 n , s;
+  cin >> n >> s;
+  if(s <= n * 5){
+    cout << n * 6 << '\n';
+  }else{
+    int_64 sxs = s - n * 5;
+    int_64 scr = (sxs * 5) + ((n - sxs) * 6);
+    cout << scr << '\n';
   }
-  if(avbl.size() < k){
-    cout << "-1" << '\n';
-    return;
-  }
-  SORT(avbl);
-  int_64 t0T{0};
-  FOR(i,0,k) t0T += avbl[i];
-  cout << t0T << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
