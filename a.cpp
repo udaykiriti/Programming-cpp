@@ -503,15 +503,23 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here....
-  int_64 n , s;
-  cin >> n >> s;
-  if(s <= n * 5){
-    cout << n * 6 << '\n';
-  }else{
-    int_64 sxs = s - n * 5;
-    int_64 scr = (sxs * 5) + ((n - sxs) * 6);
-    cout << scr << '\n';
+  int n;
+  cin >> n;
+  vi a(n), dp(n + 1, 0), b(n + 1, -1);
+
+  FOR(i , 0 , n) cin >> a[i];
+
+  FOR(i , 0 , n){
+    int v = a[i];
+    dp[i + 1] = dp[i];
+
+    if (b[v] != -1) {
+        dp[i + 1] = max(dp[i + 1], b[v] + 2);
+    }
+    
+    b[v] = max(b[v], dp[i]);
   }
+  cout << dp[n] << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
