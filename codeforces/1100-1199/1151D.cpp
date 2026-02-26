@@ -23,22 +23,25 @@ void solve(){
    for(int i=0;i<n;i++){
     cin>>vec[i].first>>vec[i].second;
    }
-    sort(vec.begin(), vec.end(), [&](const pair<ll, ll>& x, const pair<ll, ll>& y) {
-        return (x.first - x.second) > (y.first - y.second);
-    });
 
-    debug(vec);
-    ll res = 0;
-    for (int i = 0; i < n; i++) {
-        ll a = vec[i].first;
-        ll b = vec[i].second;
-        res += a * i + b * (n - 1 - i);
-    }
-    cout<<res<<endl;
+   sort(vec.begin(), vec.end(), [&](const pair<ll, ll>& x, const pair<ll, ll>& y) {
+      return (x.first - x.second) > (y.first - y.second);
+   });
+
+   debug(vec);
+   ll res = 0;
+
+   for (int i = 0; i < n; i++) {
+      ll a = vec[i].first;
+      ll b = vec[i].second;
+      res += a * i + b * (n - 1 - i);
+   }
+   cout << res << '\n' ;
 }
 
 int main(){
-    //freopen("in.txt","r",stdin);
+    //freopen("in.txt" , "r" , stdin);
+    //freopen("out.txt" , "w" , stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int t(1), tcase(0); //cin>>t;
