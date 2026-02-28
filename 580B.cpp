@@ -504,22 +504,27 @@ using i128 = __int128_t;
 void _GO() {
   // Solution Here.....
   int n;
-  cin >> n;
-  vi vec(n);
+  int_64 d;
+  cin >> n >> d;
+  vector<pi> a(n);
 
-  FOR ( i , 0 , n ) {
-    cin >> vec[i];
-  }
+  FOR ( i , 0 , n) cin >> a[i].F >> a[i].S;
 
-  bool ok = true;
+  SORT(a);
 
-  FOR ( i , 0 , n - 1) {
-    if (vec[i] > vec[i + 1]) {
-        ok = false;
-        break;
+  int_64 cur = 0, ans = 0;
+
+  for (int i = 0, j = 0; i < n; ++i) {
+
+    while (j < n && a[j].F - a[i].F < d) {
+        cur += a[j].S;
+        j++;
     }
+    
+    ans = max(ans, cur);
+    cur -= a[i].S;
   }
-  cout << (ok ? n : 1) << '\n';
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -530,7 +535,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t; 
+    int t{1},tcase{0}; //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
