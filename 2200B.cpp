@@ -501,48 +501,26 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
-vi f(const vector<vi>& b, vi p) {
-    vi q;
-    for (int i : p) {
-        for (int u : b[i]) {
-            auto it = find(all(q), u);
-            if (it != q.end()) {
-                q.erase(it);
-            }
-            q.insert(q.begin(), u);
-        }
-    }
-    return q;
-}
-
 void _GO() {
   // Solution Here.....
   int n;
   cin >> n;
-  vector<vi> b(n);
+  vi a(n);
 
-  FOR ( i , 0 , n) {
-    int l;
-    cin >> l;
-    b[i].resize(l);
-    FOR ( j , 0 , l) 
-        cin >> b[i][j];
+  FOR ( i , 0 , n ) {
+    cin >> a[i];
   }
 
-  vi p(n);
+  bool ok = true;
 
-  FOR ( i , 0 , n) p[i] = i;
-  vi r;
-  do {
-    vi c = f(b, p);
-    if (r.empty() || c < r) r = c;
-  } while (next_permutation(all(p)));
-
-  for (size_t i = 0; i < r.size(); ++i) {
-    cout << r[i] << (i == r.size() - 1 ? "" : " ");
+  FOR ( i , 0 , n - 1) {
+    if (a[i] > a[i + 1]) {
+        ok = false;
+        break;
+    }
   }
 
-  cout << '\n' ;
+  cout << (ok ? n : 1) << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
