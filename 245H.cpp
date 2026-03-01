@@ -35,21 +35,25 @@
 #define ll long long
 using namespace std;
 
+bool isPal[5005][5005];
+int dp[5005][5005];
+
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     string str; 
     cin>> str;
-    int q, n = str.size(); 
-    cin>> q;
+    int n = str.size();
+    // int q, n = str.size(); 
+    // cin>> q;
     // bool a[n+1][n+1];
     // int_fast32_t b[n+1][n+1];
-    int c[n+1][n+1];
+    // int c[n+1][n+1];
     // int_fast64_t pfx[n];
     // memset(a, 0, sizeof a);
     // memset(b, 0, sizeof b);
-    memset(c, 0, sizeof c);
+    // memset(c, 0, sizeof c);
     // memset(pfx, 0, sizeof pfx);
-    for(int i = 0; i < n; i++){
+   /* for(int i = 0; i < n; i++){
         for(int j = i; j < n; j++){
             int nutty = 1;
             for(int k = i; k <= j; k++){
@@ -63,6 +67,19 @@ int main(){
             //pfx[j] += nutty;
         }
     }
+    */
+    for (int len = 1; len <= n; len++) {
+        for (int i = 0; i <= n - len; i++) {
+            int j = i + len - 1;
+            if (len == 1) {
+                isPal[i][j] = true;
+            } else if (len == 2) {
+                isPal[i][j] = (str[i] == str[j]);
+            } else {
+                isPal[i][j] = (str[i] == str[j] && isPal[i + 1][j - 1]);
+            }
+        }
+    }
 //    for(int i = 0; i < n; i++){
 //        for(int j = 0; j < n; j++){
 //            if(j){
@@ -73,7 +90,17 @@ int main(){
 //            }
 //        }
 //    }
-    
+
+    for (int len = 1; len <= n; len++) {
+        for (int i = 0; i <= n - len; i++) {
+            int j = i + len - 1;
+            dp[i][j] = isPal[i][j];
+            if (len > 1) {
+                dp[i][j] += dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1];
+            }
+        }
+    }
+    /*
     for(int i = 1; i <= n; i++){
         for(int j = 1; j <= n; j++){
             c[i][j] += c[i-1][j];
@@ -81,6 +108,7 @@ int main(){
             c[i][j] -= c[i-1][j-1];
         }
     }
+    */
 /*    for(int i = 1; i <= n; i++){
        for(int j = 1; j <= n; j++){
            cout<< a[i][j] << " ";
@@ -117,6 +145,7 @@ int main(){
        // cout<< '\n';
    }
  */
+    /*
     while(q--){
         ll ud = 0;
         int l, r; cin>> l >> r;
@@ -125,6 +154,14 @@ int main(){
         /// query = bottom right corner - top right corner -
         /// bottom left corner + top left corner.
         cout<< ud << '\n' ;
+    }
+    */
+    int q;
+    cin >> q;
+    while (q--) {
+        int l, r;
+        cin >> l >> r;
+        cout << dp[l - 1][r - 1] << "\n";
     }
     return 0;
 }
