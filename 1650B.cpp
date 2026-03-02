@@ -506,16 +506,13 @@ void _GO() {
   int_64 l, r, a;
   cin >> l >> r >> a;
         
-  int_64 maxi = 0;
-      
-  for (int_64 x = l; x <= r; ++x) {
+  int_64 ans = (r / a) + (r % a);
+  int_64 candi = (r / a) * a - 1;
 
-    int_64 curr = (x / a) + (x % a);
+  if (candi >= l)
+    ans = max(ans, (candi / a)+ (candi % a));
 
-    if (curr > maxi)
-        maxi = curr;
-  }
-  cout << maxi << '\n';
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
