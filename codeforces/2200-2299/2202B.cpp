@@ -506,18 +506,28 @@ void _GO() {
   int n;
   str x;
   cin >> n >> x;
-    
+
   bool ok = true;
-  FOR ( i , 0 , n) {
-    int rem = n - i;
-    if (rem % 2 != 0) {
-        if (x[i] == 'b') {
+  int idx = 0;
+
+  if (n % 2 != 0) {
+    if (x[0] == 'b')
+        ok = false;
+    idx = 1; 
+  }
+
+  for (int i = idx; i < n; i += 2) {
+        if (x[i] == 'a' && x[i + 1] == 'a') {
+            ok = false;
+            break;
+        }
+        if (x[i] == 'b' && x[i + 1] == 'b') {
             ok = false;
             break;
         }
     }
-  }
-  cout << (ok ? "YES" : "NO") << '\n' ;
+
+   cout << (ok ? "YES" : "NO") << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
