@@ -17,7 +17,7 @@ impl fastio {
 
     #[inline(always)]
     fn is_whitespace(b: u8) -> bool {
-        b == b' ' || b == b'\n' || b == b'\r' || b == b'\t' || b == b'\x0b' || b == b'\x0c'
+        matches!(b, b' ' | b'\n' | b'\r' | b'\t' | b'\x0b' | b'\x0c')
     }
 
     #[inline]
@@ -30,32 +30,21 @@ impl fastio {
     #[inline]
     fn next_u64(&mut self) -> u64 {
         self.skip_whitespace();
-        let mut x: u64 = 0;
-        while self.pos < self.buf.len() {
-            let b = self.buf[self.pos];
-            if b < b'0' || b > b'9' { break; }
-            x = x * 10 + (b - b'0') as u64;
+        let mut num = 0u64;
+        while self.pos < self.buf.len() && self.buf[self.pos].is_ascii_digit() {
+            num = num * 10 + (self.buf[self.pos] - b'0') as u64;
             self.pos += 1;
         }
-        x
+        num
     }
 
     #[inline]
     fn next_i64(&mut self) -> i64 {
         self.skip_whitespace();
-        let mut neg = false;
-        if self.pos < self.buf.len() && self.buf[self.pos] == b'-' {
-            neg = true;
-            self.pos += 1;
-        }
-        let mut x: i64 = 0;
-        while self.pos < self.buf.len() {
-            let b = self.buf[self.pos];
-            if b < b'0' || b > b'9' { break; }
-            x = x * 10 + (b - b'0') as i64;
-            self.pos += 1;
-        }
-        if neg { -x } else { x }
+        let is_negative = self.pos < self.buf.len() && self.buf[self.pos] == b'-';
+        if is_negative { self.pos += 1; }
+        let num = self.next_u64() as i64;
+        if is_negative { -num } else { num }
     }
 
     #[inline(always)]
@@ -86,9 +75,7 @@ impl fastio {
 #[inline]
 fn gcd(mut a: i64, mut b: i64) -> i64 {
     while b != 0 {
-        let t = a % b;
-        a = b;
-        b = t;
+        (a, b) = (b, a % b);
     }
     a.abs()
 }
@@ -100,14 +87,16 @@ fn lcm(a: i64, b: i64) -> i64 {
 
 #[inline]
 fn pow_mod(mut a: i128, mut e: i128, m: i128) -> i128 {
-    a %= m; if a < 0 { a += m }
-    let mut r: i128 = 1;
+    a = ((a % m) + m) % m;
+    let mut result = 1i128;
     while e > 0 {
-        if (e & 1) == 1 { r = (r * a) % m; }
+        if e & 1 == 1 {
+            result = (result * a) % m;
+        }
         a = (a * a) % m;
         e >>= 1;
     }
-    r
+    result
 }
 
 #[inline]
@@ -117,10 +106,16 @@ fn inv_mod(a: i128, m: i128) -> i128 {
 
 #[inline]
 fn binary_search<F>(mut lo: i64, mut hi: i64, mut pred: F) -> i64
-where F: FnMut(i64) -> bool {
+where
+    F: FnMut(i64) -> bool,
+{
     while lo < hi {
         let mid = lo + (hi - lo) / 2;
-        if pred(mid) { hi = mid; } else { lo = mid + 1; }
+        if pred(mid) {
+            hi = mid;
+        } else {
+            lo = mid + 1;
+        }
     }
     lo
 }
@@ -138,20 +133,23 @@ impl Dsu {
     }
 
     fn find(&mut self, x: usize) -> usize {
-        if self.parent[x] == x { x } else {
-            let p = self.find(self.parent[x]);
-            self.parent[x] = p;
-            p
+        if self.parent[x] != x {
+            self.parent[x] = self.find(self.parent[x]);
         }
+        self.parent[x]
     }
 
     fn unite(&mut self, a: usize, b: usize) -> bool {
-        let mut a = self.find(a);
-        let mut b = self.find(b);
-        if a == b { return false; }
-        if self.size[a] < self.size[b] { std::mem::swap(&mut a, &mut b); }
-        self.parent[b] = a;
-        self.size[a] += self.size[b];
+        let mut root_a = self.find(a);
+        let mut root_b = self.find(b);
+        if root_a == root_b {
+            return false;
+        }
+        if self.size[root_a] < self.size[root_b] {
+            (root_a, root_b) = (root_b, root_a);
+        }
+        self.parent[root_b] = root_a;
+        self.size[root_a] += self.size[root_b];
         true
     }
 }
@@ -169,21 +167,30 @@ impl Fenwick {
     fn add(&mut self, mut idx: usize, delta: i64) {
         while idx <= self.n {
             self.bit[idx] += delta;
-            idx += idx & (!idx + 1);
+            idx += self.lowbit(idx);
         }
+    }
+
+    #[inline]
+    fn lowbit(&self, x: usize) -> usize {
+        x & (x.wrapping_neg())
     }
 
     fn sum(&self, mut idx: usize) -> i64 {
-        let mut res = 0i64;
+        let mut result = 0i64;
         while idx > 0 {
-            res += self.bit[idx];
-            idx -= idx & (!idx + 1);
+            result += self.bit[idx];
+            idx -= self.lowbit(idx);
         }
-        res
+        result
     }
 
     fn range_sum(&self, l: usize, r: usize) -> i64 {
-        if r < l { 0 } else { self.sum(r) - self.sum(l - 1) }
+        if r < l {
+            0
+        } else {
+            self.sum(r) - if l > 0 { self.sum(l - 1) } else { 0 }
+        }
     }
 }
 
@@ -210,7 +217,7 @@ fn main() {
  * Check upper/lower bounds (UB/LB).
  * Try working backward or from end cases.
  * Do not make large assumptions without a basic proof idea.
- * Overflow, bounds checks, and panics kill solutions—check them first.
+ * Overflow, bounds checks, and panics kill solutions-check them first.
  * Use DP to relax constraints; store only the minimum required state.
  * Handle special cases (n = 1?) and edge cases.
  * Do something instead of nothing; stay organized.

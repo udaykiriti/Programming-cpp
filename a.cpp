@@ -237,9 +237,9 @@ Mat<T> make_mat(int n, int m, T val = T()) {
 #define FIXED(x) cout << fixed << setprecision(x) << '\n';
 
 /* 
-#define debug(x) cout << (x) << endl
+#define debug(x) cout << (x) << '\n'
 #define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " "; cout << endl; } while(0)
-#define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
+#define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << '\n' ; cout << "...]\n"; } while(0)
 #define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
 */
 
@@ -533,7 +533,7 @@ int main(/* int argc, char *argv[] */) {
     int t{1},tcase{0}; cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
-            cout << "[ testcase: " << tcase << " ] "<< "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓" << "\n";
+            cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
             _timer_();
         #endif
         _GO();

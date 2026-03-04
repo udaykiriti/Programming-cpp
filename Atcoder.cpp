@@ -421,6 +421,7 @@ int XOR1toN(int N) {
   return 0;
 }
 int XORLtoR(int L, int R) { return XOR1toN(R) ^ XOR1toN(max(L - 1, 0)); }
+
 /* ---------- TIMER ---------- */
 const auto start_time = chrono::steady_clock::now();
 void _timer() {
@@ -429,6 +430,7 @@ void _timer() {
   FIXED(3);
   cout << "[time: " << delta.count() << " ms]\n";
 }
+
 /**
  * Disjoint Set Union(DSU)
  * Source : https://codeforces.com/blog/entry/120381
