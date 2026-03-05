@@ -155,94 +155,37 @@ using namespace std;
 void solve(){
     int n,k,q;
     cin >> n >> k >> q;
-    vi c(q), l(q), r(q);
-    FOR(i,0,q){
-        cin >> c[i] >> l[i] >> r[i];
-        l[i]--; r[i]--;
+
+    vi in_min(n, 0), in_mex(n, 0);
+    
+    FOR ( i , 0 , q) {
+        int c, l, r;
+        cin >> c >> l >> r;
+        l--; r--;
+        
+        for (int p = l; p <= r; p++) {
+            if (c == 1) in_min[p] = 1;
+            else in_mex[p] = 1;
+        }
     }
-
-    const int BIG = 1000000000;
-    vi ans(n, BIG);
-
-    vi inAnyMin(n,0), inAnyMex(n,0);
-    vector<pair<int,int>> mexRanges;
-    FOR(i,0,q){
-        if(1 == c[i]){
-            for(int p=l[i]; p<=r[i]; p++) 
-                inAnyMin[p]=1;
+    vi ans(n);
+    int val = 0;
+    
+    FOR ( i , 0 , n) {
+        if (in_min[i]) {
+            if (in_mex[i]) {
+                ans[i] = 1000000000;
+            } else {
+                ans[i] = k;
+            }
         } else {
-            for(int p = l[i]; p <= r[i]; p++) 
-                inAnyMex[p]=1;
-            mexRanges.emplace_back(l[i], r[i]);
+            ans[i] = val % k;
+            val++;
         }
     }
 
-    for(int i= 0; i < n; i++){
-        if(inAnyMin[i] && !inAnyMex[i]) 
-            ans[i] = k;
-    }
-
-    for(auto &seg : mexRanges){
-        int L = seg.first, R = seg.second;
-        vector<int> cand;
-        for(int p= L;  p <= R; p++){
-            if(!inAnyMin[p]) 
-                cand.push_back(p);
-        }
-        for(int v= 0; v < k; v++){
-            bool found = false;
-            for(int pos : cand){
-                if(v == ans[pos]) { 
-                    found = true; 
-                    break; 
-                }
-            }
-            if(found) continue;
-            bool placed = false;
-            for(int pos : cand){
-                if(ans[pos] == BIG){
-                    ans[pos] = v;
-                    placed = true;
-                    break;
-                }
-            }
-            if(!placed){
-                int bestPos = -1, bestBad = INT_MAX;
-                for(int pos : cand){
-                    int bad = 0;
-                    for(auto &seg: mexRanges){
-                        int L = seg.first, R = seg.second;
-                        if(pos < L || pos > R) 
-                            continue;
-                        for(int w = 0; w < k; ++w){
-                            bool existsElse = false;
-                            for(int p=L; p<=R; ++p){
-                                if(p==pos) 
-                                    continue;
-                                if(ans[p]==w){ 
-                                    existsElse = true; 
-                                    break; 
-                                }
-                            }
-                            if(!existsElse && ans[pos]==w) 
-                                bad++;
-                        }
-                    }
-                    if(bad < bestBad){ 
-                        bestBad = bad; 
-                        bestPos = pos; 
-                    }
-                }
-                if(-1 == bestPos) 
-                    bestPos = cand[0];
-                ans[bestPos] = v;
-            }
-
-        }
-    }
-    for(int i = 0;i < n ; i++){
-        if(i) cout << ' ';
-        cout << ans[i];
+    FOR ( i , 0 , n) {
+        cout << ans[i] << (i == n - 1 ? "" : " ");
     }
     cout << '\n';
 }
