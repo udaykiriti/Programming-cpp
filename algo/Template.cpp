@@ -153,7 +153,6 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 */
 
 #include <bits/stdc++.h>
-#include <chrono>
 using namespace std;
 
 #ifdef LOCAL
@@ -244,7 +243,7 @@ Mat<T> make_mat(int n, int m, T val = T()) {
 */
 
 const int MOD = 998244353;  // 1e9+7;
-double PI = 3.14159265358979323846;
+const double PI = 3.14159265358979323846;
 int_64 INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
