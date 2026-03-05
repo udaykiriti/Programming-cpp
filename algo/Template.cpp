@@ -290,7 +290,7 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - a.begin())
 #define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
 
 
-tcT, class = enable_if_t<is_arithmetic_v<T>>>
+tcT, class = enable_if_t<is_arithmetic_v<T> > >
 void __print(T x) { cout << x << '\n'; }
 
 void __print(const string& s) { cout << '"' << s << '"'; }
@@ -449,13 +449,13 @@ struct Fenwik{
 **/
 
 int mex(const vi &a){
-    unordered_set<int>os;
-    os.reserve(a.size() * 2);
+    unordered_set<int>present;
+    present.reserve(a.size() * 2);
     for(int x : a)
         if(x >= 0)
-            os.insert(x);
+            present.insert(x);
     int curr(0);
-    while(os.find(curr) != os.end())
+    while(present.find(curr) != present.end())
         curr++;
     return curr;
 }
@@ -535,7 +535,7 @@ int main(/* int argc, char *argv[] */) {
  * Do not make large assumptions without a basic proof idea.
  * Overflow, bounds, and segfaults kill solutions;check them first.
  * Use DP to relax constraints; store only the minimum required state.
- * Always carefull with Base conditions.
+ * Always careful with Base conditions.
  * special cases (n=1?) ,Edge cases.
  * do smth instead of nothing; stay organized.
  * WRITE STUFF DOWN.
