@@ -503,11 +503,7 @@ using i128 = __int128_t;
 
 void _GO() {
   // Solution Here.....
-    int_64 n, q;
-    cin >> n >> q;
-    int_64 ans = (n + q) / (2LL * (q + 1LL));
-    
-    cout << ans << '\n' ;
+  
 }
 
 int main(/* int argc, char *argv[] */) {
