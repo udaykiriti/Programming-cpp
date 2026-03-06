@@ -2,12 +2,12 @@ use std::io::{self, Read};
 use std::fmt::Write as FmtWrite;
 
 #[allow(dead_code)]
-struct fastio {
+struct FastIO {
     buf: Vec<u8>,
     pos: usize,
 }
 
-impl fastio {
+impl FastIO {
     #[inline]
     fn new() -> Self {
         let mut input = Vec::new();
@@ -43,7 +43,11 @@ impl fastio {
         self.skip_whitespace();
         let is_negative = self.pos < self.buf.len() && self.buf[self.pos] == b'-';
         if is_negative { self.pos += 1; }
-        let num = self.next_u64() as i64;
+        let mut num = 0i64;
+        while self.pos < self.buf.len() && self.buf[self.pos].is_ascii_digit() {
+            num = num * 10 + (self.buf[self.pos] - b'0') as i64;
+            self.pos += 1;
+        }
         if is_negative { -num } else { num }
     }
 
@@ -77,7 +81,7 @@ fn gcd(mut a: i64, mut b: i64) -> i64 {
     while b != 0 {
         (a, b) = (b, a % b);
     }
-    a.abs()
+    a
 }
 
 #[inline]
@@ -162,7 +166,7 @@ struct Fenwick {
 
 #[allow(dead_code)]
 impl Fenwick {
-    fn new(n: usize) -> Self { Self { n, bit: vec![0; n+1] } }
+    fn new(n: usize) -> Self { Self { n, bit: vec![0; n + 1] } }
 
     fn add(&mut self, mut idx: usize, delta: i64) {
         while idx <= self.n {
@@ -205,7 +209,7 @@ fn solve(sc: &mut fastio, out: &mut String) {
 }
 
 fn main() {
-    let mut sc = fastio::new();
+    let mut sc = FastIO::new();
     let mut out = String::with_capacity(1 << 20);
 
     solve(&mut sc, &mut out); 
