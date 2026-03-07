@@ -603,9 +603,47 @@ bool cmp(const pair<P, int>& a, const pair<P, int>& b) {
     return a.F.x * b.F.y - a.F.y * b.F.x > 0;
 }
 
+struct ball {
+  int v, id;
+};
+
+int n,a[200005],d = 0;
+vi g[200005];
+string ans[200005];
+map<int, int> f;
+
+void dfs(int u, int p) {
+
+    if (f[a[u]]++ > 0) 
+      d++;
+
+    ans[u] = d ? "Yes" : "No";
+
+    for (int v : g[u]) 
+      if (v != p) 
+        dfs(v,u);
+
+    if (--f[a[u]] >0) 
+      d--;
+}
+
 void _GO() {
   //Solution Here.....
-  
+  cin >> n;
+  for (int i{1}; i <= n; i++) 
+    cin >> a[i];
+
+  FOR (i , 1  ,n) {
+    int u,v;
+    cin >> u >> v;
+    g[u].pb(v); 
+    g[v].pb(u);
+  }
+  dfs(1, 0);
+
+  for (int i = 1; i <= n; i++) 
+    cout << ans[i] << '\n';
+
 }
 
 int main(/* int argc, char *argv[] */) {
