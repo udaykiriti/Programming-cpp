@@ -530,9 +530,9 @@ void _GO() {
   }
 
   vi p(n);
-
-  FOR ( i , 0 , n) p[i] = i;
+  iota(p.begin(), p.end(), 0);
   vi r;
+
   do {
     vi c = f(b, p);
 
@@ -541,7 +541,6 @@ void _GO() {
   } while (next_permutation(all(p)));
 
   for (size_t i = 0; i < r.size(); ++i) {
-
     cout << r[i] << (i == r.size() - 1 ? "" : " ");
     
   }
