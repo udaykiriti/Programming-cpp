@@ -1,4 +1,7 @@
-#undef _GLIBCXX_DEBUG
+#ifndef DEBUG_H
+#define DEBUG_H
+
+#define _GLIBCXX_DEBUG
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,7 +20,7 @@ string to_string(const string& s) {
 }
 
 string to_string(const char* s) {
-  return to_string((string) s);
+  return to_string(string(s));
 }
 
 string to_string(bool b) {
@@ -42,7 +45,7 @@ template <size_t N>
 string to_string(bitset<N> v) {
   string res = "";
   for (size_t i = 0; i < N; i++) {
-    res += static_cast<char>('0' + v[i]);
+    res += ('0' + v[i]);
   }
   return res;
 }
@@ -87,4 +90,6 @@ void debug_out(Head H, Tail... T) {
   debug_out(T...);
 }
 
-#define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
+#define debug(...) cerr << "[" << #__VA_ARGS__ << "]:"; debug_out(__VA_ARGS__)
+
+#endif
