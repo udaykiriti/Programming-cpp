@@ -1,0 +1,35 @@
+Programming C++
+=================
+A collection of programming solutions in C++(mostly).
+
+Structure
+-----------------
+- codeforces/ - Solutions to some Codeforces problems, organized by contest ranges:
+  - 0-99/ to 2100-2199/ - Problems grouped by contest number
+  - misc/ - Problems with descriptive names
+- Atcoder.cpp - AtCoder problem template
+- Templates/ - templates for programming
+- practice/ - Practice codes by topics
+- algo/ - debug header file
+- resorces/ - Machine learning , Java , OOPS...
+- unsolved/ - Problems yet to be solved
+
+Scripts
+----------------
+- create.sh - Create new C++ file from template
+- sol.sh - Solution helper script
+- git.sh - Git automation script
+
+Usage
+----------------
+Use the provided shell scripts to compile and run C++ programs:
+
+./create.sh <fname>    # create from algo/Template
+./sol.sh <fname>       # output in cli && out.txt file
+
+references(docs/)
+----------------
+- git.txt - Git commands 
+- gdb.txt - GDB debugging 
+- vim.txt - vim commands 
+- emacs.txt - emacs commads 
