@@ -9,13 +9,25 @@ ORANGE='\033[38;2;255;140;0m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-if [ -z "$1" ]; then
+if [ -z "${1:-}" ]; then
   echo -e "${YELLOW}[Usage] :${NC} create <name> [-cpp]"
   exit 1
 fi
 
 FILENAME="$1"
-EXTENSION="$2"
+EXTENSION="${2:-}"
+
+if [ "$#" -gt 2 ]; then
+  echo -e "${RED}[Error] :${NC} Too many arguments"
+  echo -e "${YELLOW}[Usage] :${NC} create <name> [-cpp]"
+  exit 1
+fi
+
+if [ -n "$EXTENSION" ] && [ "$EXTENSION" != "-cpp" ]; then
+  echo -e "${RED}[Error] :${NC} Unknown option: $EXTENSION"
+  echo -e "${YELLOW}[Usage] :${NC} create <name> [-cpp]"
+  exit 1
+fi
 
 if [ "$EXTENSION" == "-cpp" ]; then
   FILENAME="${FILENAME}.cpp"
@@ -32,7 +44,7 @@ if [ -f "$FILENAME" ]; then
   echo -e "${ORANGE}[Warning!!!] :${NC} $FILENAME Already exists....${NC} "
   echo -e "${RED}[Danger...]: Verify Twice and Enter "y" cuz the Data will be Destroyed${NC}"
   read -rp "[r u Sure...]: Overwrite? (y/n) [Now the Danger Begins]: " choice
-  [[ "$choice" != "y" ]] && echo -e "${RED}Aborted...[I mean Operation Cancelled]" && exit 1
+  [[ ! "$choice" =~ ^([yY]|[yY][eE][sS])$ ]] && echo -e "${RED}Aborted...[I mean Operation Cancelled]" && exit 1
 fi
 
 cp "$TEMPLATE" "$FILENAME" &&

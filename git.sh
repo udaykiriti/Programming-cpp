@@ -13,6 +13,15 @@ FLAG_SIGNOFF=false
 TARGET_BRANCH=""
 COMMIT_MESSAGE=""
 
+required() {
+  local opt="$1"
+  local val="${2-}"
+  if [[ -z "$val" || "$val" == -* ]]; then
+    printf "\n%b[!] Option %s requires a value.%b\n" "$COLOR_ERROR" "$opt" "$COLOR_RESET" >&2
+    exit 1
+  fi
+}
+
 supports_color() {
   [[ -t 1 ]] && [[ "${TERM:-}" != "dumb" ]]
 }
@@ -107,10 +116,15 @@ while [[ $# -gt 0 ]]; do
     -n|--no-push)        FLAG_PUSH=false; shift ;;
     -a|--all)            FLAG_COMMIT_ALL=true; shift ;;
     -s|--signoff)        FLAG_SIGNOFF=true; shift ;;
-    -b|--branch)         TARGET_BRANCH="$2"; shift 2 ;;
+    -b|--branch)
+      required "$1" "${2-}"
+      TARGET_BRANCH="$2"
+      shift 2
+      ;;
     --dry-run)           FLAG_DRY_RUN=true; shift ;;
     --interactive)       FLAG_INTERACTIVE=true; shift ;;
     --theme)
+      required "$1" "${2-}"
       COLOR_THEME="$2"
       supports_color && init_colors
       shift 2
@@ -145,7 +159,7 @@ echo
 
 run_step "Staging Changes" git add .
 
-if ! $FLAG_COMMIT_ALL && git diff --cached --quiet; then
+if git diff --cached --quiet; then
   printf "\n  %b[!] No staged changes. Nothing to commit.%b\n\n" "$COLOR_DIM" "$COLOR_RESET"
   exit 0
 fi

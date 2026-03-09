@@ -28,18 +28,24 @@ else
   CYAN=''
   BOLD=''
   NC=''
+  ORANGE=''
 fi
 
 usage() {
   cat <<EOF
-Usage: $0 [-s source.cpp] [-i in.txt] [-o out.txt] [-c compiler] [-f "extra flags"] [source.cpp]
-Example: $0 -s solution.cpp -i sample.in -o sample.out -f "-g -O0"
+Usage: $0 [-s source.cpp] [-i in.txt] [-o out.txt] [-c compiler] [-f "extra flags"] [-t] [source.cpp]
+Example: $0 -s solution.cpp -i sample.in -o sample.out -f "-g -O0" -t
 EOF
 }
 
-log() { printf "%b%b%b\n" "$BLUE" ">> $*" "$NC"; }
-ok()  { printf "%b%b%b\n" "$GREEN" "$*" "$NC"; }
-err() { printf "%b%b%b\n" "$RED" "$*" "$NC" >&2; }
+_ts() {
+  if [[ "$TIMESTAMP" == true ]]; then
+    printf "[%s] " "$(date '+%H:%M:%S')"
+  fi
+}
+log() { printf "%b%s%b\n" "$BLUE" "$(_ts)>> $*" "$NC"; }
+ok()  { printf "%b%s%b\n" "$GREEN" "$(_ts)$*" "$NC"; }
+err() { printf "%b%s%b\n" "$RED" "$(_ts)$*" "$NC" >&2; }
 
 while getopts ":s:i:o:c:f:th" opt; do
   case "$opt" in
@@ -96,20 +102,6 @@ fi
 command -v "$COMPILER" >/dev/null || {
   err "[Error]: Compiler not found: $COMPILER"
   exit 1
-}
-
-_banner1() {
-  cat <<'BANNER'
-   ██████╗ ██████╗ ██████╗
-  ██╔════╝ ██╔══██╗ ██╔══██╗
-  ██║      ██████╔╝ ██████╔╝
-  ██║      ██╔═══╝  ██╔═══╝
-  ╚██████╗ ██║      ██║
-   ╚═════╝ ╚═╝      ╚═╝
-
-        C++ Competitive Compiler
-      Fast • Strict • Unforgiving
-BANNER
 }
 
 _banner() {
