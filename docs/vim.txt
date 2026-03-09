@@ -1,6 +1,5 @@
-================================================================================
-                                  VIM COMMANDS
-================================================================================
+VIM COMMANDS
+[>=========<>========<>========<>========<]
 
 1. MODES:
 i           -> insert mode
@@ -310,3 +309,43 @@ p           -> paste
  :%norm i//         -> comment out every line (insert // at start)
  :5,10norm 0x       -> delete first char of lines 5-10
  :'<,'>norm A;      -> append ; to end of every line in selection
+
+40. DAILY LIFE TIPS:
+ :set number relativenumber -> easier movement in long files
+ :set ignorecase smartcase  -> better search behavior
+ :set hlsearch incsearch    -> instant highlighted search feedback
+ :set clipboard=unnamedplus -> use system clipboard by default
+ :set undofile              -> persistent undo between sessions
+ :set mouse=a               -> enable mouse when needed
+ :noh                       -> clear search highlight quickly
+ :w                         -> save often before risky substitutions/macros
+ :e!                        -> reload file from disk (discard unsaved edits)
+ .                          -> repeat last change (big speed boost)
+
+41. PANIC SITUATIONS (FAST RECOVERY):
+ Stuck in insert/visual/unknown mode:
+  Esc Esc                   -> return to normal mode
+
+ Need to quit right now, no save:
+  :q!
+
+ Made a bad bulk replace/edit:
+  u                         -> undo
+  Ctrl+r                    -> redo if needed
+  :earlier 10m              -> go to file state from 10 minutes ago
+  :later 10m                -> move forward again
+
+ Opened file and got swap warning:
+  vim -r <file>             -> recover from swap
+  :w recovered_<file>       -> save recovered content safely first
+
+ Pasted code got destroyed indentation:
+  :set paste                -> before paste
+  :set nopaste              -> after paste
+  gg=G                      -> reindent full file
+
+ Read-only file but need to save:
+  :w !sudo tee % >/dev/null
+
+ Before risky refactor:
+  :w %:p.bak                -> quick backup copy
