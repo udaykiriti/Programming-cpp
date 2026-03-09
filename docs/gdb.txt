@@ -1,397 +1,189 @@
-GDB, VIM & EMACS CHEAT SHEET
-============================
+GDB CHEAT SHEET
+[>=========<>========<>========<>========<]
 
-TABLE OF CONTENTS
------------------
-GDB:
-  1. Compilation
-  2. Starting GDB
-  3. Breakpoints
-  4. Execution
-  5. Print Variables
-  6. Backtrace
-  7. Jump
-  8. Memory
-  9. Segfault Debugging
-  10. Search/List
-  11. TUI Mode
-  12. Useful Settings
-  13. Quitting GDB
-
-VIM:
-  1. Modes
-  2. Movement
-  3. Edit/Delete
-  4. Visual Mode Actions
-  5. Search/Replace
-  6. File Operations
-  7. Indent/Format
-  8. Windows/Tabs
-  9. Multi-line Edits
-  10. Settings
-  11. Useful Tricks
-  12. Marks and Jumps
-  13. Registers
-  14. Macros
-
-EMACS:
-  1. Basic Movement
-  2. Editing
-  3. Searching
-  4. Replace
-  5. File Operations
-  6. Selecting Text
-  7. Windows (Splits)
-  8. Buffers
-  9. Indent & Code
-  10. Macros
-  11. Useful Tricks
-  12. Rectangles (Block Editing)
-
-================================================================================
-                                    GDB NOTES
-================================================================================
-
-1. Compile with debug symbols:
-   g++ -g -O0 file.cpp -o a.out
-
-   If you dont want to debug and want to use external debugs:
-   g++ -std=c++20 -Wall -Wextra -O2 -DLOCAL name.cpp -o name
-   ./name < in.txt > out.txt
+Quick start:
+1) Compile with symbols: g++ -g -O0 -Wall -Wextra file.cpp -o app
+2) Start debugger:      gdb ./app
+3) Run program:         run
+4) If crash happens:    bt
 
 
-2. Start GDB:
-   gdb ./a.out
-   run           [normal run]
-   run < in.txt  [with input file]
-
-3. Breakpoints:
-   [At specific line or may be functions names and you can watch vars]
-   watch varname       [watch variable when they change]
-   break 25            [at specific line marks as Breakpoint]
-   break solve         [at particular functions]
-   break 42 if x > 100 [at conditions]
-
-   info break  [about Breakpoints]
-   delete 2    [delete watch points]
-   rwatch name [detect when a variable is read]
-   awatch name [detect all access "r" + "w"] 
-   disable 1 / enable 1 [disable or enable ]
-   watch *ptr  [watch pointer]
-
-4. Execution:
-   continue [resumes and go and stops until the next Breakpoint]
-   step     [go to piece of line even may be like (Increment of program counter)pc + 1][if function present it go to it]
-   next     [Executes && go to piece of line like pc + 1][skips functions]
-   finish   [run until current function returns]
-   si       [next instruction not code or any line][like Assembler]
-
-5. Print variables:
-   print x     [value of variable]
-   p x         [short notation of print x]
-   p arr[0]@10 [print 10 consecutive elements from arr[0]]
-   p vec       [entire array or vector]
-   p *ptr      [prints the value stores in that Memory location]
-   watch x     [Stops execution when the value of x changes]
-
-6. Backtrace:
-   bt       [show the call stack (functions that led to the current point)]
-   bt full  [show the call stack with local variables for each frame]
-   frame 2  [switch to stack frame #2 to inspect its variables and context.]
-
-7. Jump:
-   jump 60 [move execution to that line {skips b/w lines}]
-
-8. Memory:
-   x/20xb &arr [examine 20 bytes of memory at &arr in hex {x = hex, b = byte}]
-   x/5i $pc    [show the next 5 assembly instructions starting at the current program counter ($pc)]
-
-9. Segfault debugging:
-   run [runs the entire program until it crashes]
-   bt [after crash, show the call stack to find the exact line that caused the segmentation fault]
-
-10. Search:
-   list       [show Src code around the current line]
-   list 40    [show Src code around line 40]
-   list solve [show the Src code of the fun solve()]
-
-11. TUI mode:
-   layout src [open TUI mode showing the source code window]
-   layout asm [open TUI mode showing the assembly instructions]
-   layout regs [open TUI mode showing CPU registers]
-
-12. Useful settings:
-   set pagination off   [disable “—More—” prompts for uninterrupted output]
-   set print pretty on  [pretty-print complex structures (STL containers, structs)]
-   set logging on       [start logging all GDB output to a file (gdb.txt by default)]
-
-13. Quitting GDB:
-   quit        [exit GDB]
-   q           [short for quit]
+1. STARTING GDB
+gdb ./app                 -> open executable
+run                       -> run program
+run < input.txt           -> run with redirected input
+run arg1 arg2             -> run with command-line args
+start                     -> run and stop at main
 
 
-================================================================================
-                                  VIM COMMANDS
-================================================================================
+2. BREAKPOINTS AND WATCHPOINTS
+break 42                  -> breakpoint at line 42
+break main                -> breakpoint at function main
+break file.cpp:42         -> breakpoint in specific file
+break foo if x > 10       -> conditional breakpoint
+tbreak 100                -> temporary breakpoint (auto-deletes after hit)
+ignore 2 5                -> ignore breakpoint #2 for next 5 hits
+condition 2 x == 0        -> add/change condition on breakpoint #2
+commands 2                -> add auto-commands to breakpoint #2
+info break                -> list breakpoints
+delete 2                  -> delete breakpoint #2
+disable 2 / enable 2      -> disable/enable breakpoint #2
+clear 42                  -> clear breakpoint at line 42
 
-1. MODES:
-i           -> insert mode
-a           -> insert after cursor
-o           -> new line below and insert
-I           -> insert at start of line
-A           -> insert at end of line
-Esc         -> switch to normal mode
-v           -> visual mode
-V           -> visual line mode
-Ctrl+v      -> visual block mode
-
-2. MOVEMENT:
-h j k l     -> left, down, up, right
-w           -> next word
-b           -> previous word
-e           -> end of word
-0           -> start of line
-$           -> end of line
-gg          -> go to start of file
-G           -> go to end of file
-:number     -> go to specific line
-%           -> jump matching bracket
-f<char>     -> jump to next occurrence of char
-
-3. EDIT/DELETE:
-x           -> delete character
-dd          -> delete line
-dw          -> delete word
-d$          -> delete to end of line
-D           -> delete to end of line
-yy          -> copy line
-y6j         -> copy the curr to next num line
-yw          -> yank word
-y$          -> yank to end of line
-p           -> paste below
-P           -> paste above
-u           -> undo
-Ctrl+r      -> redo
-
-4. VISUAL MODE ACTIONS:
-v           -> visual start
-V           -> visual line
-Ctrl+v      -> block selection
-d           -> delete selection
-y           -> yank selection
-p           -> paste
->           -> indent
-<           -> unindent
-
-5. SEARCH/REPLACE:
- /text      -> search forward
- ?text      -> search backward
- n          -> repeat search
- N          -> reverse search
- *          -> search word under cursor forward
- #          -> search word under cursor backward
- :%s/old/new/g      -> replace all in file
- :%s/old/new/gc     -> replace all with confirm
- :s/old/new/g       -> replace all in current line
- :%s/old/new/gi     -> replace all (case insensitive)
- :5,10s/old/new/g   -> replace in lines 5-10
- :'<,'>s/old/new/g  -> replace in visual selection
-
-6. FILE OPERATIONS:
- :w         -> save
- :q         -> quit
- :q!        -> quit no save
- :wq        -> save and quit
- :x         -> save and quit
- ZZ         -> save and quit (normal mode)
- ZQ         -> quit without saving (normal mode)
- :w new.txt -> save to new file
- :e file    -> open file
- :r file    -> insert file contents
- :!command  -> run shell command
- :r !cmd    -> insert command output
-
-7. INDENT/FORMAT:
- ==         -> auto-indent line
- gg=G       -> auto-indent file
- >>         -> indent
- <<         -> unindent
-
-8. WINDOWS/TABS:
- :sp        -> horizontal split
- :vsp       -> vertical split
- Ctrl+w w   -> switch split
- Ctrl+w c   -> close split
- Ctrl+w =   -> equal size
- :tabnew    -> new tab
- :tabn      -> next tab
- :tabp      -> prev tab
-
-9. MULTI-LINE EDITS:
- 5yy        -> yank 5 lines
- 3dd        -> delete 3 lines
-
-10. SETTINGS:
- :set number            -> show line numbers
- :set relativenumber    -> relative numbers
- :set tabstop=4 shiftwidth=4 expandtab
- :set paste             -> paste mode
- :set nopaste
- :set hlsearch          -> highlight search results
- :set nohlsearch        -> disable highlight
- :noh                   -> clear current highlight
- :set ignorecase        -> case insensitive search
- :set smartcase         -> smart case (case sensitive if uppercase used)
- :set wrap / nowrap     -> toggle line wrapping
- :syntax on/off         -> toggle syntax highlighting
-
-11. USEFUL TRICKS:
- .           -> repeat last command
- ciw         -> change inner word (delete word and enter insert mode)
- ci"         -> change inside quotes
- ci(         -> change inside parentheses
- ca(         -> change around parentheses (includes brackets)
- diw         -> delete inner word
- di"         -> delete inside quotes
- yiw         -> yank inner word
- gUiw        -> uppercase word
- guiw        -> lowercase word
- ~           -> toggle case of character
- J           -> join lines
- gq          -> format text (wrap lines)
- Ctrl+a      -> increment number
- Ctrl+x      -> decrement number
- :sort       -> sort lines
- :sort u     -> sort and remove duplicates
- :%!column -t -> align columns
-
-12. MARKS AND JUMPS:
- ma          -> set mark 'a' at cursor
- 'a          -> jump to mark 'a'
- ''          -> jump to last position
- Ctrl+o      -> jump to older position
- Ctrl+i      -> jump to newer position
- :marks      -> list all marks
-
-13. REGISTERS:
- "ayy        -> yank line to register 'a'
- "ap         -> paste from register 'a'
- "+y         -> yank to system clipboard
- "+p         -> paste from system clipboard
- :reg        -> show all registers
-
-14. MACROS:
- qa          -> start recording macro to register 'a'
- q           -> stop recording
- @a          -> play macro 'a'
- @@          -> repeat last macro
- 10@a        -> play macro 'a' 10 times
+watch x                   -> stop when x changes
+rwatch x                  -> stop when x is read
+awatch x                  -> stop when x is read/written
+info watch                -> list watchpoints
 
 
-================================================================================
-                                 EMACS COMMANDS
-================================================================================
+3. EXECUTION CONTROL
+continue (or c)           -> continue until next stop
+next (or n)               -> step over
+step (or s)               -> step into
+nexti (or ni)             -> step one machine instruction (no function entry)
+stepi (or si)             -> step one machine instruction (can enter calls)
+finish                    -> run until current function returns
+until 80                  -> run until line 80 in current frame
+jump 120                  -> set next line to execute (use carefully)
 
-1. BASIC MOVEMENT:
-C-f        -> move right
-C-b        -> move left
-C-n        -> next line
-C-p        -> previous line
-M-f        -> next word
-M-b        -> previous word
-C-a        -> start of line
-C-e        -> end of line
-M-<        -> start of file
-M->        -> end of file
 
-2. EDITING:
-C-d        -> delete char
-M-d        -> delete word forward
-M-Del      -> delete word backward
-C-k        -> kill to end of line
-C-y        -> yank (paste)
-M-y        -> cycle kill-ring
-C-/ or C-_ -> undo
-C-g        -> cancel command
+4. STACK AND FRAMES
+bt                        -> backtrace (call stack)
+bt full                   -> backtrace with locals
+frame 0                   -> select frame 0
+up / down                 -> move up/down call stack
+info frame                -> details about current frame
 
-3. SEARCHING:
-C-s        -> search forward
-C-r        -> search backward
-C-s C-s    -> repeat search
-C-s C-w    -> search word at cursor
-M-%        -> query replace (find and replace with confirm)
-C-M-%      -> query replace regexp
 
-4. REPLACE:
-M-%        -> query replace
-             (y = replace, n = skip, ! = replace all, q = quit)
-M-x replace-string    -> replace all without confirm
-M-x replace-regexp    -> replace using regex
+5. INSPECT VARIABLES
+print x                   -> print variable
+p x                       -> short for print
+p *ptr                    -> print dereferenced pointer
+p arr[0]@10               -> print 10 elements from arr[0]
+p/x x                     -> print x in hex
+p/t flags                 -> print in binary
+set var x = 42            -> change variable value while debugging
+ptype x                   -> show type of x
+info locals               -> show local variables
+info args                 -> show function arguments
+display x                 -> print x every stop
+undisplay 1               -> remove display #1
 
-5. FILE OPERATIONS:
-C-x C-s    -> save file
-C-x C-f    -> open file
-C-x C-w    -> save as
-C-x C-c    -> quit emacs
-C-x C-r    -> open file read-only
-C-x i      -> insert file contents
-M-x shell  -> open shell in emacs
 
-6. SELECTING TEXT:
-C-space    -> set mark (begin selection)
-C-w        -> cut region
-M-w        -> copy region
-C-y        -> paste
-C-x h      -> select all
-M-h        -> select paragraph
+6. SOURCE AND CODE VIEW
+list                      -> show source around current line
+list 40                   -> show source around line 40
+list foo                  -> show source around function foo
 
-7. WINDOWS (SPLITS):
-C-x 2      -> split horizontally
-C-x 3      -> split vertically
-C-x 0      -> close current window
-C-x 1      -> close all other windows
-C-x o      -> switch window
-C-x ^      -> increase window height
-C-x {      -> shrink window horizontally
-C-x }      -> enlarge window horizontally
+layout src                -> TUI source view
+layout asm                -> TUI assembly view
+layout regs               -> TUI registers view
+tui enable / tui disable  -> toggle TUI mode
 
-8. BUFFERS:
-C-x b      -> switch buffer
-C-x C-b    -> list buffers
-C-x k      -> kill buffer
-C-x left   -> previous buffer
-C-x right  -> next buffer
 
-9. INDENT & CODE:
-Tab        -> indent line
-M-;        -> comment/uncomment line
-C-M-\      -> indent region
-C-x Tab    -> indent region rigidly
-M-q        -> fill paragraph (wrap text)
-M-u        -> uppercase word
-M-l        -> lowercase word
-M-c        -> capitalize word
+7. MEMORY AND REGISTERS
+x/16xb &arr               -> examine 16 bytes in hex
+x/10dw arr                -> examine 10 words as decimal
+x/4gx ptr                 -> examine 4 giant words in hex
+x/5i $pc                  -> show 5 instructions at program counter
+info registers            -> show CPU registers
+disassemble               -> disassemble current function
+disassemble /m main       -> mixed source + assembly for main
 
-10. MACROS:
-C-x (      -> start recording macro
-C-x )      -> stop recording
-C-x e      -> play macro
-C-u 10 C-x e -> play macro 10 times
 
-11. USEFUL TRICKS:
-C-l        -> center screen on cursor
-M-g g      -> go to line number
-C-x C-+    -> increase font size
-C-x C--    -> decrease font size
-M-x linum-mode     -> toggle line numbers
-M-x whitespace-mode -> show whitespace
-C-x u      -> undo tree (if available)
-C-h k      -> describe key binding
-C-h f      -> describe function
-M-x describe-bindings -> show all key bindings
+8. THREADS (MULTI-THREAD)
+info threads              -> list threads
+thread 3                  -> switch to thread 3
+thread apply all bt       -> backtrace for all threads
+thread apply all bt full  -> backtrace + locals for all threads
 
-12. RECTANGLES (block editing):
-C-x r k    -> kill rectangle
-C-x r y    -> yank rectangle
-C-x r t    -> replace rectangle with string
-C-x r o    -> insert blank rectangle
+
+9. COMMON DEBUG FLOWS
+Segmentation fault flow:
+run                       -> execute until crash
+bt                        -> find where it crashed
+frame N                   -> switch relevant frame
+info locals               -> inspect local values
+p variable                -> inspect suspicious pointers/indices
+
+Infinite loop flow:
+Ctrl+C                    -> interrupt running program
+bt                        -> see where it is stuck
+info locals               -> inspect loop variables
+
+
+10. USEFUL SETTINGS
+set pagination off        -> disable "--More--" pauses
+set print pretty on       -> pretty-print structs/containers
+set print elements 0      -> do not truncate long arrays/strings
+set confirm off           -> fewer confirmation prompts
+set history save on       -> save command history
+set disassemble-next-line on -> show asm around next instruction
+
+set logging file gdb.log  -> log file name
+set logging on            -> start logging output
+set logging off           -> stop logging output
+
+
+11. PROCESS CONTROL
+attach <pid>              -> attach to running process
+detach                    -> detach from attached process
+kill                      -> terminate program being debugged
+set follow-fork-mode child -> follow child after fork (or parent)
+
+
+12. EXIT AND HELP
+help                      -> general help
+help break                -> help for break command
+apropos regex             -> find commands by keyword
+info functions <regex>    -> list functions matching regex
+info variables <regex>    -> list globals/statics matching regex
+quit (or q)               -> exit GDB
+
+
+13. ONE PRACTICAL SESSION
+(gdb) break main
+(gdb) run < in.txt
+(gdb) next
+(gdb) print n
+(gdb) break solve if n < 0
+(gdb) continue
+(gdb) bt
+(gdb) info locals
+(gdb) quit
+
+14. IMPORTANT TIPS
+- Build with `-g -O0` while debugging (`-O2` can hide or move variables).
+- Reproduce with the same input every run (`run < input.txt`) to debug faster.
+- For crashes, start with `bt`, then `frame`, then `info locals`.
+- Use conditional breakpoints (`break line if cond`) to avoid stopping too often.
+- Use watchpoints sparingly; they can be expensive on large programs.
+- If stepping is slow in templates/STL, prefer `next` and targeted breakpoints.
+- For multithreaded bugs, run `thread apply all bt` immediately after stop/crash.
+- Log sessions when sharing issues: `set logging on`.
+
+15. PANIC SITUATIONS (FAST RECOVERY)
+Program runs forever / hangs:
+- `Ctrl+C`                  -> interrupt execution immediately
+- `bt`                      -> see where it is stuck
+
+Stepped too far or changed state badly:
+- `run`                     -> restart clean run
+- `start`                   -> restart and stop at `main`
+
+Too many breakpoints stopping constantly:
+- `disable <num>`           -> temporarily disable noisy breakpoint
+- `delete <num>`            -> remove it
+
+Debugger output is overwhelming:
+- `set pagination off`      -> reduce prompts
+- `set logging on`          -> log output to inspect calmly
+
+16. DAILY LIFE TIPS
+- Start sessions with `set pagination off` and `set print pretty on`.
+- Use conditional breakpoints early to avoid hundreds of useless stops.
+- Use `display <expr>` for variables you inspect repeatedly.
+- Keep one input file per bug case and run with `run < case.txt`.
+- After fix, rerun once without breakpoints to validate clean behavior.
+
+Tip: If values look "optimized out", recompile with -O0 and -g.

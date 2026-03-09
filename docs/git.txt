@@ -1,404 +1,274 @@
-
-# ===================================================================================
-#                              GIT COMMANDS CHEAT SHEET
-# ===================================================================================
-
-# TABLE OF CONTENTS
-# -----------------
-# 1. Git Basics & Setup
-# 2. Remote Interaction
-# 3. Branch Management
-# 4. Merging
-# 5. Rebasing
-# 6. Conflict Resolution
-# 7. Logs and History
-# 8. Undo & Reset
-# 9. Staging & Committing
-# 10. Tagging
-# 11. Feature Branch Workflow
-# 12. Merge Conflict Resolution Cheat Sheet
-# 13. Git Stash
-# 14. Git Cherry-Pick
-# 15. Debugging & Investigation
-# 16. Appendix: Vim Commands for Git
-
-# ===================================================================================
-
-#  Git Basics & Setup -------------------------------------------------------------------
-
-git init                                            # Initialize a new git repository locally [Mandatory]
-git clone <repo-url>                                # Clone an existing remote repository
-git config --global user.name "Name"                # Set your global git {username}
-git config --global user.email "email@example.com"  # Set your global {email}
-git config --global core.editor "code --wait"       # Set VS Code as default editor
-
-#  Remote Interaction -------------------------------------------------------------------
-
-git remote -v                            # List all remotes and their URLs (mainly github repo)
-git remote add origin <repo-url>         # Add a remote repo called 'origin'
-
-# Note: fetch brings data to local repo (not working directory), pull fetches and merges to working directory
-git fetch                                # Fetch all remote branches without merging
-git pull                                 # Fetch and merge into current branch
-
-git fetch --prune                        # Fetch and clean deleted remote branches locally
-git pull origin <branch>                 # Fetch and merge remote branch into current branch
-git push origin <branch>                 # Push your local branch to remote
-git push -u origin <branch>              # Push and set upstream tracking branch
-git push origin --delete <branch>        # Delete a remote branch
-
-
-#  Branch Management-------------------------------------------------------------------
-
-git branch                               # List local branches
-git branch -r                            # List remote branches
-git branch -a                            # List all branches (local + remote)
-git branch <new-branch>                  # Create a new branch (locally)
-git checkout <branch>                    # Switch to an existing branch
-git checkout -b <new-branch>             # Create and switch to a new branch (older style)
-git switch <branch>                      # Switch branch (modern)
-git switch -c <new-branch>               # Create and switch (modern)
-git branch -d <branch>                   # Delete a local branch (only if merged)
-git branch -D <branch>                   # Force delete a local branch (even if unmerged)
-
-#  Merging-------------------------------------------------------------------
-
-git checkout main                        # Switch to main branch
-git merge <feature-branch>               # Merge feature into current branch
-git merge --no-commit --no-ff <branch>   # Merge but stop before committing (to review changes)
-git merge --abort                        # Abort merge if conflicts
-
-#  Rebasing -------------------------------------------------------------------
-
-# Rebase replays your commits on top of another branch (cleaner history than merge)
-git rebase <branch>                      # Rebase current branch onto <branch>
-git rebase main                          # Rebase current branch onto main
-git rebase -i HEAD~3                     # Interactive rebase last 3 commits (squash, reorder, edit)
-git rebase --continue                    # Continue after resolving rebase conflicts
-git rebase --abort                       # Abort rebase and return to original state
-
-# When to use rebase vs merge:
-# - Use rebase for feature branches before merging (cleaner history)
-# - Use merge for shared branches or when you want to preserve branch history
-# - Never rebase commits that have been pushed to a shared branch
-
-#  Conflict Resolution-------------------------------------------------------------------
-
-# After resolving conflicts:
-git add <file>
-git commit
-
-#  Logs and History -------------------------------------------------------------------
-
-git log                                  # Full commit history
-git log --oneline --graph --all          # Visual branch graph
-git status                               # Show current changes
-git diff                                 # Show unstaged changes
-git diff --staged                        # Show staged changes (before commit)
-git show <commit-hash>                   # Show a specific commit
-
-#  Undo & Reset -------------------------------------------------------------------
-
-git reset --hard HEAD                    # Reset to last commit (dangerous)
-git checkout -- <file>                   # Discard changes in working directory for a file
-git restore <file>                       # Discard changes (modern alternative to checkout --)
-git reset HEAD <file>                    # Unstage a staged file (keep changes in working dir)
-git reset --soft HEAD~1                  # Undo last commit but keep changes staged
-git reset --mixed HEAD~1                 # Undo last commit and unstage changes
-git reset --hard HEAD~1                  # Undo last commit and discard all changes (dangerous!)
-git revert <commit-hash>                 # Create a new commit that undoes a previous commit (safe for pushed commits)
-git reflog                               # Show history of HEAD changes (useful for recovering lost commits)
-
-
-#  Staging & Committing -------------------------------------------------------------------
-
-git add .                                # Stage all files
-git add <file>                           # Stage one file
-git commit -m "Your message"             # Commit staged changes
-git commit --amend                       # Modify the last commit (message or add files)
-git commit --amend -m "New message"      # Change last commit message
-git commit --amend --no-edit             # Add staged files to last commit without changing message
-
-#  Tagging -------------------------------------------------------------------
-
-git tag                                  # List all tags
-git tag <tag-name>                       # Create a lightweight tag
-git tag -a v1.0.0 -m "Version 1.0.0"     # Create an annotated tag with message
-git tag -a v1.0.0 <commit-hash>          # Tag a specific commit
-git show <tag-name>                      # Show tag details
-git push origin <tag-name>               # Push a specific tag to remote
-git push origin --tags                   # Push all tags to remote
-git tag -d <tag-name>                    # Delete a local tag
-git push origin --delete <tag-name>      # Delete a remote tag
-
-# Feature Branch Workflow-------------------------------------------------------------------
-
-git checkout main
-git pull origin main
-git checkout -b <feature-branch>
-# Make changes
-git add .
-git commit -m "Do some stuff"
-git push origin <feature-branch>
-# Merge later:
-git checkout main
-git pull origin main
-git merge <feature-branch>
-git push origin main
-# Optionally delete:
-git branch -d <feature-branch>
-git push origin --delete <feature-branch>
-
-Git Merge Conflict Resolution Cheat Sheet
-============================================
-
-Detecting Conflicts
----------------------------------------------------
-To merge or pull and possibly create conflicts:
-    git pull origin <branch>
-    # or
-    git merge <branch>
-
-If there are conflicts, Git will show:
-    CONFLICT (content): Merge conflict in <file>
-    Automatic merge failed; fix conflicts and then commit the result.
-
-Fixing Conflicts
----------------------------------------------------------
-Note : 1. Don't work on main
-       2. One patch = one feature
-       3. rebase early , rebase often
-       4. Pull before you push
-
-Open each conflicted file and resolve manually. Look for markers like:
-    <<<<<<< HEAD
-    // your local changes
-    =======
-    // incoming changes from other branch
-    >>>>>>> branch-name
-
-Edit to keep the correct content and remove these markers.
-
-Mark as Resolved
-----------------------------------------------------
-After fixing each file:
-    git add <file>
-
-Commit the Merge
-----------------------------------------------------
-Finish the merge with:
-    git commit
-    # This will open the merge editor; save and close it.
-
-Optional Tools
-----------------------------------------------------
-Keep YOUR version:
-    git checkout --ours <file>
-    git add <file>
-
-Keep THEIR version:
-    git checkout --theirs <file>
-    git add <file>
-
-Abort the Merge
-----------------------------------------------------
-If you want to cancel the merge:
-    git merge --abort
-
-Example Flow
-----------------------------------------------------
-    git pull origin main
-    # Fix conflicts in each file manually
-    git add 1327A.cpp
-    git add 1373B.cpp
-    ...
-    git commit
-    git push origin main
-
-Done!
-
-# ---------------------------------------------------------
-GIT STASH AND CHERRY-PICK:
-
-git stash:
-1. git stash temporarily saves uncommitted changes.
-2. It is used when you want to switch branches without committing.
-3. After stashing, the working directory becomes clean.
-
-What git stash saves:
-    ->Modified tracked files
-    ->Staged files
-
-What git stash does NOT save:
-    ->Untracked files unless -u is used
-    ->Ignored files unless -a is used
-
-Basic stash command:
-    "git stash"
-    ->Saves changes and resets the working directory.
-
-Stash with message:
-    --->git stash push -m "message"<---
-    ->Saves changes with a description.
-
-Include untracked files:
-    git stash -u
-    git stash --include-untracked
-
-Include ignored files also:
-
-1. git stash -a
-
-Viewing stashes
-
-1. git stash list
-
-Example output
-
-1. stash@{0}: WIP on main
-2. stash@{1}: On dev
-
-Applying stash without deleting
-
-1. git stash apply
-2. git stash apply stash@{1}
-3. Applies stash but keeps it in the stash list.
-
-Applying stash and deleting
-
-1. git stash pop
-2. Applies stash and removes it from the stash list.
-
-Difference between apply and pop
-
-1. apply applies changes and stash remains.
-2. pop applies changes and stash is removed.
-
-Deleting stashes
-
-1. git stash drop stash@{0}
-   Deletes a specific stash.
-
-2. git stash clear
-   Deletes all stashes permanently.
-
-When to use git stash
-
-1. Switching branches quickly
-2. Saving half done work
-3. Temporary experiments
-4. Keeping a clean working tree
-
-GIT CHERRY-PICK
-
-1. Cherry-pick applies specific commit or commits from another branch.
-2. It creates new commits with new commit hashes.
-3. It does not merge the entire branch.
-
-Basic usage
-
-1. git cherry-pick <commit-hash>
-   Cherry-picks a single commit.
-
-2. git cherry-pick c1 c2 c3
-   Cherry-picks multiple commits.
-
-3. git cherry-pick A..B
-   Cherry-picks commits after A up to B.
-
-Cherry-pick with conflict
-
-1. git status
-   Shows conflicting files.
-
-2. Resolve conflicts manually.
-
-3. git cherry-pick --continue {Continues after conflicts are resolved.}
-
-4. git cherry-pick --abort (Aborts the cherry-pick operation.)
-
-Cherry-pick without commit:
-
-1. git cherry-pick -n <commit>
-2. git cherry-pick --no-commit <commit>
-3. Applies changes without creating a commit immediately.
-
-When to use cherry-pick:
-
-1. Apply hotfix from another branch
-2. Backport bug fixes
-3. Select specific commits only
-4. Avoid full merge
-
-Note: If you have uncommitted changes and need to switch branches to test something,
-      use git stash to save your work, switch branches, test, then switch back and
-      use git stash pop to restore your changes. Useful for testing patches.
-
-# ---------------------------------------------------------
-GIT DEBUGGING & INVESTIGATION:
-
-git blame <file>                         # Show who changed each line and when
-git blame -L 10,20 <file>                # Blame specific lines (10-20)
-
-git bisect start                         # Start binary search for bug-introducing commit
-git bisect bad                           # Mark current commit as bad (has bug)
-git bisect good <commit>                 # Mark a known good commit
-git bisect reset                         # End bisect session
-
-# Bisect workflow:
-# 1. git bisect start
-# 2. git bisect bad (current commit has the bug)
-# 3. git bisect good v1.0 (v1.0 was working fine)
-# 4. Git checks out middle commit - test it and mark as good/bad
-# 5. Repeat until Git finds the first bad commit
-# 6. git bisect reset (when done)
-
-git reflog                               # Show all HEAD movements (useful for recovery)
-git reflog show <branch>                 # Show reflog for specific branch
-
-# Recovery example:
-# If you accidentally reset or deleted commits:
-# 1. git reflog (find the commit hash before the mistake)
-# 2. git reset --hard <commit-hash> (restore to that point)
-
-# ===================================================================================
-# APPENDIX: Vim Commands for Git
-# ===================================================================================
-
-When Git prompts for a commit message (e.g., during a merge), it often opens the default editor: Vim.
-
-What does `:wq` mean?
-----------------------------------------------
-In Vim:
-  :w  - Writes (saves) the file.
-  :q  - Quits the editor.
-
-So, `:wq` saves your commit message and exits Vim.
-
-Steps to Use `:wq` After a Merge Conflict
-----------------------------------------------
-1. Type your commit message (or leave the default one).
-2. Press `Esc` (to ensure you're not in insert mode).
-3. Type `:wq` and press `Enter`.
-
-This completes the merge and exits the editor.
-
-Other useful Vim commands:
-----------------------------------------------
-  :q!  - Quit without saving (abort the commit)
-  i    - Enter insert mode (to type)
-  Esc  - Exit insert mode
-  dd   - Delete current line
-  u    - Undo last change
-
-Alternative Editors for Git
------------------------------------------------
-To avoid Vim and use a simpler editor like VS Code or Nano:
-
-Set VS Code as Git editor:
-    git config --global core.editor "code --wait"
-
-Set Nano as Git editor:
-    git config --global core.editor "nano"
-
-This will make Git open your preferred editor for commit messages.
+GIT CHEAT SHEET
+[>=========<>========<>========<>========<]
+
+Quick daily flow:
+1) git status
+2) git pull --rebase
+3) make changes
+4) git add -p
+5) git commit -m "message"
+6) git push
+
+
+1. SETUP
+git config --global user.name "Your Name"         -> set author name
+git config --global user.email "you@example.com"  -> set author email
+git config --global init.defaultBranch main       -> default branch name
+git config --global core.editor "nano"            -> default editor
+git config --global pull.rebase true              -> pull with rebase by default
+git config --global rebase.autoStash true         -> auto-stash on rebase/pull
+
+
+2. START A REPO
+git init                     -> create repository in current folder
+git clone <url>              -> clone remote repository
+git status                   -> show working tree + staging state
+git remote -v                -> list remotes
+git remote add origin <url>  -> add remote named origin
+
+
+3. STAGING AND COMMITS
+git add <file>               -> stage one file
+git add .                    -> stage all tracked/untracked changes
+git add -p                   -> stage changes hunk by hunk
+git restore --staged <file>  -> unstage file
+git commit -m "message"      -> commit staged changes
+git commit --amend           -> edit last commit (message/content)
+
+
+4. SEE WHAT CHANGED
+git diff                     -> unstaged changes
+git diff --staged            -> staged changes
+git diff HEAD~1..HEAD        -> changes introduced by last commit
+git diff <branch1>...<branch2> -> compare branch tips from merge-base
+git log                      -> full history
+git log --oneline --graph --decorate --all -> compact visual history
+git log --stat               -> history with changed-file stats
+git log -p                   -> history with patch output
+git shortlog -sn             -> commit count per author
+git show <commit>            -> show one commit details
+
+
+5. BRANCHES
+git branch                   -> list local branches
+git branch -a                -> list local + remote branches
+git switch <branch>          -> switch branch
+git switch -c <new-branch>   -> create and switch branch
+git branch -d <branch>       -> delete merged branch
+git branch -D <branch>       -> force delete local branch
+
+
+6. SYNC WITH REMOTE
+git fetch                    -> download remote refs (no merge)
+git fetch --prune            -> remove stale remote-tracking refs
+git pull                     -> fetch + merge/rebase (depends config)
+git pull --rebase            -> fetch + rebase local commits
+git push                     -> push current branch
+git push -u origin <branch>  -> push and set upstream
+git push origin --delete <branch> -> delete remote branch
+
+
+7. MERGE AND REBASE
+# Merge keeps branch structure
+git merge <branch>           -> merge <branch> into current branch
+git merge --abort            -> cancel in-progress merge
+
+# Rebase rewrites local commit base (clean history)
+git rebase main              -> replay current branch on top of main
+git rebase -i HEAD~3         -> interactive rebase last 3 commits
+git rebase --continue        -> continue after resolving conflicts
+git rebase --abort           -> cancel in-progress rebase
+
+Rule: avoid rebasing commits already shared on team branches.
+
+
+8. CONFLICT RESOLUTION
+git status                   -> see conflicted files
+# edit files and resolve markers: <<<<<<< ======= >>>>>>>
+git add <file>               -> mark file resolved
+git diff --name-only --diff-filter=U -> list only conflicted files
+git merge --continue         -> continue merge (if needed)
+git rebase --continue        -> continue rebase (if rebasing)
+
+Use ours/theirs quickly:
+git checkout --ours <file>   -> keep current branch version
+git checkout --theirs <file> -> keep incoming version
+
+
+9. UNDO (SAFE FIRST)
+git restore <file>           -> discard unstaged file changes
+git restore .                -> discard all unstaged working-tree changes
+git restore --source=HEAD~1 <file> -> restore file from older commit
+git revert <commit>          -> create inverse commit (safe on shared history)
+git revert --no-commit <commit> -> revert but keep changes uncommitted
+
+git reset --soft HEAD~1      -> undo last commit, keep staged
+git reset --mixed HEAD~1     -> undo last commit, keep unstaged (default)
+git reset --hard HEAD~1      -> undo last commit + discard changes (danger)
+git clean -fd                -> remove untracked files/dirs (danger)
+
+
+10. STASH
+git stash                    -> stash tracked changes
+git stash -u                 -> stash including untracked files
+git stash push -m "msg"      -> named stash
+git stash list               -> list stashes
+git stash show -p stash@{0}  -> preview stash diff
+git stash apply stash@{0}    -> apply stash, keep it
+git stash pop                -> apply latest stash and drop it
+git stash drop stash@{0}     -> delete one stash
+git stash clear              -> delete all stashes
+
+
+11. CHERRY-PICK
+git cherry-pick <commit>     -> apply one commit onto current branch
+git cherry-pick A B C        -> apply multiple specific commits
+git cherry-pick --no-commit <commit> -> apply changes without committing
+git cherry-pick --continue   -> continue after conflict resolution
+git cherry-pick --abort      -> cancel cherry-pick
+
+
+12. TAGS
+git tag                      -> list tags
+git tag v1.0.0               -> lightweight tag
+git tag -a v1.0.0 -m "v1.0.0" -> annotated tag
+git tag --sort=-creatordate  -> list newest tags first
+git push origin v1.0.0       -> push one tag
+git push origin --tags       -> push all tags
+git tag -d v1.0.0            -> delete local tag
+git push origin --delete v1.0.0 -> delete remote tag
+
+
+13. DEBUGGING AND RECOVERY
+git blame <file>             -> line-by-line author info
+git blame -L 20,40 <file>    -> blame specific line range
+git grep "pattern"           -> search tracked files
+
+git bisect start             -> begin binary search for bad commit
+git bisect bad               -> mark current commit bad
+git bisect good <commit>     -> mark known-good commit
+git bisect reset             -> end bisect session
+
+git reflog                   -> history of HEAD movements
+git fsck --full              -> check repository integrity
+# recovery example:
+# 1) git reflog
+# 2) find old commit hash
+# 3) git reset --hard <hash>   (only if you want full rollback)
+
+
+14. SUBMODULES (IF USED)
+git submodule add <url> <path> -> add submodule
+git submodule update --init --recursive -> fetch/init submodules
+git submodule update --remote  -> move submodule to latest tracked remote commit
+git clone --recurse-submodules <url> -> clone repo with submodules
+
+
+15. FEATURE BRANCH WORKFLOW
+# create feature branch
+git switch main
+git pull --rebase
+git switch -c feature/my-change
+
+# work and commit
+git add -p
+git commit -m "Implement my change"
+git push -u origin feature/my-change
+
+# before merge
+git switch feature/my-change
+git fetch origin
+git rebase origin/main
+
+# merge (example local merge flow)
+git switch main
+git pull --rebase
+git merge --no-ff feature/my-change
+git push
+
+# cleanup
+git branch -d feature/my-change
+git push origin --delete feature/my-change
+
+
+16. WORKTREES (MULTIPLE CHECKOUTS)
+git worktree list            -> list worktrees
+git worktree add ../repo-fix -b fix/bug-123 -> new worktree + branch
+git worktree remove ../repo-fix -> remove worktree
+
+
+17. COMMON ALIASES (OPTIONAL)
+git config --global alias.st status
+git config --global alias.co switch
+git config --global alias.br branch
+git config --global alias.cm "commit -m"
+git config --global alias.lg "log --oneline --graph --decorate --all"
+
+18. IMPORTANT TIPS
+- Pull with `--rebase` on feature branches to keep history linear.
+- Use `git add -p` to avoid accidental commits.
+- Prefer `git revert` for shared branches; prefer `reset` for local-only history fixes.
+- Before destructive cleanup, preview first:
+  `git clean -nd` (dry run), then `git clean -fd` if correct.
+- Before risky operations, create a safety branch:
+  `git branch backup/<date>-before-rewrite`.
+- If you lose work, check `git reflog` first; recovery is often possible.
+- Keep commits small and single-purpose for easier review and rollback.
+- Never force-push shared branches unless the team explicitly agreed.
+
+19. PATCHES, FORKS, PICKS, SQUASHES (IMPORTANT)
+Patches:
+git diff > change.patch                -> create patch from unstaged changes
+git diff --staged > staged.patch       -> create patch from staged changes
+git format-patch -1 HEAD               -> patch file from last commit
+git apply change.patch                 -> apply patch (no commit metadata)
+git apply --check change.patch         -> dry-run patch apply
+git am 0001-some-change.patch          -> apply commit patch with author/message
+
+Fork workflow tips:
+- Add your fork as `origin`, upstream project as `upstream`.
+git remote add upstream <upstream-url> -> track original repository
+git fetch upstream                     -> fetch new upstream changes
+git rebase upstream/main               -> rebase feature branch on latest upstream
+git push -u origin <branch>            -> push branch to your fork
+- Open PR from `fork:<branch>` to `upstream:main`.
+
+Cherry-pick tips:
+- Cherry-pick only self-contained commits.
+- Prefer picking small commits to reduce conflicts.
+git cherry-pick -x <commit>            -> records source commit hash in message
+git cherry-pick --no-commit <commit>   -> inspect/edit before committing
+
+Squash tips:
+git rebase -i HEAD~N                   -> squash last N commits interactively
+git merge --squash <branch>            -> squash-merge a branch without merge commit
+- Squash before PR merge when history is noisy.
+- Do not rewrite/squash commits others are already using unless coordinated.
+
+20. PANIC SITUATIONS (FAST RECOVERY)
+Committed to wrong branch:
+git switch correct-branch
+git cherry-pick <wrong-commit>         -> move commit to right branch
+git switch wrong-branch
+git reset --hard HEAD~1                -> remove mistaken commit locally
+
+Accidentally ran hard reset / lost commit:
+git reflog                             -> find previous HEAD
+git reset --hard <hash>                -> restore state
+
+Need to discard all local edits quickly:
+git restore .
+git clean -fd                          -> remove untracked files/dirs
+
+Pulled bad merge/rebase and want out:
+git merge --abort                      -> cancel merge in progress
+git rebase --abort                     -> cancel rebase in progress
+
+21. DAILY LIFE TIPS
+- Run `git status` before and after each commit/pull/push.
+- Prefer `git add -p` and small commits; debugging becomes easier.
+- Use branch names by intent: `fix/...`, `feat/...`, `chore/...`.
+- Rebase feature branches on `main` frequently to reduce conflict size.
+- Before force push, run `git log --oneline --graph --decorate -20`.
+
+Tip: Run `git help <command>` for full docs, e.g. `git help rebase`.
