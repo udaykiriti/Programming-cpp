@@ -501,6 +501,11 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
+struct ele {
+    int v;
+    int id;
+};
+
 void _GO() {
   // Solution Here.....
   

@@ -153,7 +153,6 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 */
 
 #include <bits/stdc++.h>
-#include <chrono>
 using namespace std;
 
 #ifdef LOCAL
@@ -234,7 +233,7 @@ Mat<T> make_mat(int n, int m, T val = T()) {
 #define oms_rank(ms, val) ms.order_of_key({val, 0})
 */
 
-#define FIXED(x) cout << fixed << setprecision(x) << '\n';
+#define FIXED(x) do { cout << fixed << setprecision(x); } while(0)
 
 /* 
 #define debug(x) cout << (x) << endl
@@ -244,12 +243,12 @@ Mat<T> make_mat(int n, int m, T val = T()) {
 */
 
 const int MOD = 998244353;  // 1e9+7;
-double PI = 3.14159265358979323846;
+const double PI = 3.14159265358979323846;
 int_64 INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
 const int_64 MAXI = 1e18;  // not too close to LLONG_MAX
-#define MIN -1e7
+const int MIN_VAL = -1e7;
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 
 #define sz(x)     int(size(x))
@@ -266,8 +265,8 @@ const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 #define RSORT(a)  sort(rall(a))
 #define lb        lower_bound
 #define ub        upper_bound
-tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - bg(a)); }
-tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
+tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - a.begin()); }
+tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - a.begin()); }
 
 #define FOR(i, a, b)         for (int i = (a); i < (b); ++i)
 #define RFOR(i, a, b)        for (int i = (a); i >= (b); --i)
@@ -285,16 +284,16 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - bg(a)); }
 #define cube(x)              ((x) * (x) * (x))
 #define isEven(x)            (0 == (x) % 2)
 #define isOdd(x)             (0 != (x) % 2)
-#define uceil(a, b)          ((a + b - 1) / (b))
+#define uceil(a, b)          (((a) + (b) - 1) / (b))
 
 #define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
 
 
-tcT, class = enable_if_t<is_arithmetic_v<T>>>
+tcT, class = enable_if_t<is_arithmetic_v<T> > >
 void __print(T x) { cout << x << '\n'; }
 
 void __print(const string& s) { cout << '"' << s << '"'; }
-void __print(const char* s)   { cout << '"' << s << '"'; }
+void __print(const char* s)   { __print(string(s)); }
 void __print(char c)          { cout << '\'' << c << '\''; }
 
 tcTU>
@@ -355,12 +354,14 @@ T binpow(T a,int_64 e , T mod){
         a = (a * a) % mod; e >>= 1;
     } return r;}
 
-int_64 powerMod(int_64 a,int_64 b,int_64 m){return binpow(a,b,m);}
+// Use binpow directly instead of powerMod wrapper
 int_64 factorialMod(int_64 n,int_64 m){int_64 r=1;for(int_64 i=1;i<=n;++i)r=r*i%m;return r;}
 int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
 int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
 int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
 int_64 modinv(int_64 a){ return binpow(a,(int_64)MOD-2,(int_64)MOD); }
+// Normalize any value to MOD range
+template<typename T> T normalize(T x) { x %= MOD; if(x < 0) x += MOD; return x; }
 int_64 NcR(int_64 n,int_64 r){int_64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;int_64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
 int_64 NpR(int_64 n,int_64 r){int_64 r1=1;while(r--)r1*=n--;return r1;}
 
@@ -447,16 +448,14 @@ struct Fenwik{
 **/
 
 int mex(const vi &a){
-    unordered_set<int>os;
-    os.reserve(a.size() * 2);
+    unordered_set<int>present;
+    present.reserve(a.size() * 2);
     for(int x : a)
         if(x >= 0)
-            os.ins(x);
+            present.insert(x);
     int curr(0);
-    while(true){
-        if(os.find(curr) == os.end())
-            curr++;
-    }
+    while(present.find(curr) != present.end())
+        curr++;
     return curr;
 }
 
@@ -501,66 +500,38 @@ using i128 = __int128_t;
     return fact[n] * invfact[n - r] % MOD;
 } */
 
-
 void _GO() {
   // Solution Here.....
-  int n;
-  cin >> n;
-  vector<vi> b(n);
+  int n, q;
+  cin >> n >> q;
 
-  FOR ( i , 0 , n ) {
-    int l;
-    cin >> l;
-    vi temp(l);
+  vi pos(51, -1);
 
-    FOR ( j , 0 , l) 
-        cin >> temp[j];
-        
-    set<int> ok;
-    for (int j = l - 1; j >= 0; --j) {
-        if (ok.find(temp[j]) == ok.end()) {
-            b[i].pb(temp[j]);
-            ok.insert(temp[j]);
-        }
-    }
-    reverse(all(b[i]));
+  for (int i = 1; i <= n; ++i) {
+    int x;
+    cin >> x;
+
+    if (pos[x] == -1)
+        pos[x] = i;
+
   }
 
-  vi ans,ptr(n, 0);
-  set<int> done;
-  vector<bool> used(n, false);
+  FOR ( i , 0 , q) {
+    int t;
+    cin >> t;
+    
+    int curr = pos[t];
+    cout << curr << (i == q - 1 ? "" : " ");
 
-  FOR ( step , 0 , n ) {
-    int bst = -1 , mini = 2e9;
-
-    FOR ( i , 0 , n) {
-        if (used[i]) 
-            continue;
-        while (ptr[i] < b[i].size() && done.count(b[i][ptr[i]]))
-            ptr[i]++;
-
-        if (ptr[i] == b[i].size()) {
-            if (bst == -1) bst = i;
-        } else if (b[i][ptr[i]] < mini) {
-            mini = b[i][ptr[i]];
-            bst = i;
-        }
+    for (int c = 1; c <= 50; ++c) {
+        if (pos[c] != -1 && pos[c] < curr)
+            pos[c]++;
     }
-    used[bst] = true;
-    for (int j = ptr[bst]; j < b[bst].size(); ++j) {
-        int u = b[bst][j];
-        if (done.find(u) == done.end()) {
-            ans.pb(u);
-            done.ins(u);
-        }
-    }
+
+    pos[t] = 1;
   }
 
-
-  for (int i = 0; i < (int)ans.size(); ++i) {
-    cout << ans[i] << (i == (int)ans.size() - 1 ? "" : " ");
-  }
-  cout << '\n';
+  cout << '\n' ;
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -571,7 +542,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t; 
+    int t{1},tcase{0}; //cin >> t; 
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
@@ -592,7 +563,7 @@ int main(/* int argc, char *argv[] */) {
  * Do not make large assumptions without a basic proof idea.
  * Overflow, bounds, and segfaults kill solutions;check them first.
  * Use DP to relax constraints; store only the minimum required state.
- * Always carefull with Base conditions.
+ * Always careful with Base conditions.
  * special cases (n=1?) ,Edge cases.
  * do smth instead of nothing; stay organized.
  * WRITE STUFF DOWN.
