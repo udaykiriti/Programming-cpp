@@ -508,7 +508,61 @@ struct ele {
 
 void _GO() {
   // Solution Here.....
+  int_64 n, k, s, m;
+  cin >> n >> k >> s >> m;
+    
+  int_64 ans = -1;
+
+  for (int_64 x = 0; x <= k; ++x) {
+    int_64 kp = k - x;
+    int_64 sp = s - x * m;
+        
+    if ( 0== kp) {
+        if (0 == sp) {
+            ans = x;
+            break;
+        }
+        continue;
+    }
+        
+    if (1 == n) continue;
+        
+    if (2 == n) {
+        if (1 ==m && sp == 2 * kp) { 
+            ans = x; 
+            break; 
+        }
+        if (2 == m&& sp == 1 *kp) { 
+            ans = x; 
+            break; 
+        }
+        continue;
+    }
+        
+    if (3 == n && 2 ==m) {
+        if (kp <= sp && sp <= 3 * kp && (sp - kp) % 2 == 0) {
+            ans = x; 
+            break;
+        }
+        continue;
+    }
+        
+    int_64 amin = (m > 1) ? 1 : 2;
+    int_64 amax = (m < n) ? n : n - 1;
+        
+    if (sp < kp *amin || sp > kp* amax) continue;
+        
+    if (1== kp&& sp== m) continue;
+        
+    if (2== m&& sp == kp +1) continue;
+        
+    if (m == n -1 && sp == kp * n- 1) continue;
+        
+    ans = x;
+    break;
+  }
   
+  cout << ans << "\n";
 }
 
 int main(/* int argc, char *argv[] */) {
