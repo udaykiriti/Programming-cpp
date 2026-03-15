@@ -22,7 +22,9 @@ Scripts
 
 Usage
 ----------------
-Use the provided shell scripts to compile and run C++ programs:
+Use the provided shell scripts to compile and run C++ programs
+- it wont work on another folders in this repository.
+- it works only on main directory [Hardcoded].
 
 ./create.sh <fname>    # create from algo/Template
 ./sol.sh <fname>       # output in cli && out.txt file
