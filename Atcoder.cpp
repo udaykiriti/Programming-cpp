@@ -607,43 +607,46 @@ struct ball {
   int v, id;
 };
 
-int n,a[200005],d = 0;
-vi g[200005];
-string ans[200005];
-map<int, int> f;
+/*int h,w;
+vector<str>g;
+vector<vector<bool>>vec;
 
-void dfs(int u, int p) {
+void dfs(int r,int c, bool &edge){
+  if(r <0 || r>=h || c <0 || c>=w || g[r][c] == '#' || vec[r][c])
+    return;
+  vec[r][c]= true;
 
-    if (f[a[u]]++ > 0) 
-      d++;
+  if (0 == r || r == h-1 || 0==c || w-1 == c)
+    edge = true;
 
-    ans[u] = d ? "Yes" : "No";
-
-    for (int v : g[u]) 
-      if (v != p) 
-        dfs(v,u);
-
-    if (--f[a[u]] >0) 
-      d--;
-}
+  dfs(r+1,c,edge);
+  dfs(r-1,c,edge);
+  dfs(r,c+1,edge);
+  dfs(r,c-1,edge);
+}*/
 
 void _GO() {
   //Solution Here.....
-  cin >> n;
-  for (int i{1}; i <= n; i++) 
-    cin >> a[i];
+  int_64 n,k;
+  cin >> n >> k;
+  vl vec(n);
 
-  FOR (i , 1  ,n) {
-    int u,v;
-    cin >> u >> v;
-    g[u].pb(v); 
-    g[v].pb(u);
+  FOR(i,0,n){
+    int_64 x;
+    cin >> x;
+    vec[i] = x%k;
   }
-  dfs(1, 0);
 
-  for (int i = 1; i <= n; i++) 
-    cout << ans[i] << '\n';
+  SORT(vec);
 
+  int_64 ans = vec[n-1] -vec[0];
+
+  FOR(i,0,n-1){
+    int_64 high = max(vec[n-1],vec[i]+k);
+    int_64 low = vec[i+1];
+    ans = min(ans,high- low);
+  }
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
