@@ -1,0 +1,123 @@
+Rust Debugging Commands
+=======================
+
+Cargo Debug Commands
+--------------------
+
+- cargo build
+- cargo run
+- RUST_BACKTRACE=1 cargo run
+- RUST_BACKTRACE=full cargo run
+- cargo tree
+
+rust-gdb Commands
+--------------------
+
+- rust-gdb target/debug/my_binary
+- b main
+- b src/main.rs:15
+- b my_function
+- run
+- print x
+- step
+- next
+- finish
+- continue
+- bt
+- list
+
+rust-lldb Commands
+------------------
+
+- rust-lldb target/debug/my_binary
+- breakpoint set --name main
+- breakpoint set --file main.rs --line 20
+- run
+- step
+- next
+- finish
+- continue
+- frame variable x
+- bt
+- source list
+
+Print Debugging
+---------------
+
+- dbg!(x)
+- println!("{:?}", var)
+- println!("{:#?}", struct)
+
+Logging
+-------
+
+- env_logger::init();
+- log::debug!("value = {:?}", x);
+- Run: RUST_LOG=debug cargo run
+
+Tips
+----
+
+- Build with debug symbols: cargo build
+- Use release mode only when needed: cargo run --release
+- Narrow breakpoints to files/lines for faster debugging sessions
+- Prefer `dbg!()` for quick value checks and remove it before commit
+- Use `RUST_BACKTRACE=full` when stack traces are not clear enough
+- Re-run with clean output if behavior is stale: cargo clean && cargo run
+
+Notes
+-----
+
+- Keep panic messages readable by avoiding overly broad unwrap chains
+- Test one change at a time to isolate root causes quickly
+- Confirm the binary path matches the crate you are debugging
+- If breakpoints do not hit, ensure you built in debug mode
+
+Common Panic Situations
+-----------------------
+
+- Calling `unwrap()` on `None` or `Err`
+- Indexing out of bounds, for example `v[10]` when length is smaller
+- Integer overflow in debug builds, for example `u8` arithmetic
+- Dividing by zero in numeric operations
+- Explicit panic calls, for example `panic!("unexpected state")`
+- Failed assumptions in `expect()` messages
+- Thread panics when using `join().unwrap()` on failed threads
+- Mutex poisoning after a panic inside a locked section
+
+Preventing Panics
+-----------------
+
+- Use `?` to propagate errors instead of `unwrap()`
+- Use `match` or `if let` when values may be `None` or `Err`
+- Prefer `v.get(i)` instead of `v[i]` for untrusted indices
+- Validate external input early and return clear errors
+- Use checked math (`checked_add`, `checked_sub`, and related methods)
+- Keep `expect()` messages specific so failures are easy to diagnose
+
+Panic Triage Checklist
+----------------------
+
+- Reproduce the issue with `RUST_BACKTRACE=full cargo run`
+- Find the first application frame in the backtrace
+- Inspect nearby variables with `dbg!()` or debugger print commands
+- Confirm input assumptions at the failing code path
+- Add a failing test that reproduces the panic
+- Implement the fix and re-run tests to verify
+
+Safe Alternatives
+-----------------
+
+- `unwrap()` -> `?`, `match`, or `if let`
+- `expect("...")` -> explicit error handling with context-rich messages
+- `v[i]` -> `v.get(i)` and handle `None`
+- `join().unwrap()` -> handle `JoinError` from `join()`
+- direct arithmetic -> `checked_*`, `saturating_*`, or `wrapping_*` methods
+
+Tooling Notes
+-------------
+
+- Run `cargo clippy` to catch risky patterns early
+- Use `cargo test -- --nocapture` to view debug output during tests
+- Increase log verbosity with `RUST_LOG=trace cargo run`
+- Keep formatting consistent with `cargo fmt`
