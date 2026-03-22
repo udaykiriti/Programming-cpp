@@ -1,18 +1,12 @@
 Programming C++
 =================
-A collection of programming solutions in C++(mostly).
+A Templates for  programming solutions in C++(mostly).
 
 Structure
 -----------------
-- codeforces/ - Solutions to some Codeforces problems, organized by contest ranges:
-  - 0-99/ to 2100-2199/ - Problems grouped by contest number
-  - misc/ - Problems with descriptive names
 - Atcoder.cpp - AtCoder problem template
 - Templates/ - templates for programming
-- practice/ - Practice codes by topics
 - algo/ - debug header file
-- resorces/ - Machine learning , Java , OOPS...
-- unsolved/ - Problems yet to be solved
 
 Scripts
 ----------------
