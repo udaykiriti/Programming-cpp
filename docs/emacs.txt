@@ -1,0 +1,400 @@
+EMACS COMMANDS
+[>=========<>========<>========<>========<]
+
+1. BASIC MOVEMENT
+C-f            -> move right
+C-b            -> move left
+C-n            -> next line
+C-p            -> previous line
+M-f            -> next word
+M-b            -> previous word
+C-a            -> start of line
+C-e            -> end of line
+M-<            -> start of buffer
+M->            -> end of buffer
+M-g g          -> go to line
+M-g c          -> go to column
+
+2. EDITING BASICS
+C-d            -> delete character at point
+DEL / Backspace -> delete character before point
+M-d            -> delete word forward
+M-DEL          -> delete word backward
+C-k            -> kill to end of line
+C-S-backspace  -> kill whole line (terminal support varies)
+C-y            -> yank (paste)
+M-y            -> cycle kill ring after yanking
+C-/ or C-_     -> undo
+C-g            -> cancel current command
+
+3. MARK, REGION, AND SELECTION
+C-SPC          -> set mark (start region)
+C-x h          -> mark whole buffer
+C-w            -> cut region
+M-w            -> copy region
+C-y            -> paste
+C-x C-x        -> exchange point and mark
+C-u C-SPC      -> jump to previous mark
+
+4. SEARCHING
+C-s            -> incremental search forward
+C-r            -> incremental search backward
+C-s C-s        -> repeat forward search
+C-M-s          -> regexp search forward
+C-M-r          -> regexp search backward
+M-s o          -> occur (list matching lines)
+M-x multi-occur -> search across selected buffers
+M-x rgrep      -> recursive grep in directory
+
+5. REPLACE
+M-%            -> query-replace
+C-M-%          -> query-replace-regexp
+M-x replace-string -> replace all without prompt
+M-x replace-regexp -> regexp replace without prompt
+In query-replace: y = replace, n = skip, ! = replace all, q = quit
+
+6. REGEXP PATTERN SNIPPETS (EMACS REGEX)
+^foo           -> line starts with "foo"
+bar$           -> line ends with "bar"
+.              -> any single character
+.*             -> any sequence of characters
+[0-9]+         -> one or more digits
+[A-Za-z_][A-Za-z0-9_]* -> identifier-like word
+\\<word\\>     -> whole word match
+\\bword\\b     -> word boundary match (often works in modern Emacs)
+\\s-+          -> one or more whitespace chars
+\\(foo\\|bar\\) -> "foo" OR "bar"
+\\([0-9]+\\)   -> capture group 1
+\\1            -> backreference to group 1 in replacement
+
+Useful replace-regexp examples:
+Find: \\([0-9]+\\)-\\([0-9]+\\)
+Repl: \\2-\\1
+-> swaps parts around a dash (example: 12-34 -> 34-12)
+
+Find: ^[ \t]+$
+Repl: (empty)
+-> remove whitespace-only lines
+
+7. FILES
+C-x C-f        -> find/open file
+C-x C-s        -> save file
+C-x s          -> save some buffers
+C-x C-w        -> save as
+C-x C-v        -> visit alternate file
+C-x i          -> insert file into current buffer
+C-x C-r        -> open file read-only
+C-x C-q        -> toggle read-only mode
+C-x C-d        -> open directory listing (Dired) for path
+C-x C-c        -> quit Emacs
+
+8. WINDOWS (SPLITS)
+C-x 2          -> split window below
+C-x 3          -> split window right
+C-x 0          -> delete current window
+C-x 1          -> keep only current window
+C-x o          -> move to other window
+C-x ^          -> enlarge window vertically
+C-x {          -> shrink window horizontally
+C-x }          -> enlarge window horizontally
+
+9. BUFFERS
+C-x b          -> switch buffer
+C-x C-b        -> list buffers
+M-x ibuffer    -> better interactive buffer list
+C-x k          -> kill buffer
+C-x left       -> previous buffer
+C-x right      -> next buffer
+M-x revert-buffer -> reload from disk
+M-x rename-buffer -> rename current buffer
+
+10. TEXT FORMATTING AND CASE
+TAB            -> indent current line/region (mode dependent)
+C-M-\          -> indent region
+C-x TAB        -> rigid indent region
+M-q            -> fill paragraph (wrap text)
+M-u            -> uppercase word
+M-l            -> lowercase word
+M-c            -> capitalize word
+M-;            -> comment/uncomment line or region
+
+11. RECTANGLES (BLOCK EDITING)
+C-x r k        -> kill rectangle
+C-x r y        -> yank rectangle
+C-x r t        -> replace rectangle with string
+C-x r o        -> open space rectangle
+C-x r c        -> clear rectangle
+
+12. REGISTERS, MARKS, BOOKMARKS
+C-x r s <r>    -> save region to register
+C-x r i <r>    -> insert register content
+C-x r SPC <r>  -> save point to register
+C-x r j <r>    -> jump to register
+C-x r m        -> set bookmark
+C-x r b        -> jump to bookmark
+C-x r l        -> list bookmarks
+
+13. MACROS
+C-x (          -> start macro recording
+C-x )          -> stop macro recording
+C-x e          -> execute last macro
+C-u N C-x e    -> execute macro N times
+M-x name-last-kbd-macro -> name macro for reuse
+M-x insert-kbd-macro    -> insert macro as Lisp
+
+14. MULTIPLE WINDOWS (FRAMES)
+C-x 5 2        -> new frame
+C-x 5 o        -> switch frame
+C-x 5 0        -> close frame
+C-x 5 f        -> open file in new frame
+
+15. DIRED (FILE MANAGER)
+C-x d          -> open Dired
++              -> create directory
+g              -> refresh
+C              -> copy file
+R              -> rename/move file
+D              -> delete file immediately
+m / u          -> mark / unmark file
+x              -> execute operations on marked files
+C-x C-q        -> wdired (edit filenames inline)
+
+16. PROJECT AND NAVIGATION TOOLS
+M-x project-find-file  -> find file in current project
+M-x project-switch-project -> switch projects
+M-x project-shell      -> open shell at project root
+M-x project-compile    -> compile from project root
+M-x imenu             -> jump to symbols in current buffer
+M-x xref-find-definitions -> jump to definition
+M-,                   -> pop back from definition
+
+17. COMPILATION AND DEBUGGING
+M-x compile      -> run compile command (often make)
+M-x recompile    -> rerun last compile command
+C-x `            -> next error in compilation buffer
+M-x gdb          -> run GDB inside Emacs
+M-x gud-break    -> set breakpoint (GUD)
+
+18. ORG MODE BASICS
+TAB            -> cycle subtree visibility
+S-TAB          -> cycle global visibility
+M-RET          -> new heading/item
+C-c C-t        -> toggle TODO state
+C-c C-c        -> context action (checkbox, table, etc.)
+C-c C-s        -> schedule item
+C-c C-d        -> set deadline
+
+19. SHELLS IN EMACS
+M-x shell      -> standard shell
+M-x eshell     -> Emacs-native shell
+M-x term       -> terminal emulator
+M-x vterm      -> better terminal (if installed)
+M-x ansi-term  -> terminal with explicit shell program
+
+20. TRAMP (REMOTE FILE EDITING)
+C-x C-f /ssh:user@host:/path/file -> edit remote file
+C-x C-f /sudo::/etc/hosts         -> edit as root locally
+C-x C-f /ssh:user@host|sudo:host:/path/file -> sudo on remote host
+
+21. VERSION CONTROL (VC)
+C-x v v        -> next VC action (commit/register)
+C-x v =        -> diff against repo version
+C-x v l        -> show log
+C-x v u        -> revert file in VC
+C-x v g        -> annotate/blame (backend dependent)
+M-x vc-dir     -> VC status for a directory
+
+22. EVALUATION (EMACS LISP)
+C-x C-e        -> eval expression before point
+C-M-x          -> eval top-level form
+M-x eval-region -> eval selected region
+M-x eval-buffer -> eval whole buffer
+M-x ielm       -> interactive Emacs Lisp REPL
+
+23. NARROWING
+C-x n n        -> narrow to region
+C-x n w        -> widen
+C-x n p        -> narrow to page
+
+24. ABBREVS AND SNIPPET-LIKE EXPANSION
+M-x abbrev-mode -> toggle abbrev mode
+C-x a g         -> add global abbrev
+C-x a l         -> add local abbrev
+M-x edit-abbrevs -> edit abbrev table
+
+25. HELP SYSTEM
+C-h k          -> describe key
+C-h f          -> describe function
+C-h v          -> describe variable
+C-h m          -> describe active modes
+C-h b          -> list keybindings
+C-h a          -> apropos command search
+C-h l          -> show recent key presses (lossage)
+
+26. PACKAGE MANAGEMENT
+M-x list-packages    -> browse package archive
+M-x package-install  -> install package
+M-x package-delete   -> uninstall package
+M-x package-refresh-contents -> refresh package list
+
+27. QUALITY-OF-LIFE COMMANDS
+C-l            -> recenter screen around point
+M-z <char>     -> zap to character
+M-/            -> dabbrev-expand (word completion)
+M-/ (repeat)   -> cycle more completion candidates
+M-!            -> run one shell command
+M-|            -> run shell command on region
+M-x repeat-complex-command -> rerun/edit previous M-x command
+M-x recentf-open-files -> open recent files list
+M-x goto-last-change -> jump to last edit (if available)
+M-x whitespace-mode -> show whitespace characters
+M-x display-line-numbers-mode -> toggle line numbers
+M-x delete-trailing-whitespace -> clean up whitespace
+M-x untabify   -> convert tabs to spaces in region
+M-x count-words -> word count for region/buffer
+
+28. DAILY WORKFLOW SHORTCUTS
+F5             -> revert-buffer shortcut in many configs (if bound)
+M-g g          -> jump to line quickly
+C-s            -> search in current buffer
+M-x rgrep      -> search text in project recursively
+C-x C-f        -> open file quickly
+C-x b          -> switch buffer quickly
+C-x 2 / C-x 3  -> split and compare two files
+C-x o          -> jump between splits
+C-x s          -> save all modified buffers
+
+29. TRANSPOSE OPERATIONS
+C-t                  -> transpose chars
+M-t                  -> transpose words
+C-x C-t              -> transpose lines
+M-x transpose-sentences  -> transpose sentences
+M-x transpose-paragraphs -> transpose paragraphs
+
+30. FUN / UTILITIES
+M-x calc         -> calculator
+M-x calendar     -> calendar
+M-x eww          -> built-in web browser
+M-x doctor       -> ELIZA-style chatbot
+M-x tetris       -> game
+M-x dunnet       -> text adventure
+
+31. IMPORTANT DAILY TIPS
+- Learn `C-g` deeply: it safely cancels most stuck commands.
+- Use `C-h k` right after pressing an unknown key to learn what it did.
+- Prefer incremental search (`C-s`) over moving manually in large files.
+- Use `M-x revert-buffer` if file changed outside Emacs.
+- For safer edits, turn on autosave and backups in your init file.
+- Keep one window for code and one for terminal/compile output.
+- Use registers/bookmarks for files you revisit many times daily.
+- Use `M-x delete-trailing-whitespace` before commits to reduce diff noise.
+
+32. DOOM EMACS BASICS (IMPORTANT)
+Leader keys:
+SPC            -> Doom leader (main command menu)
+SPC h d h      -> Doom help
+SPC h d k      -> show Doom keybindings
+SPC f f        -> find file
+SPC f r        -> recent files
+SPC b b        -> switch buffer
+SPC b k        -> kill buffer
+SPC w /        -> split window right
+SPC w -        -> split window below
+SPC w d        -> delete window
+SPC w m        -> maximize window
+SPC p p        -> switch project
+SPC p f        -> find file in project
+SPC /          -> search in current buffer
+SPC s p        -> search in project
+SPC g g        -> Magit status
+SPC c c        -> compile
+SPC c r        -> recompile
+SPC t l        -> toggle line numbers
+SPC t w        -> toggle word wrap
+
+Useful Doom motions (evil mode):
+gg / G         -> top / bottom of buffer
+ciw            -> change inner word
+di(            -> delete inside parentheses
+va\"           -> visually select around quotes
+
+33. DOOM EMACS ESSENTIAL PACKAGES / MODULES
+Core packages many Doom users rely on:
+- `which-key`        -> discover keybindings while typing
+- `vertico` + `orderless` + `consult` -> fast minibuffer completion and search
+- `embark`           -> context actions from minibuffer
+- `marginalia`       -> richer minibuffer annotations
+- `projectile`       -> project management
+- `magit`            -> best-in-class Git UI
+- `rg` / `deadgrep`  -> ripgrep-based project search
+- `yasnippet`        -> snippets/templates
+- `company` or `corfu` -> completion popup
+- `flycheck`         -> on-the-fly diagnostics
+- `lsp-mode` + `lsp-ui` (or `eglot`) -> language server support
+- `treemacs`         -> project tree sidebar
+- `vterm`            -> fast terminal in Emacs
+- `undo-fu` / `undo-tree` -> enhanced undo UX
+
+Doom modules to consider in `init.el`:
+- `:completion vertico` (or `helm`/`ivy` if preferred)
+- `:tools lsp`, `:tools magit`, `:tools lookup`
+- `:checkers syntax` (Flycheck)
+- `:editor snippets`, `:editor multiple-cursors`, `:editor file-templates`
+- `:term vterm`
+- `:ui treemacs` (optional), `:ui vc-gutter`, `:ui workspaces`
+- language modules you use under `:lang` (e.g., `cc`, `python`, `rust`, `org`)
+
+Doom config files you edit most:
+- `~/.doom.d/init.el`       -> enable/disable modules
+- `~/.doom.d/config.el`     -> custom keymaps/settings
+- `~/.doom.d/packages.el`   -> extra packages
+
+Daily Doom maintenance:
+`doom sync`                 -> apply module/package changes
+`doom upgrade`              -> update Doom + packages
+`doom doctor`               -> diagnose environment problems
+`doom build`                -> rebuild binaries/native components
+`SPC h r r`                 -> reload config quickly
+
+Package example (`packages.el`):
+`(package! rainbow-delimiters)`
+`(package! deadgrep)`
+`(package! git-gutter-fringe)`
+
+Config example (`config.el`):
+`(setq display-line-numbers-type 'relative)`
+`(after! magit (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))`
+
+Doom tips:
+- Run `doom sync` after changing `init.el` or `packages.el`.
+- Use `SPC h b b` to find the exact keybinding you need.
+- Keep `config.el` organized by sections (`UI`, `editing`, `lang`, `keys`).
+- Prefer `after!` blocks when setting package variables in Doom.
+- If keybindings clash, remap in `map!` inside `config.el`.
+
+34. PANIC SITUATIONS (FAST RECOVERY)
+Stuck in minibuffer/prompt/unknown state:
+- `C-g`                      -> cancel safely (press multiple times if needed)
+
+Accidentally edited wrong content:
+- `C-/` or `C-_`             -> undo
+- `C-g C-/` (repeat undo)    -> keep stepping back
+
+File changed on disk externally:
+- `M-x revert-buffer`        -> reload from disk
+
+Emacs froze during heavy operation:
+- `C-g`                      -> interrupt
+- `M-x keyboard-quit`        -> explicit quit command
+
+Need emergency save before risky refactor:
+- `C-x C-w backup-file.txt`  -> save a copy first
+
+35. DOOM DAILY TIPS (PRACTICAL)
+- Use `SPC f r` for recent files; it is usually faster than browsing manually.
+- Use `SPC p f` + `SPC s p` as your default project navigation/search combo.
+- Keep terminal in one split (`SPC w /` then `SPC o e`) for faster feedback loops.
+- Run `doom doctor` when LSP/formatting suddenly breaks after updates.
+- If startup slows down, profile and trim extra packages in `packages.el`.
+
+Tip: Use C-h t for the built-in Emacs tutorial.

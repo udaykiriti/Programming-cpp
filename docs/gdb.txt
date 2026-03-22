@@ -1,0 +1,189 @@
+GDB CHEAT SHEET
+[>=========<>========<>========<>========<]
+
+Quick start:
+1) Compile with symbols: g++ -g -O0 -Wall -Wextra file.cpp -o app
+2) Start debugger:      gdb ./app
+3) Run program:         run
+4) If crash happens:    bt
+
+
+1. STARTING GDB
+gdb ./app                 -> open executable
+run                       -> run program
+run < input.txt           -> run with redirected input
+run arg1 arg2             -> run with command-line args
+start                     -> run and stop at main
+
+
+2. BREAKPOINTS AND WATCHPOINTS
+break 42                  -> breakpoint at line 42
+break main                -> breakpoint at function main
+break file.cpp:42         -> breakpoint in specific file
+break foo if x > 10       -> conditional breakpoint
+tbreak 100                -> temporary breakpoint (auto-deletes after hit)
+ignore 2 5                -> ignore breakpoint #2 for next 5 hits
+condition 2 x == 0        -> add/change condition on breakpoint #2
+commands 2                -> add auto-commands to breakpoint #2
+info break                -> list breakpoints
+delete 2                  -> delete breakpoint #2
+disable 2 / enable 2      -> disable/enable breakpoint #2
+clear 42                  -> clear breakpoint at line 42
+
+watch x                   -> stop when x changes
+rwatch x                  -> stop when x is read
+awatch x                  -> stop when x is read/written
+info watch                -> list watchpoints
+
+
+3. EXECUTION CONTROL
+continue (or c)           -> continue until next stop
+next (or n)               -> step over
+step (or s)               -> step into
+nexti (or ni)             -> step one machine instruction (no function entry)
+stepi (or si)             -> step one machine instruction (can enter calls)
+finish                    -> run until current function returns
+until 80                  -> run until line 80 in current frame
+jump 120                  -> set next line to execute (use carefully)
+
+
+4. STACK AND FRAMES
+bt                        -> backtrace (call stack)
+bt full                   -> backtrace with locals
+frame 0                   -> select frame 0
+up / down                 -> move up/down call stack
+info frame                -> details about current frame
+
+
+5. INSPECT VARIABLES
+print x                   -> print variable
+p x                       -> short for print
+p *ptr                    -> print dereferenced pointer
+p arr[0]@10               -> print 10 elements from arr[0]
+p/x x                     -> print x in hex
+p/t flags                 -> print in binary
+set var x = 42            -> change variable value while debugging
+ptype x                   -> show type of x
+info locals               -> show local variables
+info args                 -> show function arguments
+display x                 -> print x every stop
+undisplay 1               -> remove display #1
+
+
+6. SOURCE AND CODE VIEW
+list                      -> show source around current line
+list 40                   -> show source around line 40
+list foo                  -> show source around function foo
+
+layout src                -> TUI source view
+layout asm                -> TUI assembly view
+layout regs               -> TUI registers view
+tui enable / tui disable  -> toggle TUI mode
+
+
+7. MEMORY AND REGISTERS
+x/16xb &arr               -> examine 16 bytes in hex
+x/10dw arr                -> examine 10 words as decimal
+x/4gx ptr                 -> examine 4 giant words in hex
+x/5i $pc                  -> show 5 instructions at program counter
+info registers            -> show CPU registers
+disassemble               -> disassemble current function
+disassemble /m main       -> mixed source + assembly for main
+
+
+8. THREADS (MULTI-THREAD)
+info threads              -> list threads
+thread 3                  -> switch to thread 3
+thread apply all bt       -> backtrace for all threads
+thread apply all bt full  -> backtrace + locals for all threads
+
+
+9. COMMON DEBUG FLOWS
+Segmentation fault flow:
+run                       -> execute until crash
+bt                        -> find where it crashed
+frame N                   -> switch relevant frame
+info locals               -> inspect local values
+p variable                -> inspect suspicious pointers/indices
+
+Infinite loop flow:
+Ctrl+C                    -> interrupt running program
+bt                        -> see where it is stuck
+info locals               -> inspect loop variables
+
+
+10. USEFUL SETTINGS
+set pagination off        -> disable "--More--" pauses
+set print pretty on       -> pretty-print structs/containers
+set print elements 0      -> do not truncate long arrays/strings
+set confirm off           -> fewer confirmation prompts
+set history save on       -> save command history
+set disassemble-next-line on -> show asm around next instruction
+
+set logging file gdb.log  -> log file name
+set logging on            -> start logging output
+set logging off           -> stop logging output
+
+
+11. PROCESS CONTROL
+attach <pid>              -> attach to running process
+detach                    -> detach from attached process
+kill                      -> terminate program being debugged
+set follow-fork-mode child -> follow child after fork (or parent)
+
+
+12. EXIT AND HELP
+help                      -> general help
+help break                -> help for break command
+apropos regex             -> find commands by keyword
+info functions <regex>    -> list functions matching regex
+info variables <regex>    -> list globals/statics matching regex
+quit (or q)               -> exit GDB
+
+
+13. ONE PRACTICAL SESSION
+(gdb) break main
+(gdb) run < in.txt
+(gdb) next
+(gdb) print n
+(gdb) break solve if n < 0
+(gdb) continue
+(gdb) bt
+(gdb) info locals
+(gdb) quit
+
+14. IMPORTANT TIPS
+- Build with `-g -O0` while debugging (`-O2` can hide or move variables).
+- Reproduce with the same input every run (`run < input.txt`) to debug faster.
+- For crashes, start with `bt`, then `frame`, then `info locals`.
+- Use conditional breakpoints (`break line if cond`) to avoid stopping too often.
+- Use watchpoints sparingly; they can be expensive on large programs.
+- If stepping is slow in templates/STL, prefer `next` and targeted breakpoints.
+- For multithreaded bugs, run `thread apply all bt` immediately after stop/crash.
+- Log sessions when sharing issues: `set logging on`.
+
+15. PANIC SITUATIONS (FAST RECOVERY)
+Program runs forever / hangs:
+- `Ctrl+C`                  -> interrupt execution immediately
+- `bt`                      -> see where it is stuck
+
+Stepped too far or changed state badly:
+- `run`                     -> restart clean run
+- `start`                   -> restart and stop at `main`
+
+Too many breakpoints stopping constantly:
+- `disable <num>`           -> temporarily disable noisy breakpoint
+- `delete <num>`            -> remove it
+
+Debugger output is overwhelming:
+- `set pagination off`      -> reduce prompts
+- `set logging on`          -> log output to inspect calmly
+
+16. DAILY LIFE TIPS
+- Start sessions with `set pagination off` and `set print pretty on`.
+- Use conditional breakpoints early to avoid hundreds of useless stops.
+- Use `display <expr>` for variables you inspect repeatedly.
+- Keep one input file per bug case and run with `run < case.txt`.
+- After fix, rerun once without breakpoints to validate clean behavior.
+
+Tip: If values look "optimized out", recompile with -O0 and -g.
