@@ -1,54 +1,28 @@
-fn gcd(mut a: i64, mut b: i64) -> i64 {
-    while b != 0 {
-        let temp = b;
-        b = a % b;
-        a = temp;
-    }
-    a
-}
+use std::io::{self,Read};
 
-fn lcm(a: i64, b: i64) -> i64 {
-    (a / gcd(a, b)) * b
-}
+fn solve<'a>(iter: &mut std::str::SplitWhitespace) {
+    let n:i64 = iter.next().unwrap().parse().unwrap();
+    let k:i64 = iter.next().unwrap().parse().unwrap();
 
-/// Computes `a^e mod m` using binary exponentiation.
-fn pow_mod(mut base: i128, mut exp: i128, modulus: i128) -> i128 {
-    base = ((base % modulus) + modulus) % modulus;
-    let mut result = 1i128;
-    while exp > 0 {
-        if exp & 1 == 1 {
-            result = (result * base) % modulus;
-        }
-        base = (base * base) % modulus;
-        exp >>= 1;
-    }
-    result
-}
+    let done = (k-1)/(n-1);
+    let ans = k+done;
+    println!("{}",ans );
 
-/// Modular multiplicative inverse (assumes m is prime).
-fn inv_mod(a: i128, m: i128) -> i128 {
-    pow_mod(a, m - 2, m)
-}
-
-/// Binary search for the first value where `pred` returns true.
-fn binary_search<F>(mut lo: i64, mut hi: i64, mut pred: F) -> i64
-where
-    F: FnMut(i64) -> bool,
-{
-    while lo < hi {
-        let mid = lo + (hi - lo) / 2;
-        if pred(mid) {
-            hi = mid;
-        } else {
-            lo = mid + 1;
-        }
-    }
-    lo
-}
-
-fn solve() {
 }
 
 fn main() {
-    solve();
+    let mut input = String::new();
+    
+    io::stdin().read_to_string(&mut input).unwrap();
+    let mut iter = input.split_whitespace();
+
+    //let t = 1usize;
+    
+
+    if let Some(t_str) = iter.next() {
+        let t: usize = t_str.parse().unwrap();
+        for _ in 0..t {
+            solve(&mut iter);
+        }
+    }
 }
