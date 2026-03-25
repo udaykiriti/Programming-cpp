@@ -6,26 +6,13 @@ Structure
 -----------------
 - Atcoder.cpp - AtCoder problem template
 - Templates/ - templates for programming
+	- from top programmers 
 - algo/ - debug header file
-
-Scripts
-----------------
-- create.sh - Create new C++ file from template
-- sol.sh - Solution helper script
-- git.sh - Git automation script
-
-Usage
-----------------
-Use the provided shell scripts to compile and run C++ programs
-- it wont work on another folders in this repository.
-- it works only on main directory [Hardcoded].
-
-./create.sh <fname>    # create from algo/Template
-./sol.sh <fname>       # output in cli && out.txt file
 
 references(docs/)
 ----------------
 - git.txt - Git commands 
-- gdb.txt - GDB debugging 
+- gdb.txt - GDB debugging [for gcc]
+- rdb.txt - RDB debugging [for rustc]
 - vim.txt - vim commands 
 - emacs.txt - emacs commads 
