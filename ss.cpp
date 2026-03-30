@@ -3,20 +3,31 @@ using namespace std;
 
 #define vi vector<int>
 
+const int MAX = 100005;
+long long cnt[MAX];
+long long dp[MAX];
+
 void _solve(){
-	int n,cnt{0},maxi{0};
+	int n;
 	cin >> n;
-	for(int i = 0 ; i < n ;i++){
-		int ele ;
-		cin >> ele;
-		if(0 == ele){
-			cnt++;
-			maxi = max(maxi,cnt);
-		}else{
-			cnt = 0;
-		}
+
+	int maxi{0};
+
+	for(int i = 0 ; i < n ; i++){
+		int x;
+		cin >> x;
+		cnt[x]++;
+		maxi = max(maxi,x);
 	}
-	cout << maxi << '\n';
+
+	dp[0] = 0;
+	dp[1] = cnt[1];
+
+	for(int i = 2; i<=maxi ; i++){
+		dp[i] = max(dp[i-1],dp[i-2] + i * cnt[i]);
+	}
+	
+	cout << dp[maxi] << '\n';
 }
 
 int main(){
@@ -24,8 +35,8 @@ int main(){
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	int t;
-	cin >> t;
+	int t{1};
+	//cin >> t;
 	while(t--)
 		_solve();
 }
