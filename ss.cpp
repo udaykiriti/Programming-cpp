@@ -13,7 +13,7 @@ void _solve(){
 
 	int maxi{0};
 
-	for(int i = 0 ; i < n ; i++){
+	for(int i{0} ; i < n ; i++){
 		int x;
 		cin >> x;
 		cnt[x]++;
@@ -23,8 +23,8 @@ void _solve(){
 	dp[0] = 0;
 	dp[1] = cnt[1];
 
-	for(int i = 2; i<=maxi ; i++){
-		dp[i] = max(dp[i-1],dp[i-2] + i * cnt[i]);
+	for(int i{2}; i <= maxi ; i++){
+		dp[i] = max(dp[i - 1] , dp[i - 2] + i * cnt[i]);
 	}
 	
 	cout << dp[maxi] << '\n';

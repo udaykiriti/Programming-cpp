@@ -495,7 +495,7 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
-using i128 = __int128_t;
+/*using i128 = __int128_t;*/
 /* int_64 perm(int n, int r) {
     if (r < 0 || r > n) return 0;
     return fact[n] * invfact[n - r] % MOD;
@@ -506,36 +506,35 @@ struct ele {
     int id;
 };
 
-int get(const string& s) {
-    bool has0 = false, has1 = false;
-
-    for (char c : s) {
-        if (c == '0') 
-            has0 = true;
-        if (c == '1') 
-            has1 = true;
-    }
-    
-    if (!has1) 
-        return 0;
-    if (!has0) 
-        return 1;
-    return 2;
-}
-
 void _GO() {
   // Solution Here.....
   int n;
   cin >> n;
-  str a, b;
-  cin >> a >> b;
-    
-  if (a == b) {
-    cout << 0 <<  '\n' ;
-    return;
+  vi nums(n);
+
+  FOR (i , 0 , n) {
+    cin >> nums[i];
   }
-    
-  cout<< (get(a) ==get(b)? 0: 1) <<  '\n' ;  
+
+  int neg{0},ans{0};
+  int t1 = 0,t2 = 0;
+ 
+  FOR(i , 0 , n ){
+
+    if(0 == nums[i]){
+        ans++;
+    }else if(nums[i] < 0){
+        neg++;
+        t1 += abs(nums[i] - 1);
+        t2 += abs(nums[i] + 1);
+    }else{
+        ans += (nums[i] - 1);
+    }
+  }
+
+  ((neg % 2 == 0) ? ans += t2 : ans += t1);
+
+  cout << ans << '\n'; 
 }
 
 int main(/* int argc, char *argv[] */) {

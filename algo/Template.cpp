@@ -494,7 +494,7 @@ void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
 #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
-using i128 = __int128_t;
+/*using i128 = __int128_t;*/
 /* int_64 perm(int n, int r) {
     if (r < 0 || r > n) return 0;
     return fact[n] * invfact[n - r] % MOD;
