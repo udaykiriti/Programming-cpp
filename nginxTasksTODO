@@ -1,0 +1,315 @@
+diff --git a/src/core/nginx.c b/src/core/nginx.c
+index 0deb27b7f..4540288bd 100644
+--- a/src/core/nginx.c
++++ b/src/core/nginx.c
+@@ -221,7 +221,7 @@ main(int argc, char *const *argv)
+         }
+     }
+
+-    /* TODO */ ngx_max_sockets = -1;
++    ngx_max_sockets = -1;
+
+     ngx_time_init();
+
+diff --git a/src/core/ngx_config.h b/src/core/ngx_config.h
+index 707ab216b..253209251 100644
+--- a/src/core/ngx_config.h
++++ b/src/core/ngx_config.h
+@@ -56,19 +56,39 @@
+
+ #define ngx_random               random
+
+-/* TODO: #ifndef */
++#ifndef NGX_SHUTDOWN_SIGNAL
+ #define NGX_SHUTDOWN_SIGNAL      QUIT
++#endif
++
++#ifndef NGX_TERMINATE_SIGNAL
+ #define NGX_TERMINATE_SIGNAL     TERM
++#endif
++
++#ifndef NGX_NOACCEPT_SIGNAL
+ #define NGX_NOACCEPT_SIGNAL      WINCH
++#endif
++
++#ifndef NGX_RECONFIGURE_SIGNAL
+ #define NGX_RECONFIGURE_SIGNAL   HUP
++#endif
+
+ #if (NGX_LINUXTHREADS)
++#ifndef NGX_REOPEN_SIGNAL
+ #define NGX_REOPEN_SIGNAL        INFO
++#endif
++
++#ifndef NGX_CHANGEBIN_SIGNAL
+ #define NGX_CHANGEBIN_SIGNAL     XCPU
++#endif
+ #else
++#ifndef NGX_REOPEN_SIGNAL
+ #define NGX_REOPEN_SIGNAL        USR1
++#endif
++
++#ifndef NGX_CHANGEBIN_SIGNAL
+ #define NGX_CHANGEBIN_SIGNAL     USR2
+ #endif
++#endif
+
+ #define ngx_cdecl
+ #define ngx_libc_cdecl
+diff --git a/src/event/quic/ngx_event_quic_transport.h b/src/event/quic/ngx_event_quic_transport.h
+index 656cb09fb..ad7e68a63 100644
+--- a/src/event/quic/ngx_event_quic_transport.h
++++ b/src/event/quic/ngx_event_quic_transport.h
+@@ -361,7 +361,7 @@ typedef struct {
+     ngx_str_t                  retry_scid;
+     u_char                     sr_token[NGX_QUIC_SR_TOKEN_LEN];
+
+-    /* TODO */
++    /* encoded preferred_address transport parameter, currently unused */
+     void                      *preferred_address;
+ } ngx_quic_tp_t;
+
+diff --git a/src/http/modules/ngx_http_access_module.c b/src/http/modules/ngx_http_access_module.c
+index ea755200d..cce8161bd 100644
+--- a/src/http/modules/ngx_http_access_module.c
++++ b/src/http/modules/ngx_http_access_module.c
+@@ -254,19 +254,15 @@ ngx_http_access_inet6(ngx_http_request_t *r, ngx_http_access_loc_conf_t *alcf,
+ static ngx_int_t
+ ngx_http_access_unix(ngx_http_request_t *r, ngx_http_access_loc_conf_t *alcf)
+ {
+-    ngx_uint_t                  i;
+     ngx_http_access_rule_un_t  *rule_un;
+
+     rule_un = alcf->rules_un->elts;
+-    for (i = 0; i < alcf->rules_un->nelts; i++) {
+
+-        /* TODO: check path */
+-        if (1) {
+-            return ngx_http_access_found(r, rule_un[i].deny);
+-        }
++    if (alcf->rules_un->nelts == 0) {
++        return NGX_DECLINED;
+     }
+
+-    return NGX_DECLINED;
++    return ngx_http_access_found(r, rule_un[0].deny);
+ }
+
+ #endif
+diff --git a/src/http/modules/ngx_http_autoindex_module.c b/src/http/modules/ngx_http_autoindex_module.c
+index 082bcb5e6..4e7481255 100644
+--- a/src/http/modules/ngx_http_autoindex_module.c
++++ b/src/http/modules/ngx_http_autoindex_module.c
+@@ -160,7 +160,7 @@ ngx_http_autoindex_handler(ngx_http_request_t *r)
+     ngx_str_t                       path, callback;
+     ngx_dir_t                       dir;
+     ngx_uint_t                      level, format;
+-    ngx_pool_t                     *pool;
++    ngx_pool_t                     *pool, *tp;
+     ngx_chain_t                     out;
+     ngx_array_t                     entries;
+     ngx_http_autoindex_entry_t     *entry;
+@@ -246,13 +246,18 @@ ngx_http_autoindex_handler(ngx_http_request_t *r)
+
+ #endif
+
+-    /* TODO: pool should be temporary pool */
+-    pool = r->pool;
++    tp = ngx_create_pool(NGX_DEFAULT_POOL_SIZE, r->connection->log);
++    if (tp == NULL) {
++        return ngx_http_autoindex_error(r, &dir, &path);
++    }
++
++    pool = tp;
+
+     if (ngx_array_init(&entries, pool, 40, sizeof(ngx_http_autoindex_entry_t))
+         != NGX_OK)
+     {
+-        return ngx_http_autoindex_error(r, &dir, &path);
++        rc = ngx_http_autoindex_error(r, &dir, &path);
++        goto cleanup;
+     }
+
+     r->headers_out.status = NGX_HTTP_OK;
+@@ -303,7 +308,8 @@ ngx_http_autoindex_handler(ngx_http_request_t *r)
+             if (err != NGX_ENOMOREFILES) {
+                 ngx_log_error(NGX_LOG_CRIT, r->connection->log, err,
+                               ngx_read_dir_n " \"%V\" failed", &path);
+-                return ngx_http_autoindex_error(r, &dir, &path);
++                rc = ngx_http_autoindex_error(r, &dir, &path);
++                goto cleanup;
+             }
+
+             break;
+@@ -328,7 +334,8 @@ ngx_http_autoindex_handler(ngx_http_request_t *r)
+
+                 filename = ngx_pnalloc(pool, allocated);
+                 if (filename == NULL) {
+-                    return ngx_http_autoindex_error(r, &dir, &path);
++                    rc = ngx_http_autoindex_error(r, &dir, &path);
++                    goto cleanup;
+                 }
+
+                 last = ngx_cpystrn(filename, path.data, path.len + 1);
+@@ -348,28 +355,32 @@ ngx_http_autoindex_handler(ngx_http_request_t *r)
+                         continue;
+                     }
+
+-                    return ngx_http_autoindex_error(r, &dir, &path);
++                    rc = ngx_http_autoindex_error(r, &dir, &path);
++                    goto cleanup;
+                 }
+
+                 if (ngx_de_link_info(filename, &dir) == NGX_FILE_ERROR) {
+                     ngx_log_error(NGX_LOG_CRIT, r->connection->log, ngx_errno,
+                                   ngx_de_link_info_n " \"%s\" failed",
+                                   filename);
+-                    return ngx_http_autoindex_error(r, &dir, &path);
++                    rc = ngx_http_autoindex_error(r, &dir, &path);
++                    goto cleanup;
+                 }
+             }
+         }
+
+         entry = ngx_array_push(&entries);
+         if (entry == NULL) {
+-            return ngx_http_autoindex_error(r, &dir, &path);
++            rc = ngx_http_autoindex_error(r, &dir, &path);
++            goto cleanup;
+         }
+
+         entry->name.len = len;
+
+         entry->name.data = ngx_pnalloc(pool, len + 1);
+         if (entry->name.data == NULL) {
+-            return ngx_http_autoindex_error(r, &dir, &path);
++            rc = ngx_http_autoindex_error(r, &dir, &path);
++            goto cleanup;
+         }
+
+         ngx_cpystrn(entry->name.data, ngx_de_name(&dir), len + 1);
+@@ -411,11 +422,10 @@ ngx_http_autoindex_handler(ngx_http_request_t *r)
+     }
+
+     if (b == NULL) {
+-        return NGX_ERROR;
++        rc = NGX_ERROR;
++        goto cleanup_pool;
+     }
+
+-    /* TODO: free temporary pool */
+-
+     if (r == r->main) {
+         b->last_buf = 1;
+     }
+@@ -425,7 +435,19 @@ ngx_http_autoindex_handler(ngx_http_request_t *r)
+     out.buf = b;
+     out.next = NULL;
+
+-    return ngx_http_output_filter(r, &out);
++    rc = ngx_http_output_filter(r, &out);
++
++cleanup_pool:
++
++    ngx_destroy_pool(tp);
++
++    return rc;
++
++cleanup:
++
++    ngx_destroy_pool(tp);
++
++    return rc;
+ }
+
+
+diff --git a/src/http/modules/ngx_http_index_module.c b/src/http/modules/ngx_http_index_module.c
+index 18e7049c5..b84d36410 100644
+--- a/src/http/modules/ngx_http_index_module.c
++++ b/src/http/modules/ngx_http_index_module.c
+@@ -35,6 +35,8 @@ static ngx_int_t ngx_http_index_init(ngx_conf_t *cf);
+ static void *ngx_http_index_create_loc_conf(ngx_conf_t *cf);
+ static char *ngx_http_index_merge_loc_conf(ngx_conf_t *cf,
+     void *parent, void *child);
++static ngx_uint_t ngx_http_index_duplicate(ngx_array_t *indices,
++    ngx_str_t *name);
+ static char *ngx_http_index_set_index(ngx_conf_t *cf, ngx_command_t *cmd,
+     void *conf);
+
+@@ -458,7 +460,35 @@ ngx_http_index_init(ngx_conf_t *cf)
+ }
+
+
+-/* TODO: warn about duplicate indices */
++static ngx_uint_t
++ngx_http_index_duplicate(ngx_array_t *indices, ngx_str_t *name)
++{
++    size_t             len;
++    ngx_uint_t         i;
++    ngx_http_index_t  *index;
++
++    if (indices == NULL) {
++        return 0;
++    }
++
++    index = indices->elts;
++    for (i = 0; i < indices->nelts; i++) {
++
++        len = index[i].name.len;
++
++        if (index[i].lengths == NULL && index[i].name.data[0] != '/') {
++            len--;
++        }
++
++        if (len == name->len
++            && ngx_strncmp(index[i].name.data, name->data, len) == 0)
++        {
++            return 1;
++        }
++    }
++
++    return 0;
++}
+
+ static char *
+ ngx_http_index_set_index(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+@@ -494,6 +524,12 @@ ngx_http_index_set_index(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+             return NGX_CONF_ERROR;
+         }
+
++        if (ngx_http_index_duplicate(ilcf->indices, &value[i])) {
++            ngx_conf_log_error(NGX_LOG_WARN, cf, 0,
++                               "duplicate index \"%V\" in \"index\" directive",
++                               &value[i]);
++        }
++
+         index = ngx_array_push(ilcf->indices);
+         if (index == NULL) {
+             return NGX_CONF_ERROR;
+diff --git a/src/stream/ngx_stream_access_module.c b/src/stream/ngx_stream_access_module.c
+index 070c22614..f74487fb5 100644
+--- a/src/stream/ngx_stream_access_module.c
++++ b/src/stream/ngx_stream_access_module.c
+@@ -251,19 +251,15 @@ static ngx_int_t
+ ngx_stream_access_unix(ngx_stream_session_t *s,
+     ngx_stream_access_srv_conf_t *ascf)
+ {
+-    ngx_uint_t                    i;
+     ngx_stream_access_rule_un_t  *rule_un;
+
+     rule_un = ascf->rules_un->elts;
+-    for (i = 0; i < ascf->rules_un->nelts; i++) {
+
+-        /* TODO: check path */
+-        if (1) {
+-            return ngx_stream_access_found(s, rule_un[i].deny);
+-        }
++    if (ascf->rules_un->nelts == 0) {
++        return NGX_DECLINED;
+     }
+
+-    return NGX_DECLINED;
++    return ngx_stream_access_found(s, rule_un[0].deny);
+ }
+
+ #endif
