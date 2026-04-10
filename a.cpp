@@ -509,24 +509,17 @@ struct ele {
 void _GO() {
   // Solution Here.....
   //
-  int n;
-  cin >> n;
+  int n; str s;
+  cin >> n >> s;
 
-  unordered_map <str,int> omp;
-
-  FOR(i,0,n){
-      str st;
-      cin >> st;
-      omp[st]++;
-  }
-
-  str ans;
-  int maxi{0};
-
-  for(auto &p : omp){
-      if(p.S > maxi){
-          maxi = p.S;
-          ans = p.F;
+  int ans{0};
+  set<char> st;
+  for(char ch : s){
+      if(st.count(ch) == 0){
+          ans += 2;
+          st.ins(ch);
+      }else{
+          ans += 1;
       }
   } cout << ans << '\n';
 }
@@ -539,7 +532,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; //cin >> t;
+    int t{1},tcase{0}; cin >> t;
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
