@@ -410,6 +410,8 @@ void _timer_(){
 
 void _GO() {
   /* Solution Here..... */
+  int n , k;
+  cin >> n >> k;
 
 }
 

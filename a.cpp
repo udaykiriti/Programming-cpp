@@ -509,19 +509,39 @@ struct ele {
 void _GO() {
   // Solution Here.....
   //
-  int n; str s;
-  cin >> n >> s;
+  int n;
+  cin >> n;
+  vi l(n),r(n);
 
-  int ans{0};
-  set<char> st;
-  for(char ch : s){
-      if(st.count(ch) == 0){
-          ans += 2;
-          st.ins(ch);
-      }else{
-          ans += 1;
+  FOR(i,0,n){
+      cin >> l[i] >> r[i];
+  }
+  vl diff(n+2,0);
+
+  FOR(i,0,n){
+      int l11 = l[i], r11 = r[i];
+
+      int l22 = n- r[i], r22 = n-l[i];
+
+      l22 = max(l22,1);
+      r22 = min(r22 , n-1);
+
+      if(l11 <= r11){
+          diff[l11] += 1;
+          diff[r11+1] -= 1;
+      } if(l22 <= r22){
+          diff[l22] += 1;
+          diff[r22 + 1] -=1;
       }
-  } cout << ans << '\n';
+  }
+  int_64 ans{0},curr{0};
+
+  for(int ii{1} ; ii <= n-1 ; ii++){
+      curr += diff[ii];
+
+      if(curr == n) ans = (ans+1) % MOD;
+  }
+  cout << ans << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -532,7 +552,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t;
+    int t{1},tcase{0}; //cin >> t;
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
