@@ -375,116 +375,6 @@ void _timer_(){
     FIXED(2);
     cout << "[time: "<< delta <<" ms]\n";
 }
-/**
- * Disjoint Set Union(DSU)
- * Source : https://codeforces.com/blog/entry/120381
- * Time: almost constant O(alph(n))
- * It is Efficiently manages and merges disjoint sets used to track connectivity-
- * && group elements like kruskal's Algo for MST and connected compnent detection.
-**/
-struct DSU{
-    int n;
-    vi parent, size;
-
-    DSU(int n) : n(n), parent(n), size(n,1){
-        iota(parent.begin(), parent.end(), 0);
-    }
-
-    int find(int v){
-        if(parent[v] == v) return v;
-        return parent[v] = find(parent[v]);
-    }
-
-    int_64 size_of(int x){
-        return size[find(x)];
-    }
-
-    bool unite(int a, int b){
-        a = find(a);
-        b = find(b);
-        if(a == b) return false;
-        if(size[a] < size[b]) swap(a,b);
-        parent[b] = a;
-        size[a] += size[b];
-        return true;
-    }
-};
-
-/**
- * Fenwik Tree (BIT)
- * Source: https://codeforces.com/blog/entry/57292
- * Time: update = O(log n), query = O(log n)
- * Uses binary index jumps based on lowest set bits
- * Good for range sums, inversion counting, frequncies
- * simple and faster than segment tree for point updates
-**/
-struct Fenwik{
-    int n;
-    vector<int_64> bit;
-    Fenwik(int n) : n(n),bit(n+1,0){ }
-
-    void update(int i, int_64 v){
-        for( ; i <= n ; i += i & -i)
-            bit[i] += v;
-    }
-    int_64 query(int i){
-        int_64 s(0);
-        for(; i > 0 ; i -= i & -i)
-            s += bit[i];
-        return s;
-    }
-    int_64 range(int l , int r){
-        return query(r) - query(l-1);
-    }
-};
-
-/**
- * MEX (Minimum EXcluded Value)
- * Time: O(n)
- * Finds the smallest non-negative integer not present in the array.
- * mex_fast uses a presence array of size n+1 -> ideal when values lie in [0..n].
- * For general arrays with negatives/large values, use mex_set.
-**/
-
-int mex(const vi &a){
-    unordered_set<int>os;
-    os.reserve(a.size() * 2);
-    for(int x : a)
-        if(x >= 0)
-            os.ins(x);
-    int curr(0);
-    while(true){
-        if(os.find(curr) == os.end())
-            curr++;
-    }
-    return curr;
-}
-
-/**
- * DFS (Depth-First Search)
- * Time: O(n + m)
- * Traverses a graph by exploring as deep as possible before backtracking.
- * Useful for connected components, tree traversal, cycle detection, etc.
- * Works on adjacency list; 'vis' tracks visited nodes.
-**/
-void dfs(int src, const vector<vi> &adj, vi &vis, vi &parent){
-    int n = sz(adj);
-    parent.assign(n, -1);
-    stack<int> st;
-    st.push(src);
-    while(!st.empty()){
-        int u = st.top(); st.pop();
-        if(vis[u]) continue;
-        vis[u] = 1;
-        for(int v : adj[u]){
-            if(!vis[v]){
-                parent[v] = u;
-                st.push(v);
-            }
-        }
-    }
-}
-
 
 // #define TIME
 // #define PRAGMA
@@ -511,35 +401,16 @@ void _GO() {
   //
   int n;
   cin >> n;
-  vi l(n),r(n);
+  vl vec(n);
+  int_64 ans{0};
 
   FOR(i,0,n){
-      cin >> l[i] >> r[i];
+      cin >> vec[i];
   }
-  vl diff(n+2,0);
-
   FOR(i,0,n){
-      int l11 = l[i], r11 = r[i];
-
-      int l22 = n- r[i], r22 = n-l[i];
-
-      l22 = max(l22,1);
-      r22 = min(r22 , n-1);
-
-      if(l11 <= r11){
-          diff[l11] += 1;
-          diff[r11+1] -= 1;
-      } if(l22 <= r22){
-          diff[l22] += 1;
-          diff[r22 + 1] -=1;
+      FOR(j,i+1,n){
+          if(vec[j] - vec[i] == (j - i)) ans++;
       }
-  }
-  int_64 ans{0},curr{0};
-
-  for(int ii{1} ; ii <= n-1 ; ii++){
-      curr += diff[ii];
-
-      if(curr == n) ans = (ans+1) % MOD;
   }
   cout << ans << '\n';
 }
@@ -552,7 +423,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; //cin >> t;
+    int t{1},tcase{0}; cin >> t;
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
