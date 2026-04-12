@@ -1,170 +1,8 @@
 /*
-               ___
-             _//_\\
-           ,"    //".
-          /          \
-        _/           |
-       (.-,--.       |
-       /o/  o \     /
-       \_\    /  /\/\
-       (__`--'   ._)
-       /  `-.     |
-      (     ,`-.  |
-       `-,--\_  ) |-.
-        _`.__.'  ,-' \
-       |\ )  _.-'    |
-       i-\.'\     ,--+.
-     .' .'   \,-'/     \
-    / /         /       \
-    7_|         |       |
-    |/          "i.___.j"
-    /            |     |\
-   /             |     | \
-  /              |     |  |
-  |              |     |  |
-  |____          |     |-i'
-   |   """"----""|     | |
-   \           ,-'     |/
-    `.         `-,     |
-     |`-._      / /| |\ \
-     |    `-.   `' | ||`-'
-     |      |      `-'|
-     |      |         |
-     |      |         |
-     |      |         |
-     |      |         |
-     |      |         |
-     |      |         |
-     )`-.___|         |
-   .'`-.____)`-.___.-'(
- .'        .'-._____.-i
-/        .'           |h
-`-------/         .   |j
-        `--------' "--'w
-*/
-
-/*
-  author:  -----
-  created: 03 08:27:32
-*/
-
-
-/*
 g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 ./p <in.txt> out.txt
 */
 #undef _GLIBCXX_DEBUG
-
-/*
-#include <algorithm>
-#include <array>
-#include <bitset>
-#include <cassert>
-#include <chrono>
-#include <climits>
-#include <cmath>
-#include <complex>
-#include <cstring>
-#include <containers>
-#include <functional>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <random>
-#include <set>
-#include <string>
-#include <vector>
-
-// Old Libraries
-// Source - https://stackoverflow.com/a/26803644
-// Posted by deW1, modified by community. See post 'Timeline' for change history
-// Retrieved 2025-12-03, License - CC BY-SA 3.0
-
-// C++ Full Standard Header Include
-#include <cstdlib>
-#include <csignal>
-#include <csetjmp>
-#include <cstdarg>
-#include <typeinfo>
-#include <typeindex>
-#include <type_traits>
-#include <bitset>
-#include <functional>
-#include <utility>
-#include <ctime>
-#include <chrono>
-#include <cstddef>
-#include <initializer_list>
-#include <tuple>
-#include <new>
-#include <memory>
-#include <scoped_allocator>
-#include <climits>
-#include <cfloat>
-#include <cstdint>
-#include <cinttypes>
-#include <limits>
-#include <exception>
-#include <stdexcept>
-#include <cassert>
-#include <system_error>
-#include <cerrno>
-#include <cctype>
-#include <cwctype>
-#include <cstring>
-#include <cwstring>
-#include <cwchar>
-#include <cuchar>
-#include <string>
-#include <array>
-#include <vector>
-#include <deque>
-#include <list>
-#include <forward_list>
-#include <set>
-#include <map>
-#include <unordered_set>
-#include <unordered_map>
-#include <stack>
-#include <queue>
-#include <algorithm>
-#include <iterator>
-#include <cmath>
-#include <complex>
-#include <valarray>
-#include <random>
-#include <numeric>
-#include <ratio>
-#include <cfenv>
-#include <iosfwd>
-#include <ios>
-#include <istream>
-#include <ostream>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <strstream>
-#include <iomanip>
-#include <streambuf>
-#include <cstdio>
-#include <locale>
-#include <clocale>
-#include <codecvt>
-#include <regex>
-#include <atomic>
-#include <thread>
-#include <mutex>
-#include <future>
-#include <condition_variable>
-#include <ciso646>
-#include <ccomplex>
-#include <ctgmath>
-#include <cstdalign>
-#include <cstdbool>
-*/
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -174,26 +12,6 @@ using namespace std;
 #else
 #define debug(...) 42
 #endif
-
-#ifdef USE_PBDS
-  #include <ext/pb_ds/assoc_container.hpp>
-  #include <ext/pb_ds/tree_policy.hpp>
-
-  using namespace __gnu_pbds;
-
-  template <class T>
-  using ordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-
-  template <class K, class V>
-  using ordered_map = tree<K, V, std::less<K>, rb_tree_tag, tree_order_statistics_node_update>;
-
-  template <class T>
-  using multiordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-
-  // optional convenience typedefs:
-  using pii = std::pair<int,int>;
-#endif
-
 
 using int_64 = long long;
 using db = long double;  // or double, if TL is tight
@@ -218,34 +36,8 @@ using vl = V<int_64>;
 using vd = V<db>;
 using vs = V<str>;
 
-template <typename T>
-using Mat = vector<vector<T>>;
-
-template <typename T>
-Mat<T> make_mat(int n, int m, T val = T()) {
-    return Mat<T>(n, vector<T>(m, val));
-}
-
-/*
-#define os_insert(s, val) s.insert(val)
-#define os_erase(s, val) s.erase(val)
-#define os_kth(s, k) *s.find_by_order(k)
-#define os_rank(s, val) s.order_of_key(val)
-#define os_size(s) ((int)s.size())
-#define oms_insert(ms, val) ms.insert({val, timer++})
-#define oms_erase(ms, val) ms.erase(ms.lower_bound({val, 0}))
-#define oms_kth(ms, k) ms.find_by_order(k)->first
-#define oms_rank(ms, val) ms.order_of_key({val, 0})
-*/
-
 #define FIXED(x) do { cout << fixed << setprecision(x); } while(0)
 
-/*
-#define debug(x) cout << (x) << endl
-#define debugVec(v) do { cout << #v << " = "; for (auto u : v) cout << u << " "; cout << endl; } while(0)
-#define printm(m) do { cout << "[\n"; for (auto i : m) cout << i.first << " -> " << i.second << endl; cout << "...]\n"; } while(0)
-#define prints(s) do { cout << "{"; for (auto i : s) cout << i << ' '; cout << "}\n"; } while(0)
-*/
 
 const int MOD = 998244353;  // 1e9+7;
 const double PI = 3.14159265358979323846;
@@ -254,15 +46,13 @@ double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
 const int_64 MAXI = 1e18;  // not too close to LLONG_MAX
 const int MIN_VAL = -1e7;
-const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 
-#define sz(x)     int(size(x))
 #define pb        push_back
 #define eb        emplace_back
 #define lb        lower_bound
 #define ub        upper_bound
-tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - a.begin()); }
-tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - a.begin()); }
+tcT > int lwb(const V<T> &a, const T &b) { return int(lb(a.begin(), a.end(), b) - a.begin()); }
+tcT > int upb(const V<T> &a, const T &b) { return int(ub(a.begin(), a.end(), b) - a.begin()); }
 
 #define FOR(i, a, b)         for (int i = (a); i < (b); ++i)
 #define RFOR(i, a, b)        for (int i = (a); i >= (b); --i)
@@ -272,129 +62,27 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - a.begin())
 
 tcT >
 constexpr T lcm(T a, T b) { return a / gcd(a, b) * b; }
-
 tcT >
 constexpr T sqr(T x) { return x * x; }
-
 tcT >
 constexpr T cube(T x) { return x * x * x; }
-
 tcT >
-constexpr bool isEven(T x) { return x % 2 == 0; }
-
+constexpr bool isEven(T x) { return 0 == x % 2; }
 tcT >
-constexpr bool isOdd(T x) { return x % 2 != 0; }
-
+constexpr bool isOdd(T x) { return 0 != x % 2; }
 tcT >
 constexpr T uceil(T a, T b) { return (a + b - 1) / b; }
 
-template <class T, class = void>
-struct is_iterable : false_type {};
+template <class T>
+[[nodiscard]] constexpr int sz(const T& c) { return static_cast<int>(std::size(c)); }
 
-tcT >
-struct is_iterable<T, void_t<decltype(begin(declval<T>())), decltype(end(declval<T>()))>> : true_type {};
-
-tcT >
-inline constexpr bool is_string_like_v =
-    is_same_v<decay_t<T>, string> ||
-    is_same_v<decay_t<T>, char*> ||
-    is_same_v<decay_t<T>, const char*>;
-
-template <class T, class = void>
-struct is_tuple_like_helper : false_type {};
-
-tcT >
-struct is_tuple_like_helper<T, void_t<decltype(tuple_size<decay_t<T>>::value)>> : true_type {};
-
-tcT >
-inline constexpr bool is_tuple_like_v = !is_string_like_v<T> && is_tuple_like_helper<T>::value;
-
-template <typename T>
-void __print(const T& x) {
-    if constexpr (is_string_like_v<T>) {
-        cout << '"' << x << '"';
-    } else if constexpr (is_same_v<decay_t<T>, char>) {
-        cout << '\'' << x << '\'';
-    } else if constexpr (is_same_v<decay_t<T>, bool> || is_arithmetic_v<decay_t<T>>) {
-        cout << x;
-    } else if constexpr (is_tuple_like_v<T>) {
-        cout << "(";
-        apply([](const auto&... args) {
-            size_t i = 0;
-            (( __print(args), cout << (++i < sizeof...(args) ? ", " : "") ), ...);
-        }, x);
-        cout << ")";
-    } else if constexpr (is_iterable<T>::value) {
-        cout << "{";
-        bool first = true;
-        for (const auto& e : x) {
-            if (!first) cout << ", ";
-            first = false;
-            __print(e);
-        }
-        cout << "}";
-    } else {
-        cout << x;
-    }
-}
-
-
-/* Utility Functions */
-int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
-bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
-bool isUp(char ch) { return std::isupper(static_cast<unsigned char>(ch)); }
-/* Power & Combinatorics */
-
-template <typename T>
-T binpow(T a,int_64 e , T mod){
-    T r = 1; a %= mod;
-    while(e > 0){
-        if(e & 1) r = (r * a) % mod;
-        a = (a * a) % mod; e >>= 1;
-    } return r;}
-
-int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
-int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
-int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
-int_64 modinv(int_64 a){ return binpow(a,(int_64)MOD-2,(int_64)MOD); }
-// Normalize any value to MOD range
-template<typename T> T normalize(T x) { x %= MOD; if(x < 0) x += MOD; return x; }
-
-/* XOR Range Queries */
-int XOR1toN(int N){int m=N%4;if(m==0)return N;if(m==1)return 1;if(m==2)return N+1;return 0;}
-int XORLtoR(int L,int R){return XOR1toN(R)^XOR1toN(max(L-1,0));}
-/* TIMER */
-const auto start_time = chrono::high_resolution_clock::now();
-void _timer_(){
-    const auto end_time = std::chrono::high_resolution_clock::now();
-    double delta = (double) chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
-    FIXED(2);
-    cout << "[time: "<< delta <<" ms]\n";
-}
-
-// #define TIME
-// #define PRAGMA
 // #define ONPC
-
-#ifdef PRAGMA
-#pragma GCC optimize("O3","unroll-loops")
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
-#endif
-
-/*using i128 = __int128_t;*/
-/* int_64 perm(int n, int r) {
-    if (r < 0 || r > n) return 0;
-    return fact[n] * invfact[n - r] % MOD;
-} */
-
-/* [##############################################################################] */
 
 void _GO() {
   /* Solution Here..... */
 
 }
 
-/* [##############################################################################] */
 int main(/* int argc, char *argv[] */) {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
@@ -405,15 +93,8 @@ int main(/* int argc, char *argv[] */) {
     #endif
     int t{1},tcase{0}; cin >> t;
     while (tcase++,t--){
-        #ifdef TIME
-            cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
-            _timer_();
-        #endif
         _GO();
     }
-    #ifdef TIME
-        cout << "\nExecuted in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec\n";
-    #endif
     return 0;
 }
 
