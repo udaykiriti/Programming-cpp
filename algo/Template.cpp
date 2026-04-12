@@ -199,11 +199,6 @@ using int_64 = long long;
 using db = long double;  // or double, if TL is tight
 using str = string;      // like python!
 
-/* Pairs */
-using pi = pair <int,int>;
-using pll = pair<int_64, int_64>;
-using pdb = pair<db,db>;
-
 /* Complex to expand compared to normal ones, but looks cool.*/
 #define tcT template <class T
 #define tcTU tcT, class U
