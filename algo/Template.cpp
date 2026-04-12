@@ -280,10 +280,10 @@ tcT >
 constexpr T cube(T x) { return x * x * x; }
 
 tcT >
-constexpr bool isEven(T x) { return x % 2 == 0; }
+constexpr bool isEven(T x) { return 0 == x % 2; }
 
 tcT >
-constexpr bool isOdd(T x) { return x % 2 != 0; }
+constexpr bool isOdd(T x) { return 0 != x % 2; }
 
 tcT >
 constexpr T uceil(T a, T b) { return (a + b - 1) / b; }
@@ -340,28 +340,27 @@ void __print(const T& x) {
 
 
 /* Utility Functions */
-int_64 gcd(int_64 a, int_64 b){return b==0?a:gcd(b,a%b);}
-bool isPrime(int n){if(n<=1)return 0;for(int i=2;i*i<=n;++i)if(n%i==0)return 0;return 1;}
+bool isPrime(int n){if(1 >= n)return 0;for(int i = 2;i * i <= n; ++i)if(0 == n % i)return 0;return 1;}
 bool isUp(char ch) { return std::isupper(static_cast<unsigned char>(ch)); }
 /* Power & Combinatorics */
 
 template <typename T>
 T binpow(T a,int_64 e , T mod){
     T r = 1; a %= mod;
-    while(e > 0){
+    while(0 < e){
         if(e & 1) r = (r * a) % mod;
         a = (a * a) % mod; e >>= 1;
     } return r;}
 
-int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
-int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
+int addmod(int a, int b){ a += b; if(MOD <= a) a -= MOD; return a; }
+int submod(int a, int b){ a -= b; if(0 > a) a += MOD; return a; }
 int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
 int_64 modinv(int_64 a){ return binpow(a,(int_64)MOD-2,(int_64)MOD); }
 // Normalize any value to MOD range
-template<typename T> T normalize(T x) { x %= MOD; if(x < 0) x += MOD; return x; }
+template<typename T> T normalize(T x) { x %= MOD; if(0 > x) x += MOD; return x; }
 
 /* XOR Range Queries */
-int XOR1toN(int N){int m=N%4;if(m==0)return N;if(m==1)return 1;if(m==2)return N+1;return 0;}
+int XOR1toN(int N){int m=N%4;if(0 == m)return N;if(1 == m)return 1;if(2 == m)return N+1;return 0;}
 int XORLtoR(int L,int R){return XOR1toN(R)^XOR1toN(max(L-1,0));}
 /* TIMER */
 const auto start_time = chrono::high_resolution_clock::now();
