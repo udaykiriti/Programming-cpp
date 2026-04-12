@@ -409,7 +409,7 @@ void _timer_(){
 /* [##############################################################################] */
 
 vector<vi> adj;
-int n,v;
+int n,m;
 vector<bool> vis;
 void dfs(int v){
     vis[v] = true;
@@ -424,7 +424,6 @@ void bfs(){
 }
 
 void solve(){
-    int n,m;
     cin >> n >> m;
     adj.resize(n);
     vis.assign(n,false);
