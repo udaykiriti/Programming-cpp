@@ -261,8 +261,8 @@ const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 #define eb        emplace_back
 #define lb        lower_bound
 #define ub        upper_bound
-tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - a.begin()); }
-tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - a.begin()); }
+tcT > int lwb(const V<T> &a, const T &b) { return int(lb(a.begin(), a.end(), b) - a.begin()); }
+tcT > int upb(const V<T> &a, const T &b) { return int(ub(a.begin(), a.end(), b) - a.begin()); }
 
 #define FOR(i, a, b)         for (int i = (a); i < (b); ++i)
 #define RFOR(i, a, b)        for (int i = (a); i >= (b); --i)
