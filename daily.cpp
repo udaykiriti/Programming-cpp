@@ -412,7 +412,17 @@ void _GO() {
   /* Solution Here..... */
   int n , k;
   cin >> n >> k;
-
+  vi vec(n);
+  for(int i = 0; i<n ;i++){
+      cin >> vec[i];
+  }
+  SORT(vec);
+  int ans{0};
+  FOR(i,0,k){
+      if(vec[i] < 0) ans += -vec[i];
+      else break;
+  }
+  cout << ans << '\n';
 }
 
 /* [##############################################################################] */
@@ -424,7 +434,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t;
+    int t{1},tcase{0}; //cin >> t;
     while (tcase++,t--){
         #ifdef TIME
             cout << "[ testcase: " << tcase << " ] "<< "[[[[[[[[[[O]]]]]]]]]]" << "\n";
