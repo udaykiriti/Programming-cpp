@@ -217,9 +217,6 @@ using vb = V<bool>;
 using vl = V<int_64>;
 using vd = V<db>;
 using vs = V<str>;
-using vpi = V<pi>;
-using vpl = V<pll>;
-using vpd = V<pdb>;
 
 template <typename T>
 using Mat = vector<vector<T>>;
@@ -262,13 +259,6 @@ const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 #define sz(x)     int(size(x))
 #define pb        push_back
 #define eb        emplace_back
-#define mp        make_pair
-#define rsz       resize
-#define ins       insert
-#define all(a)    (a).begin(), (a).end()
-#define rall(a)   (a).rbegin(), (a).rend()
-#define SORT(a)   sort(all(a))
-#define RSORT(a)  sort(rall(a))
 #define lb        lower_bound
 #define ub        upper_bound
 tcT > int lwb(const V<T> &a, const T &b) { return int(lb(all(a), b) - a.begin()); }
@@ -279,11 +269,6 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - a.begin())
 #define FORE(i, a, b)        for (int i = (a); i <= (b); i++)
 #define FORk(i, a, b, k)     for (int i = (a); i < (b); i += k)
 #define RFORK(i, a, b, k)    for (int i = (a); i >= (b); i -= k)
-#define SCANA(x)             for (auto &i : x) cin >> i
-#define setbits(x)          __builtin_popcountll(x)
-#define ctz(x)               __builtin_ctzll(x)
-#define clz(x)               __builtin_clzll(x)
-#define parity(x)            __builtin_parityll(x)
 
 tcT >
 constexpr T lcm(T a, T b) { return a / gcd(a, b) * b; }
@@ -368,16 +353,12 @@ T binpow(T a,int_64 e , T mod){
         a = (a * a) % mod; e >>= 1;
     } return r;}
 
-// Use binpow directly instead of powerMod wrapper
-int_64 factorialMod(int_64 n,int_64 m){int_64 r=1;for(int_64 i=1;i<=n;++i)r=r*i%m;return r;}
 int addmod(int a, int b){ a += b; if(a >= MOD) a -= MOD; return a; }
 int submod(int a, int b){ a -= b; if(a < 0) a += MOD; return a; }
 int_64 mulmod(int_64 a, int_64 b){ return (a*b) % MOD; }
 int_64 modinv(int_64 a){ return binpow(a,(int_64)MOD-2,(int_64)MOD); }
 // Normalize any value to MOD range
 template<typename T> T normalize(T x) { x %= MOD; if(x < 0) x += MOD; return x; }
-int_64 NcR(int_64 n,int_64 r){int_64 x=1,y=1;if(n-r<r)r=n-r;while(r){x*=n;y*=r;int_64 g=gcd(x,y);x/=g;y/=g;--n;--r;}return x;}
-int_64 NpR(int_64 n,int_64 r){int_64 r1=1;while(r--)r1*=n--;return r1;}
 
 /* XOR Range Queries */
 int XOR1toN(int N){int m=N%4;if(m==0)return N;if(m==1)return 1;if(m==2)return N+1;return 0;}
