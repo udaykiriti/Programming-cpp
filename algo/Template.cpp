@@ -226,7 +226,6 @@ using vpi = V<pi>;
 using vpl = V<pll>;
 using vpd = V<pdb>;
 
-#define MaT2D(name, rows, cols) vector<vector<int>> name(rows, vector<int>(cols))
 template <typename T>
 using Mat = vector<vector<T>>;
 
@@ -268,8 +267,6 @@ const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 #define sz(x)     int(size(x))
 #define pb        push_back
 #define eb        emplace_back
-#define F         first
-#define S         second
 #define mp        make_pair
 #define rsz       resize
 #define ins       insert
@@ -287,70 +284,78 @@ tcT > int upb(const V<T> &a, const T &b) { return int(ub(all(a), b) - a.begin())
 #define FORE(i, a, b)        for (int i = (a); i <= (b); i++)
 #define FORk(i, a, b, k)     for (int i = (a); i < (b); i += k)
 #define RFORK(i, a, b, k)    for (int i = (a); i >= (b); i -= k)
-#define FORA(a)              for (auto u : a)
 #define SCANA(x)             for (auto &i : x) cin >> i
-#define lcm(a, b)            ((a) * ((b) / gcd((a), (b))))
 #define setbits(x)          __builtin_popcountll(x)
 #define ctz(x)               __builtin_ctzll(x)
 #define clz(x)               __builtin_clzll(x)
 #define parity(x)            __builtin_parityll(x)
-#define sqr(x)               ((x) * (x))
-#define cube(x)              ((x) * (x) * (x))
-#define isEven(x)            (0 == (x) % 2)
-#define isOdd(x)             (0 != (x) % 2)
-#define uceil(a, b)          (((a) + (b) - 1) / (b))
 
-#define dbg(x) cout << #x << " = ", __print(x), cout << '\n'
+tcT >
+constexpr T lcm(T a, T b) { return a / gcd(a, b) * b; }
 
+tcT >
+constexpr T sqr(T x) { return x * x; }
 
-tcT, class = enable_if_t<is_arithmetic_v<T> > >
-void __print(T x) { cout << x << '\n'; }
+tcT >
+constexpr T cube(T x) { return x * x * x; }
 
-void __print(const string& s) { cout << '"' << s << '"'; }
-void __print(const char* s)   { __print(string(s)); }
-void __print(char c)          { cout << '\'' << c << '\''; }
+tcT >
+constexpr bool isEven(T x) { return x % 2 == 0; }
 
-tcTU>
-void __print(const pair<T, U>& p) {
-    cout << "(";
-    __print(p.F);
-    cout << ", ";
-    __print(p.S);
-    cout << ")";
-}
+tcT >
+constexpr bool isOdd(T x) { return x % 2 != 0; }
 
-tcT>
-void __print(const V<T>& v) {
-    cout << "[";
-    for (int i = 0; i < (int)v.size(); ++i) {
-        __print(v[i]);
-        if (i + 1 < (int)v.size()) cout << ", ";
+tcT >
+constexpr T uceil(T a, T b) { return (a + b - 1) / b; }
+
+template <class T, class = void>
+struct is_iterable : false_type {};
+
+tcT >
+struct is_iterable<T, void_t<decltype(begin(declval<T>())), decltype(end(declval<T>()))>> : true_type {};
+
+tcT >
+inline constexpr bool is_string_like_v =
+    is_same_v<decay_t<T>, string> ||
+    is_same_v<decay_t<T>, char*> ||
+    is_same_v<decay_t<T>, const char*>;
+
+template <class T, class = void>
+struct is_tuple_like_helper : false_type {};
+
+tcT >
+struct is_tuple_like_helper<T, void_t<decltype(tuple_size<decay_t<T>>::value)>> : true_type {};
+
+tcT >
+inline constexpr bool is_tuple_like_v = !is_string_like_v<T> && is_tuple_like_helper<T>::value;
+
+template <typename T>
+void __print(const T& x) {
+    if constexpr (is_string_like_v<T>) {
+        cout << '"' << x << '"';
+    } else if constexpr (is_same_v<decay_t<T>, char>) {
+        cout << '\'' << x << '\'';
+    } else if constexpr (is_same_v<decay_t<T>, bool> || is_arithmetic_v<decay_t<T>>) {
+        cout << x;
+    } else if constexpr (is_tuple_like_v<T>) {
+        cout << "(";
+        apply([](const auto&... args) {
+            size_t i = 0;
+            (( __print(args), cout << (++i < sizeof...(args) ? ", " : "") ), ...);
+        }, x);
+        cout << ")";
+    } else if constexpr (is_iterable<T>::value) {
+        cout << "{";
+        bool first = true;
+        for (const auto& e : x) {
+            if (!first) cout << ", ";
+            first = false;
+            __print(e);
+        }
+        cout << "}";
+    } else {
+        cout << x;
     }
-    cout << "]";
-}
-
-tcT>
-void __print(const set<T>& s) {
-    cout << "{";
-    int i = 0;
-    for (auto& x : s) {
-        __print(x);
-        if (++i < (int)s.size()) cout << ", ";
-    }
-    cout << "}";
-}
-
-tcTU>
-void __print(const map<T, U>& m) {
-    cout << "{";
-    int i = 0;
-    for (auto& [k, v] : m) {
-        __print(k);
-        cout << ": ";
-        __print(v);
-        if (++i < (int)m.size()) cout << ", ";
-    }
-    cout << "}";
 }
 
 
