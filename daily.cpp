@@ -408,15 +408,28 @@ void _timer_(){
 
 /* [##############################################################################] */
 
-vector<vi> adj;
+const int N = 1e5 + 5;
+
 int n,m;
-vector<bool> vis;
-void dfs(int v){
-    vis[v] = true;
-    cout << v << " ";
-    for(int u : adj[v]){
-        if(!vis[u]) dfs(u);
+vi cats(N);
+vector<int> adj[N];
+int ans{0};
+
+void dfs(int curr , int par , int cnt){
+    if(cats[curr] == 1) cnt++;
+    else cnt = 0;
+
+    if(cnt > m) return;
+
+    bool ok = true;
+
+    for(int child : adj[curr]){
+        if(child != par){
+            ok = false;
+            dfs(child,curr ,cnt);
+        }
     }
+    if(ok) ans++;
 }
 
 void bfs(){
@@ -425,15 +438,18 @@ void bfs(){
 
 void solve(){
     cin >> n >> m;
-    adj.resize(n);
-    vis.assign(n,false);
 
-    FOR(i,0,n){
-        int u,v;
-        cin >> u >> v;
-        adj[u].pb(v);
-        adj[v].pb(u);
-    } dfs(0);
+    for(int i{1} ; i <= n ;i++){
+        cin >> cats[i];
+    }
+    FOR(i,0,n-1){
+        int x,y;
+        cin >> x >> y;
+        adj[x].pb(y);
+        adj[y].pb(x);
+    }
+    dfs(1,-1,0);
+    cout << ans << '\n';
 }
 
 void _GO() {
