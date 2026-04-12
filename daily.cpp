@@ -408,21 +408,39 @@ void _timer_(){
 
 /* [##############################################################################] */
 
+vector<vi> adj;
+int n,v;
+vector<bool> vis;
+void dfs(int v){
+    vis[v] = true;
+    cout << v << " ";
+    for(int u : adj[v]){
+        if(!vis[u]) dfs(u);
+    }
+}
+
+void bfs(){
+    return ;
+}
+
+void solve(){
+    int n,m;
+    cin >> n >> m;
+    adj.resize(n);
+    vis.assign(n,false);
+
+    FOR(i,0,n){
+        int u,v;
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    } dfs(0);
+}
+
 void _GO() {
   /* Solution Here..... */
-  int n , k;
-  cin >> n >> k;
-  vi vec(n);
-  for(int i = 0; i<n ;i++){
-      cin >> vec[i];
-  }
-  SORT(vec);
-  int ans{0};
-  FOR(i,0,k){
-      if(vec[i] < 0) ans += -vec[i];
-      else break;
-  }
-  cout << ans << '\n';
+  solve();
+  return;
 }
 
 /* [##############################################################################] */
