@@ -80,7 +80,30 @@ template <class T>
 
 void _GO() {
   /* Solution Here..... */
+  int n,m;
+  cin >> n >> m;
+  vi vec(n);
 
+  FOR(i,0,n){
+      cin >> vec[i];
+  }
+  if(n < m){
+      cout << "Yes" << '\n';
+      return;
+  }
+  int maxi{1},curr{1};
+
+  FOR(i,1,n){
+      if(vec[i] == vec[i-1]){
+          curr++;
+      }else{
+          maxi = max(maxi,curr);
+          curr = 1;
+      }
+
+  } maxi = max(maxi , curr);
+
+  cout << ((maxi >=  m)? "No" : "Yes") << '\n';
 }
 
 int main(/* int argc, char *argv[] */) {
