@@ -38,15 +38,19 @@ using vs = V<str>;
 #define FIXED(x) do { cout << fixed << setprecision(x); } while(0)
 
 const int MOD = 998244353;  // 1e9+7;
-const double PI = 3.14159265358979323846;
-int64_t INF = 1e18;
-double EPS = 1e-9;
-const int MX = (int)2e5 + 5;
-const int64_t MAXI = 1e18;  // not too close to LLONG_MAX
-const int MIN_VAL = -1e7;
+constexpr int64_t INF = 1e18;
+constexpr int64_t EPS = 1e-9;
+const int64_t MAX = 1e18;  // not too close to LLONG_MAX
+const int MIN = -1e7;
 
+#define endl      '\n'
 #define pb        push_back
 #define eb        emplace_back
+#define all(x)    begin(x), end(x)
+#define F         first
+#define S         second
+#define MIN(x)    *min_element(all(x))
+#define MAX(x)    *max_element(all(x))
 #define lb        lower_bound
 #define ub        upper_bound
 tcT > int lwb(const V<T> &a, const T &b) { return int(lb(a.begin(), a.end(), b) - a.begin()); }
@@ -66,9 +70,15 @@ template <class T>
 
 void _GO() {
   /* Solution Here..... */
-  int n,m;
-  cin >> n >> m;
-
+  int n;
+  cin >> n;
+  set <int> st;
+  for(int i = 0 ; i < n ; i++){
+      int ele ;
+      cin >> ele;
+      st.insert(ele);
+  }
+  cout << st.size() << endl;
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -79,7 +89,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t;
+    int t{1},tcase{0}; //cin >> t;
     while (tcase++,t--){
         _GO();
     }
