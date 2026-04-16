@@ -2,15 +2,21 @@
 g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 ./p <in.txt> out.txt
 */
-#undef _GLIBCXX_DEBUG
+#ifdef LOCAL
+    #undef _GLIBCXX_DEBUG
+#endif
 
 #include <bits/stdc++.h>
 using namespace std;
 
-#if defined(LOCAL) && __has_include("algo/debug.h")
-#include "algo/debug.h"
+#ifdef LOCAL
+    #if __has_include("algo/debug.h")
+        #include "algo/debug.h"
+    #else
+        #define debug(...) ((void)0)
+    #endif
 #else
-#define debug(...) ((void)0)
+    #define debug(...) ((void)0)
 #endif
 
 using db = long double;  // or double, if TL is tight
