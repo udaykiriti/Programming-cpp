@@ -13,7 +13,6 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-using int_64 = long long;
 using db = long double;  // or double, if TL is tight
 using str = string;      // like python!
 
@@ -32,22 +31,19 @@ tcT, size_t SZ > using AR = array<T, SZ>;
 
 using vi = V<int>;
 using vb = V<bool>;
-using vl = V<int_64>;
+using vl = V<int64_t>;
 using vd = V<db>;
 using vs = V<str>;
 
 #define FIXED(x) do { cout << fixed << setprecision(x); } while(0)
 
-
 const int MOD = 998244353;  // 1e9+7;
 const double PI = 3.14159265358979323846;
-int_64 INF = 1e18;
+int64_t INF = 1e18;
 double EPS = 1e-9;
 const int MX = (int)2e5 + 5;
-const int_64 MAXI = 1e18;  // not too close to LLONG_MAX
+const int64_t MAXI = 1e18;  // not too close to LLONG_MAX
 const int MIN_VAL = -1e7;
-const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
-
 
 #define pb        push_back
 #define eb        emplace_back
@@ -56,19 +52,7 @@ const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};  // for every grid problem!!
 tcT > int lwb(const V<T> &a, const T &b) { return int(lb(a.begin(), a.end(), b) - a.begin()); }
 tcT > int upb(const V<T> &a, const T &b) { return int(ub(a.begin(), a.end(), b) - a.begin()); }
 
-#define FOR(i, a, b)         for (int i = (a); i < (b); ++i)
-#define RFOR(i, a, b)        for (int i = (a); i >= (b); --i)
-#define FORE(i, a, b)        for (int i = (a); i <= (b); i++)
-#define FORk(i, a, b, k)     for (int i = (a); i < (b); i += k)
-#define RFORK(i, a, b, k)    for (int i = (a); i >= (b); i -= k)
-
-tcT >
-constexpr T lcm(T a, T b) { return a / gcd(a, b) * b; }
-tcT >
-constexpr T sqr(T x) { return x * x; }
-tcT >
-constexpr T cube(T x) { return x * x * x; }
-tcT >
+tcT>
 constexpr bool isEven(T x) { return 0 == x % 2; }
 tcT >
 constexpr bool isOdd(T x) { return 0 != x % 2; }
@@ -82,6 +66,8 @@ template <class T>
 
 void _GO() {
   /* Solution Here..... */
+  int n,m;
+  cin >> n >> m;
 
 }
 
