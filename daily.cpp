@@ -7,10 +7,10 @@ g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
 #include <bits/stdc++.h>
 using namespace std;
 
-#ifdef LOCAL
+#if defined(LOCAL) && __has_include("algo/debug.h")
 #include "algo/debug.h"
 #else
-#define debug(...) 42
+#define debug(...) ((void)0)
 #endif
 
 using db = long double;  // or double, if TL is tight
