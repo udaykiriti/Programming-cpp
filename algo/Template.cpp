@@ -77,14 +77,24 @@ template <class T>
 void _GO() {
   /* Solution Here..... */
   int n;
-  cin >> n;
-  set <int> st;
+  int64_t t;
+  cin >> n >> t;
+
+  vector<int> vec(n);
+  for(int i = 0; i < n; i++) cin >> vec[i];
+
+  int64_t sum = 0;
+  int l = 0, ans = 0;
+
   for(int i = 0; i < n; i++){
-      int ele ;
-      cin >> ele;
-      st.insert(ele);
+      sum += vec[i];
+      while(sum > t){
+          sum -= vec[l];
+          l++;
+      }
+      ans = max(ans , i - l + 1);
   }
-  cout << st.size() << endl;
+  cout << ans << endl;
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -104,16 +114,12 @@ int main(/* int argc, char *argv[] */) {
 
 /* Look for |>
  * Non-trivial problems with simple solutions, proofs, and implementations.
- * check for ub/lb.
+ * check for ub/lb, special cases (n=1?) ,edge cases, bounds,;check them first.
  * Try working from backward or endcases.
  * Do not make large assumptions without a basic proof idea.
- * Overflow, bounds, and segfaults kill solutions;check them first.
  * Use DP to relax constraints; store only the minimum required state.
  * Always careful with Base conditions.
- * special cases (n=1?) ,Edge cases.
- * do smth instead of nothing; stay organized.
- * WRITE STUFF DOWN.
- * Eliminate Wrong Ideas First.
- * DON'T GET STUCK ON ONE APPROACH FOR TOO LONG.
- * If you dont get solution within time Just GIve Upp..
+ * Do something instead of nothing; stay organized; Write stuff down.
+ * Eliminate Wrong Ideas First; switch to another approach.
+ * If you don't get solution within time Just Give Up..
  */

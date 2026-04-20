@@ -76,15 +76,7 @@ template <class T>
 
 void _GO() {
   /* Solution Here..... */
-  int n;
-  cin >> n;
-  set <int> st;
-  for(int i = 0; i < n; i++){
-      int ele ;
-      cin >> ele;
-      st.insert(ele);
-  }
-  cout << st.size() << endl;
+
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -95,7 +87,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; //cin >> t;
+    int t{1},tcase{0}; cin >> t;
     while (tcase++,t--){
         _GO();
     }
