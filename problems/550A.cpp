@@ -1,0 +1,168 @@
+/*
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
+./p <in.txt> out.txt
+*/
+#ifdef LOCAL
+    #undef _GLIBCXX_DEBUG
+#endif
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#ifdef LOCAL
+    #if __has_include("algo/debug.h")
+        #include "algo/debug.h"
+    #else
+        #define debug(...) ((void)0)
+    #endif
+#else
+    #define debug(...) ((void)0)
+#endif
+
+using db = long double;  // or double, if TL is tight
+using str = string;      // like python!
+
+/* Complex to expand compared to normal ones, but looks cool.*/
+#define tcT template <class T
+#define tcTU tcT, class U
+#define tcTUV tcT, class U, class V // It doesn't make any Sense
+// ^ lol this makes everything look weird but I'll try it
+tcT > using V = vector<T>;
+tcT > using V1 = V<T>;
+tcT > using VV = V<V<T>>;
+tcT, size_t SZ > using AR = array<T, SZ>;
+
+#define tcTP template <class... T
+#define tcTPU tcTP, class... U
+
+using vi = V<int>;
+using vb = V<bool>;
+using vl = V<int64_t>;
+using vd = V<db>;
+using vs = V<str>;
+
+#define FIXED(x) do { cout << fixed << setprecision(x); } while(0)
+
+const int MOD = 998244353;  // 1e9+7;
+constexpr int64_t INF = 1e18;
+constexpr int64_t EPS = 1e-9;
+const int64_t MAX = 1e18;  // not too close to LLONG_MAX
+const int MIN = -1e7;
+
+#define endl      '\n'
+#define pb        push_back
+#define eb        emplace_back
+#define all(x)    begin(x), end(x)
+#define F         first
+#define S         second
+#define MIN(x)    *min_element(all(x))
+#define MAX(x)    *max_element(all(x))
+#define lb        lower_bound
+#define ub        upper_bound
+tcT > int lwb(const V<T> &a, const T &b) { return int(lb(a.begin(), a.end(), b) - a.begin()); }
+tcT > int upb(const V<T> &a, const T &b) { return int(ub(a.begin(), a.end(), b) - a.begin()); }
+
+tcT>
+constexpr bool isEven(T x) { return 0 == x % 2; }
+tcT >
+constexpr bool isOdd(T x) { return 0 != x % 2; }
+tcT >
+constexpr T uceil(T a, T b) { return (a + b - 1) / b; }
+
+template <class T>
+[[nodiscard]] constexpr int sz(const T& c) { return static_cast<int>(std::size(c)); }
+
+// #define ONPC
+
+void _GO() {
+  /* Solution Here..... */
+  str s;
+  cin >> s;
+  //vector<string> ss = {"AB","BA"};
+  //int i = 0, cnt{0};
+  //vector<int> ab,ba;
+  //while(i < s.size()){
+  //   bool found = false;
+  //
+  //   for(auto &p : ss){
+  //     if(i + p.size() <= s.size() && s.substr(i, p.size()) == p){
+  //       i += p.size();
+  //       found = true;
+  //       cnt++;
+  //       break;
+  //     }
+  //   }
+  //   if(!found) i++;
+  // }
+  // if(cnt >= 2){
+  //   cout << "YES" << endl;
+  // }
+  // else{
+  //   cout << "NO" << endl;
+  // }
+  // int ab = -1, ba = -1;
+  for(int i = 0; i + 1 < s.size(); i++){
+    if(s[i] == 'A' && s[i + 1] == 'B'){
+      // check BA 
+      for(int j = i + 2; j + 1 < s.size(); j++){
+        if(s[j] == 'B' && s[j + 1] == 'A'){
+          cout << "YES" << endl;
+          return;
+        }
+      }
+    }
+
+
+    //   ab.push_back(i);
+    if(s[i] == 'B' && s[i + 1] == 'A'){
+      for(int j = i + 2; j + 1 < s.size(); j++){
+        if(s[j] == 'A' && s[j + 1] == 'B'){
+          cout << "YES" << endl;
+          return;
+        }
+      }
+    }
+    //   ba.push_back(i);
+  }
+  cout << "NO" << endl;
+  // for(int i : ab){
+  //   for(int j : ba){
+  //     if((i - j) >= 2){
+  //       cout << "YES" << endl;
+  //       return;
+  //     }
+  //   }
+  // }
+  // cout << "NO" << endl;
+}
+
+int main(/* int argc, char *argv[] */) {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    //cin.tie(0)->ios::sync_with_stdio(0);
+    #ifdef ONPC
+        freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
+        cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
+    #endif
+    int t{1},tcase{0}; //cin >> t;
+    while (tcase++,t--){
+        _GO();
+    }
+    return 0;
+}
+
+/* Look for |>
+ * Non-trivial problems with simple solutions, proofs, and implementations.
+ * check for ub/lb.
+ * Try working from backward or endcases.
+ * Do not make large assumptions without a basic proof idea.
+ * Overflow, bounds, and segfaults kill solutions;check them first.
+ * Use DP to relax constraints; store only the minimum required state.
+ * Always careful with Base conditions.
+ * special cases (n=1?) ,Edge cases.
+ * do smth instead of nothing; stay organized.
+ * WRITE STUFF DOWN.
+ * Eliminate Wrong Ideas First.
+ * DON'T GET STUCK ON ONE APPROACH FOR TOO LONG.
+ * If you dont get solution within time Just GIve Upp..
+ */
