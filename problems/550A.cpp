@@ -101,30 +101,30 @@ void _GO() {
   //   cout << "NO" << endl;
   // }
   // int ab = -1, ba = -1;
-  for(int i = 0; i + 1 < s.size(); i++){
-    if(s[i] == 'A' && s[i + 1] == 'B'){
-      // check BA 
-      for(int j = i + 2; j + 1 < s.size(); j++){
-        if(s[j] == 'B' && s[j + 1] == 'A'){
-          cout << "YES" << endl;
-          return;
-        }
-      }
-    }
-
-
-    //   ab.push_back(i);
-    if(s[i] == 'B' && s[i + 1] == 'A'){
-      for(int j = i + 2; j + 1 < s.size(); j++){
-        if(s[j] == 'A' && s[j + 1] == 'B'){
-          cout << "YES" << endl;
-          return;
-        }
-      }
-    }
-    //   ba.push_back(i);
-  }
-  cout << "NO" << endl;
+  // for(int i = 0; i + 1 < s.size(); i++){
+  //   if(s[i] == 'A' && s[i + 1] == 'B'){
+  //     // check BA 
+  //     for(int j = i + 2; j + 1 < s.size(); j++){
+  //       if(s[j] == 'B' && s[j + 1] == 'A'){
+  //         cout << "YES" << endl;
+  //         return;
+  //       }
+  //     }
+  //   }
+  //
+  //
+  //   //   ab.push_back(i);
+  //   if(s[i] == 'B' && s[i + 1] == 'A'){
+  //     for(int j = i + 2; j + 1 < s.size(); j++){
+  //       if(s[j] == 'A' && s[j + 1] == 'B'){
+  //         cout << "YES" << endl;
+  //         return;
+  //       }
+  //     }
+  //   }
+  //   //   ba.push_back(i);
+  // }
+  // cout << "NO" << endl;
   // for(int i : ab){
   //   for(int j : ba){
   //     if((i - j) >= 2){
@@ -134,6 +134,27 @@ void _GO() {
   //   }
   // }
   // cout << "NO" << endl;
+  int n = s.size();
+  vector<vector<bool>> dp(n + 2, vector<bool>(4, false));
+  dp[0][0] = true;
+  for(int i = 0; i < n; i++){
+    for(int j = 0; j < 4; j++){
+      if(!dp[i][j]) continue;
+
+      dp[i + 1][j] = true;
+      if(i + 1 < n && s[i] == 'A' && s[i + 1] == 'B')
+        dp[i + 2][j | 1] = true;
+      if(i + 1 < n && s[i] == 'B' && s[i + 1] == 'A')
+        dp[i + 2][j | 2] = true;
+    }
+  }
+  for(int i = 0; i <= n; i++){
+    if(dp[i][3]){
+      cout << "YES" << endl;
+      return;
+    }
+  }
+  cout << "NO" << endl;
 }
 
 int main(/* int argc, char *argv[] */) {
