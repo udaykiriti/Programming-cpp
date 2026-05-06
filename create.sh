@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TEMPLATE="$HOME/Programming-cpp/algo/Template.cpp"
+TEMPLATE="$HOME/Programming/algo/Template.cpp"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'

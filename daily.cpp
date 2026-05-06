@@ -1,7 +1,3 @@
-/*
-g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
-./p <in.txt> out.txt
-*/
 #ifdef LOCAL
     #undef _GLIBCXX_DEBUG
 #endif
@@ -75,8 +71,17 @@ template <class T>
 // #define ONPC
 
 void _GO() {
-  /* Solution Here..... */
+  int n;
+  cin >> n;
+  int ans{0};
 
+  for (int i = 0; i < n; ++i) {
+    int x;
+    cin >> x;
+
+    if(i == ((n -1 ) & i)) ans ^= x;
+  }
+  cout << ans << endl;
 }
 
 int main(/* int argc, char *argv[] */) {

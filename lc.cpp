@@ -27,7 +27,7 @@ class Solution {
 public:
   int solve(vector<int> &v) {
     int n = SZ(v);
-
+    
     return n > 0 ? v[0] : -1;
   }
 };

@@ -7,10 +7,32 @@ typename std::common_type<T1, T2>::type maxi(T1 a, T2 b) {
 }
 
 int main(){
-    int i = 1;
-    std::cout << maxi(1,2) << '\n';
+    std::vector<std::string> arr;
+    std::string s;
 
-    // we can declare here too
-    //
-    //cout << maxi1<int, double, double>(4,7.2) << '\n';
+    // Read until EOF (Ctrl+D on Linux/Mac, Ctrl+Z on Windows)
+    while (std::cin >> s) {
+        arr.push_back(s);
+    }
+    // while (cin >> s) {
+    //     cout << s << ".h" << endl;
+    // }
+    // std::sort(arr.begin(), arr.end());
+
+    // for (const auto& x : arr) {
+    //     std::cout << x << "\n";
+    // }
+
+    // Read input until EOF
+    // while (std::cin >> s) {
+    //     arr.push_back(s);
+    // }
+
+    // Sort strings
+    std::sort(arr.begin(), arr.end());
+
+    // Print each string with ".h"
+    for (const auto& x : arr) {
+        std::cout << x << ".h" << std::endl;
+    }
 }
