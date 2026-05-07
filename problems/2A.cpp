@@ -1,3 +1,7 @@
+/*
+g++ -std=c++17 -Wall -Wextra -O2 -DLOCAL p.cpp  -o p
+./p <in.txt> out.txt
+*/
 #ifdef LOCAL
     #undef _GLIBCXX_DEBUG
 #endif
@@ -71,7 +75,39 @@ template <class T>
 // #define ONPC
 
 void _GO() {
-  
+  int n;
+  cin >> n;
+
+  vector<pair<str, int>> rounds;
+  map<str, int> scr;
+
+  for(int i = 0; i < n; i++){
+    str name;
+    int score;
+    cin >> name >> score;
+
+    rounds.push_back({name,score});
+    scr[name] += score;
+  }
+
+  int mxx = INT_MIN;
+  for(auto &p : scr){
+    mxx = max(mxx, p.second);
+  }
+
+  map<str, int> cur;
+
+  for(auto &r : rounds){
+    str name = r.first;
+    int score = r.second;
+
+    cur[name] += score;
+
+    if(cur[name] >= mxx && scr[name] == mxx){
+      cout << name << endl;
+      return;
+    }
+  }
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -82,7 +118,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t;
+    int t{1},tcase{0}; //cin >> t;
     while (tcase++,t--){
         _GO();
     }
@@ -91,16 +127,12 @@ int main(/* int argc, char *argv[] */) {
 
 /* Look for |>
  * Non-trivial problems with simple solutions, proofs, and implementations.
- * check for ub/lb.
+ * check for ub/lb, special cases (n=1?) ,edge cases, bounds,;check them first.
  * Try working from backward or endcases.
  * Do not make large assumptions without a basic proof idea.
- * Overflow, bounds, and segfaults kill solutions;check them first.
  * Use DP to relax constraints; store only the minimum required state.
  * Always careful with Base conditions.
- * special cases (n=1?) ,Edge cases.
- * do smth instead of nothing; stay organized.
- * WRITE STUFF DOWN.
- * Eliminate Wrong Ideas First.
- * DON'T GET STUCK ON ONE APPROACH FOR TOO LONG.
- * If you dont get solution within time Just GIve Upp..
+ * Do something instead of nothing; stay organized; Write stuff down.
+ * Eliminate Wrong Ideas First; switch to another approach.
+ * If you don't get solution within time Just Give Up..
  */
