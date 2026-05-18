@@ -74,25 +74,43 @@ template <class T>
 
 // #define ONPC
 
+const int N = 200005;
+vector<int> adj[N];
+int depth[N], subtree[N];
+vector<int> gains;
+
+void dfs(int u, int k){
+    subtree[u] = 1;
+    for(int v : adj[u]){
+        if(v == k) continue;
+
+        depth[v] = depth[u] + 1;
+        dfs(v, u);
+
+        subtree[u] += subtree[v];
+    }
+    gains.push_back(1LL * depth[u] - subtree[u] + 1);
+}
+
 void _GO() {
-  int n, k;
-  cin >> n >> k;
+    int n, k;
+    cin >> n >> k;
 
-  int64_t ans = 1;
+    for(int i = 0; i < n - 1; i++){
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    dfs(1,0);
+    sort(gains.rbegin(), gains.rend());
 
-  // for(int i = 1; i <= k; i++){
-  //   int mini = n;
-  //   int maxi = n * i;
-  //
-  int64_t need = ((n + k - 1)/ k) * k;
-  ans = (need + n - 1) / n;
-  //
-  //   if(need <= maxi){
-  //     ans = i;
-  //     break;
-  //   }
-  // }
-  cout << ans << endl;
+    int64_t ans{0};
+
+    for(int i = 0; i < k; i++){
+        ans += gains[i];
+    }
+    cout << ans << endl;
 }
 
 int main(/* int argc, char *argv[] */) {
@@ -103,7 +121,7 @@ int main(/* int argc, char *argv[] */) {
         freopen("in.txt", "r", stdin); freopen("out.txt", "w", stdout);
         cout << "o_o >--< o_o >>>>>>>>>> Compiled <<<<<<<<<< o_o >--< o_o" << '\n';
     #endif
-    int t{1},tcase{0}; cin >> t;
+    int t{1},tcase{0}; //cin >> t;
     while (tcase++,t--){
         _GO();
     }
